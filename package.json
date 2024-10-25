@@ -1,0 +1,32 @@
+{
+  "name": "website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/lit": "^4.3.0",
+    "@astrojs/mdx": "^3.1.8",
+    "@astrojs/rss": "^4.0.9",
+    "@astrojs/vue": "^4.5.2",
+    "@fontsource/jetbrains-mono": "^5.1.1",
+    "@glare-labs/material-tokens-generator": "^0.2.1",
+    "@material/material-color-utilities": "^0.3.0",
+    "@webcomponents/template-shadowroot": "^0.2.1",
+    "astro": "^4.16.7",
+    "lit": "^3.2.1",
+    "material-symbols": "^0.25.1",
+    "typescript": "^5.6.2",
+    "vue": "^3.5.12"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47"
+  }
+}

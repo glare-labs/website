@@ -1,0 +1,17 @@
+---
+import ProductRootHtmlLayout from "../../../layouts/ProductRootHtmlLayout.astro";
+import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.astro";
+import ProductFontScript from "../../../scripts/ProductFontScript.astro";
+import ProductGlobalStyleScript from "../../../scripts/ProductGlobalStyleScript.astro";
+import ProductIconScript from "../../../scripts/ProductIconScript.astro";
+import ProductThemeScript from "../../../scripts/ProductThemeScript.astro";
+---
+
+<ProductRootHtmlLayout>
+    <ProductThemeScript slot="head-after" />
+    <ProductFontScript slot="head-after" />
+    <ProductIconScript slot="head-after" />
+    <ProductGlobalStyleScript slot="head-after" />
+
+    <ProductHeader />
+</ProductRootHtmlLayout>

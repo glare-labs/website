@@ -1,0 +1,22 @@
+---
+
+---
+
+<script>
+    import {
+        MaterialTokens,
+        EMaterialVariant,
+    } from "@glare-labs/material-tokens-generator";
+    import { Hct } from "@material/material-color-utilities";
+
+    const mdObject = new MaterialTokens(Hct.from(135, 75, 50), {
+        variant: EMaterialVariant.Fidelity,
+    });
+
+    const styleText = mdObject.cssText();
+
+    const stylesheet = new CSSStyleSheet();
+    stylesheet.replace(`:root {${styleText}}`).then((stylesheet) => {
+        document.adoptedStyleSheets = [stylesheet];
+    });
+</script>

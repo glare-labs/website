@@ -1,0 +1,54 @@
+---
+import { headerTabs } from "../internals/tabs";
+import HeaderLayout from "../layouts/HeaderLayout.astro";
+
+const tabs = headerTabs;
+---
+
+<HeaderLayout>
+    <div class="tabs">
+        {
+            tabs.map((tab) => (
+                <a target="_self" href={tab.url} class="tab">
+                    {tab.label}
+                </a>
+            ))
+        }
+    </div>
+
+    <div class="links"></div>
+</HeaderLayout>
+
+<style>
+    .tabs {
+        gap: 16px;
+    }
+
+    .tabs > .tab,
+    .headline {
+        font-size: 14px;
+
+        &:hover {
+            text-decoration-line: underline;
+            text-underline-offset: 4px;
+        }
+    }
+
+    .headline {
+        align-self: center;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+    .tabs {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        color: var(--md-sys-color-on-surface-variant);
+    }
+    .links {
+        align-self: center;
+    }
+
+    :is(.headline, .tabs > .tab):hover {
+        color: var(--md-sys-color-on-surface);
+    }
+</style>
