@@ -1,5 +1,6 @@
 ---
 import ProductRootHtmlLayout from "../../../layouts/ProductRootHtmlLayout.astro";
+import ProductFooter from "../../../modules/glare-labs/components/ProductFooter.astro";
 import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.astro";
 import ProductFontScript from "../../../scripts/ProductFontScript.astro";
 import ProductGlobalStyleScript from "../../../scripts/ProductGlobalStyleScript.astro";
@@ -40,7 +41,10 @@ import ProductThemeScript from "../../../scripts/ProductThemeScript.astro";
 				<p>
 					Insert tokens in material design into tailwindcss as utils.
 				</p>
-				<a target="_blank" href="https://github.com/glare-labs/vue-mdc">
+				<a
+					target="_blank"
+					href="https://github.com/glare-labs/tailwindcss-material-tokens"
+				>
 					<span class="label"> Visit </span>
 					<span class="material-symbols-outlined icon"
 						>open_in_new</span
@@ -89,6 +93,8 @@ import ProductThemeScript from "../../../scripts/ProductThemeScript.astro";
 				<span class="material-symbols-outlined icon">open_in_new</span>
 			</a> -->
 		</div>
+
+		<ProductFooter />
 	</main>
 </ProductRootHtmlLayout>
 

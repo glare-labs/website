@@ -2,11 +2,15 @@
 import { headerTabs } from "../internals/tabs";
 import HeaderLayout from "../layouts/HeaderLayout.astro";
 
-const tabs = headerTabs;
+const glareLabsTab = headerTabs[0];
+const tabs = headerTabs.slice(1);
 ---
 
 <HeaderLayout>
     <div class="tabs">
+        <a target="_self" href={glareLabsTab.url} class="tab always-show">
+            {glareLabsTab.label}
+        </a>
         {
             tabs.map((tab) => (
                 <a target="_self" href={tab.url} class="tab">
@@ -16,17 +20,59 @@ const tabs = headerTabs;
         }
     </div>
 
-    <div class="links"></div>
+    <!-- Show: Compact -->
+    <div
+        id="glare-labs-page-product-header-compact-tabs"
+        class="compact-tabs"
+        data-active="false"
+    >
+        {
+            tabs.map((tab) => (
+                <a target="_self" href={tab.url} class="tab">
+                    {tab.label}
+                </a>
+            ))
+        }
+    </div>
+
+    <!-- Show: Compact -->
+    <div class="actions" slot="end">
+        <button
+            id="glare-labs-page-product-header-open-compact-tabs-button"
+            class="open-tabs-panel-button material-symbols-outlined"
+            >menu</button
+        >
+    </div>
 </HeaderLayout>
 
+<script>
+    const header = document.querySelector(
+        "#glare-labs-page-product-header-open-compact-tabs-button",
+    )!;
+    const compactTabs = document.querySelector(
+        "#glare-labs-page-product-header-compact-tabs",
+    )!;
+
+    const handleClick = (e: Event) => {
+        e.preventDefault();
+        const active = compactTabs.getAttribute("data-active") === "true";
+
+        compactTabs.setAttribute("data-active", `${!active}`);
+    };
+
+    header.addEventListener("click", handleClick);
+</script>
+
 <style>
+    .compact-tabs,
     .tabs {
         gap: 16px;
     }
 
     .tabs > .tab,
-    .headline {
+    .compact-tabs > .tab {
         font-size: 14px;
+        color: var(--md-sys-color-on-surface-variant);
 
         &:hover {
             text-decoration-line: underline;
@@ -34,21 +80,61 @@ const tabs = headerTabs;
         }
     }
 
-    .headline {
-        align-self: center;
-        color: var(--md-sys-color-on-surface-variant);
-    }
     .tabs {
         display: flex;
         align-items: center;
-        list-style: none;
-        color: var(--md-sys-color-on-surface-variant);
+
+        & > .tab:not(.always-show) {
+            @media (max-width: 600px) {
+                display: none;
+            }
+            @media (min-width: 600px) {
+                display: block;
+            }
+        }
     }
-    .links {
+    .actions {
         align-self: center;
+        display: flex;
+        align-items: center;
     }
 
-    :is(.headline, .tabs > .tab):hover {
+    :is(.tabs > .tab):hover {
         color: var(--md-sys-color-on-surface);
+    }
+
+    .open-tabs-panel-button {
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--md-sys-color-outline-variant);
+        color: var(--md-sys-color-on-surface-variant);
+        place-content: center;
+
+        @media (max-width: 600px) {
+            display: grid;
+        }
+        @media (min-width: 600px) {
+            display: none;
+        }
+    }
+    .compact-tabs {
+        width: 100%;
+        flex-direction: column;
+        background-color: var(--md-sys-color-surface-container);
+        top: 56px;
+        left: 0;
+        position: absolute;
+        z-index: 1;
+        padding: 36px;
+
+        &[data-active="false"] {
+            display: none;
+        }
+        &[data-active="true"] {
+            display: flex;
+            @media (min-width: 600px) {
+                display: none;
+            }
+        }
     }
 </style>
