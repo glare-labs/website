@@ -1,0 +1,48 @@
+---
+const links = [
+    {
+        label: "Github",
+        url: "https://github.com/glare-labs",
+    },
+    {
+        label: "Website Source Code",
+        url: "https://github.com/glare-labs/website",
+    },
+];
+---
+
+<footer class="footer-component">
+    <div class="tabs">
+        {
+            links.map((link) => (
+                <a class="tab" target="_blank" href={link.url}>
+                    {link.label}
+                </a>
+            ))
+        }
+    </div>
+</footer>
+
+<style>
+    .footer-component {
+        min-height: 80px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+
+        & > .tab {
+            font-size: 14px;
+
+            &:hover {
+                text-decoration-line: underline;
+                text-underline-offset: 4px;
+            }
+        }
+    }
+</style>
