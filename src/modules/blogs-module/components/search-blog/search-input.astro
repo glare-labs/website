@@ -1,0 +1,105 @@
+---
+
+---
+
+<div class="search-input" transition:persist="search-blog-input">
+    <md-icon class="search-icon">search</md-icon>
+    <input
+        class="search-input md-typescale-body-medium"
+        placeholder="Type here to search"
+        id="search-blog-input-standalone"
+    />
+    <md-elevation></md-elevation>
+</div>
+
+<script>
+    const searchInput = () =>
+        document.querySelector(
+            "#search-blog-input-standalone",
+        ) as HTMLInputElement;
+
+    let timer = null as NodeJS.Timeout | null;
+
+    const handleInput = (e: Event) => {
+        if (timer !== null) {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(() => {
+            searchInput().dispatchEvent(
+                new CustomEvent("request-search", {
+                    bubbles: true,
+                    cancelable: false,
+                    detail: { value: searchInput().value },
+                }),
+            );
+            clearTimeout(timer);
+        }, 50);
+    };
+
+    document.addEventListener("astro:page-load", () => {
+        searchInput()?.addEventListener("input", handleInput);
+    });
+</script>
+
+<style>
+    div.search-input {
+        --var-background-color: var(
+            --search-input-background-color,
+            var(--md-sys-color-surface-container)
+        );
+        --var-focus-background-color: var(
+            --search-input-focus-background-color,
+            var(--md-sys-color-surface-container)
+        );
+
+        transition-property: background-color, color;
+        transition-duration: 200ms;
+
+        border-radius: 9999px;
+        height: 48px;
+        background-color: var(--var-background-color);
+        position: relative;
+        display: grid;
+        align-items: center;
+        padding-left: 8px;
+        padding-right: 16px;
+        grid-template-rows: 1fr;
+        grid-template-columns: 48px 1fr;
+
+        & > .search-icon {
+            color: var(--md-sys-color-on-surface-variant);
+            justify-self: center;
+        }
+
+        & > input.search-input {
+            border-radius: inherit;
+            appearance: none;
+            outline: none;
+            border: none;
+            background-color: unset;
+            height: 100%;
+            display: block;
+            color: var(--md-sys-color-on-surface);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+        }
+
+        &:hover {
+            --md-elevation-level: 1;
+        }
+
+        &:hover:active,
+        &:active {
+            --md-elevation-level: 3;
+        }
+
+        &:focus,
+        &:focus-within {
+            background-color: var(--var-focus-background-color);
+            --md-elevation-level: 2;
+        }
+    }
+</style>

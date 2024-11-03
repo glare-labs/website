@@ -4,8 +4,8 @@ import {
     NavigationBar,
     NavigationRail,
     ProductBlogsBodyLayout,
+    SearchInput,
 } from "@modules/blogs-module";
-import SearchCollection from "@modules/blogs-module/core/search-collection/search-collection.vue";
 import {
     BaseGlobalStyle,
     BaseMaterialTheme,
@@ -36,14 +36,85 @@ const blogs = await getCollection("blog");
         </div>
 
         <div class="page-content">
-            <SearchCollection
-                collection={blogs}
-                baseUrl={`/feature/blogs/blog/`}
-                client:only="vue"
-            />
+            <SearchInput />
+            <ul id="blog-list-result" class="blog-list">
+                {
+                    blogs.map((blog) => (
+                        <a
+                            href={`/feature/blogs/blog/${blog.slug}`}
+                            class="blog-list-item"
+                            data-tags={blog.data.tags}
+                            data-headline={blog.data.headline}
+                            data-description={blog.data.description}
+                            data-creationTime={blog.data.creationTime}
+                            data-collection={blog.data.collection}
+                            data-slug={blog.slug}
+                            data-body={blog.body}
+                            data-invisible="true"
+                            data-astro-reload
+                        >
+                            <section>
+                                <h1 class="headline md-typescale-title-medium">
+                                    {blog.data.headline}
+                                </h1>
+                                <p class="description md-typescale-body-medium">
+                                    {blog.data.description}
+                                </p>
+                            </section>
+                            <p class="file-name md-typescale-label-small">
+                                {blog.slug}
+                            </p>
+                            <md-ripple />
+                        </a>
+                    ))
+                }
+            </ul>
         </div>
     </ProductBlogsBodyLayout>
 </ProductRootHtmlLayout>
+
+<script>
+    const seachWrapper = () =>
+        document.querySelector(".page-content") as HTMLElement;
+
+    const handleRequestSearch = (e: Event) => {
+        const event = e as CustomEvent<{ value: string }>;
+
+        const input = event.detail.value;
+
+        const blogs = document.querySelectorAll(
+            "#blog-list-result>.blog-list-item",
+        ) as NodeListOf<HTMLElement>;
+
+        if (input.length === 0 || input.replaceAll(" ", "").length === 0) {
+            blogs.forEach((blog) => {
+                blog.setAttribute("data-invisible", "true");
+            });
+            return;
+        }
+
+        blogs.forEach((blog) => {
+            const validates = [
+                blog.getAttribute("data-headline").includes(input),
+                blog.getAttribute("data-tags").includes(input),
+                blog.getAttribute("data-description").includes(input),
+                blog.getAttribute("data-creationTime").includes(input),
+                blog.getAttribute("data-collection").includes(input),
+                blog.getAttribute("data-slug").includes(input),
+                blog.getAttribute("data-body").includes(input),
+            ];
+            if (validates.includes(true)) {
+                blog.setAttribute("data-invisible", "false");
+            } else {
+                blog.setAttribute("data-invisible", "true");
+            }
+        });
+    };
+
+    document.addEventListener("astro:page-load", () => {
+        seachWrapper()?.addEventListener("request-search", handleRequestSearch);
+    });
+</script>
 
 <style>
     .sticky-header {
@@ -71,10 +142,116 @@ const blogs = await getCollection("blog");
             margin: auto;
         }
 
-        & > :not([hidden]) ~ :not([hidden]) {
+        & > * {
             --space-y-reverse: 0;
             margin-top: calc(32px * calc(1 - var(--space-y-reverse)));
             margin-bottom: calc(32px * var(--space-y-reverse));
         }
+    }
+</style>
+
+<style>
+    .blog-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        @media (min-width: 600px) and (max-width: 840px) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @media (min-width: 840px) and (max-width: 1200px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        @media (min-width: 1200px) and (max-width: 1600px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        @media (min-width: 1600px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+    }
+</style>
+
+<style>
+    .blog-list-item {
+        position: relative;
+        border-radius: 16px;
+        background-color: var(--md-sys-color-surface);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        z-index: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: clip;
+        width: 100%;
+        --md-ripple-hover-color: var(--md-sys-color-primary-container);
+        transition-duration: 200ms;
+
+        & > section {
+            display: flex;
+            flex-direction: column;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+
+            & > .headline {
+                color: var(--md-sys-color-on-surface);
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+            & > .description {
+                color: var(--md-sys-color-on-surface-variant);
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+            }
+        }
+        & > .file-name {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        & > ul.tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            user-select: none;
+            padding-bottom: 1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+
+            & > li.tag {
+                background-color: var(--md-sys-color-surface-container);
+                color: var(--md-sys-color-on-surface-variant);
+                position: relative;
+                border-radius: 0.375rem;
+                px: 2px;
+                padding-top: 0.25rem;
+                padding-bottom: 0.25rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                pointer-events: none;
+            }
+        }
+
+        &[data-invisible="true"] {
+            display: none;
+        }
+    }
+    .blog-list-item:hover {
+        border-radius: 28px;
+    }
+    .blog-list-item:active,
+    .blog-list-item:hover:active,
+    .blog-list-item:focus,
+    .blog-list-item:focus-within {
     }
 </style>
