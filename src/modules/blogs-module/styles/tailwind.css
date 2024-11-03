@@ -1,0 +1,45 @@
+@import url("material-symbols/outlined.css");
+@import url("@material/web/typography/md-typescale-styles");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    padding: 0;
+    margin: 0;
+
+    font-family: "Jetbrains mono", "Roboto", "Noto sans sc", "Noto sans";
+
+    --md-ref-typeface-brand: "Jetbrains mono", "Roboto", "Noto sans sc", "Noto sans";
+    --md-ref-typeface-plain: "Jetbrains mono", "Roboto", "Noto sans sc", "Noto sans";
+}
+
+@layer material-design-scroll-bar {
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: var(--md-sys-color-surface);
+    }
+
+    ::-webkit-scrollbar-track:hover {
+        background: var(--md-sys-color-surface-dim);
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: var(--md-sys-color-tertiary-fixed-dim);
+        border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover,
+    ::-webkit-scrollbar-thumb:active {
+        background: var(--md-sys-color-tertiary-fixed-dim);
+    }
+}

@@ -1,0 +1,46 @@
+---
+
+---
+
+<script>
+    import {
+        EMaterialVariant,
+        MaterialTokens,
+    } from "@glare-labs/material-tokens-generator";
+    import { Hct } from "@material/material-color-utilities";
+    import { getMaterialThemeConfiguration } from "@utils/material-theme-configuration";
+
+    let timer = null;
+
+    getMaterialThemeConfiguration()
+        .getAtom()
+        .subscribe((data) => {
+            if (timer !== null) {
+                clearTimeout(timer);
+            }
+
+            timer = setTimeout(() => {
+                const mdObject = new MaterialTokens(
+                    Hct.from(
+                        data.sourceColorHctRawObject.hue,
+                        data.sourceColorHctRawObject.chroma,
+                        data.sourceColorHctRawObject.tone,
+                    ),
+                    {
+                        variant: EMaterialVariant.Fidelity,
+                        contrastLevel: data.contrastLevel,
+                        isDark: data.isDark,
+                    },
+                );
+
+                const stylesheet = new CSSStyleSheet();
+                stylesheet
+                    .replace(`:root {${mdObject.cssText()}}`)
+                    .then((stylesheet) => {
+                        document.adoptedStyleSheets = [stylesheet];
+                    });
+
+                document.body.setAttribute("dark", `${data.isDark}`);
+            }, 50);
+        });
+</script>

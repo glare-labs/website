@@ -1,0 +1,50 @@
+---
+
+---
+
+<md-icon-button
+    id="header-switch-theme-button"
+    aria-label="Swicth theme"
+    transition:persist="header-switch-theme-button-component"
+>
+    <md-icon class="icon">dark_mode</md-icon>
+</md-icon-button>
+
+<script>
+    import "@material/web/icon/icon";
+    import "@material/web/iconbutton/icon-button";
+</script>
+
+<script>
+    import type { MdIconButton } from "@material/web/all";
+    import { getMaterialThemeConfiguration } from "@utils/material-theme-configuration";
+
+    const handleIconUpdate = (isDark: boolean) => {
+        const icon = document.querySelector(
+            "#header-switch-theme-button .icon",
+        ) as MdIconButton;
+        icon.textContent = isDark ? "light_mode" : "dark_mode";
+    };
+
+    const handleClick = () => {
+        getMaterialThemeConfiguration().setIsDark(
+            !getMaterialThemeConfiguration().getIsDark(),
+        );
+    };
+
+    document.addEventListener("astro:page-load", (_) => {
+        const darkButtonRef = document.querySelector(
+            "#header-switch-theme-button",
+        ) as MdIconButton;
+        darkButtonRef.addEventListener("click", handleClick);
+    });
+
+    /**
+     * Init md-icon
+     */
+    getMaterialThemeConfiguration()
+        .getAtom()
+        .subscribe(({ isDark }) => {
+            handleIconUpdate(isDark);
+        });
+</script>

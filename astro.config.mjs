@@ -1,12 +1,10 @@
-import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
-import vue from '@astrojs/vue';
-import lit from '@astrojs/lit';
+import mdx from '@astrojs/mdx'
+import vue from '@astrojs/vue'
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({
     site: 'https://glare-labs.uk',
-    base: '/',
     integrations: [
         mdx(),
         vue({
@@ -16,13 +14,17 @@ export default defineConfig({
                 }
             }
         }),
-        lit(),
     ],
     trailingSlash: 'ignore',
     devToolbar: {
         enabled: false,
     },
-    vite: {
-
-    }
+    experimental: {
+        contentLayer: true,
+        directRenderScript: true,
+    },
+    prefetch: {
+        prefetchAll: false
+    },
+    output: 'static',
 })

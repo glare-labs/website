@@ -1,0 +1,22 @@
+---
+import ProductTopAppbarLayout from "@modules/blogs-module/layouts/product-top-appbar-layout.astro";
+import HeaderDrop from "./header-drop.astro";
+import HeaderMaterialHctPicker from "./header-material-hct-picker.astro";
+import HeaderSwitchThemeButton from "./header-switch-theme-button.astro";
+import HeaderTitle from "./header-title.astro";
+
+interface Props {
+    headline?: string;
+}
+
+const { headline = "Blogs" } = Astro.props;
+---
+
+<ProductTopAppbarLayout transition:persist="header">
+    <slot name="start" slot="start" />
+    <HeaderTitle headline={headline} />
+    <HeaderSwitchThemeButton slot="actions" />
+    <HeaderMaterialHctPicker slot="actions" />
+    <slot name="actions" slot="actions" />
+    <HeaderDrop />
+</ProductTopAppbarLayout>

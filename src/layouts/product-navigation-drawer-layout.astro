@@ -1,0 +1,122 @@
+---
+
+---
+
+<div class="product-navigation-drawer-layout" data-open="false">
+    <span class="toggle">
+        <slot name="toggle" />
+    </span>
+    <span class="scrim"></span>
+    <dialog role="navigation" class="dialog">
+        <span class="headline md-typescale-headline-medium">
+            <slot name="headline" />
+
+            <md-icon-button class="close-button">
+                <md-icon>close</md-icon>
+            </md-icon-button>
+        </span>
+
+        <span class="content">
+            <slot />
+        </span>
+    </dialog>
+</div>
+
+<script>
+    import "@material/web/icon/icon";
+    import "@material/web/iconbutton/icon-button";
+</script>
+
+<script>
+    import type { MdIconButton } from "@material/web/all";
+
+    const root = document.querySelector(
+        ".product-navigation-drawer-layout",
+    ) as HTMLElement;
+    const toggle = document.querySelector(".toggle") as HTMLElement;
+    const dialog = document.querySelector(".dialog") as HTMLDialogElement;
+    const scrim = document.querySelector(".scrim") as HTMLDialogElement;
+    const closeButton = document.querySelector(".close-button") as MdIconButton;
+
+    const handleOpen = (_: Event) => {
+        root.setAttribute("data-open", "true");
+        dialog.show();
+    };
+    const handleClose = () => {
+        root.setAttribute("data-open", "false");
+        dialog.close();
+    };
+
+    toggle.addEventListener("click", handleOpen);
+    scrim.addEventListener("click", handleClose);
+    closeButton.addEventListener("click", handleClose);
+</script>
+
+<style>
+    .product-navigation-drawer-layout {
+        position: relative;
+
+        &[data-open="false"] {
+            & > .scrim {
+                opacity: 0;
+                pointer-events: none;
+            }
+            & > .dialog {
+                pointer-events: none;
+                left: -100%;
+            }
+        }
+
+        &[data-open="true"] {
+            & > .scrim {
+                opacity: 0.38;
+            }
+        }
+        & > .dialog {
+            all: unset;
+            transition-property: left, opacity;
+            transition-duration: 500ms;
+            transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            max-height: 100svh;
+            min-height: 100svh;
+            width: min(360px, 75%);
+            border-top-right-radius: 28px;
+            border-bottom-right-radius: 28px;
+            background-color: var(--md-sys-color-surface);
+            display: block;
+            z-index: 2;
+            &::backdrop {
+                pointer-events: none;
+            }
+
+            & > .headline {
+                display: flex;
+                justify-content: space-between;
+                padding: 24px;
+                color: var(--md-sys-color-on-surface);
+            }
+
+            & > .content {
+                display: block;
+                padding: 24px;
+            }
+        }
+
+        & > .scrim {
+            transition-property: opacity;
+            transition-duration: 200ms;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: block;
+            inset: 0;
+            z-index: 2;
+            background-color: var(--md-sys-color-scrim);
+            opacity: 0.38;
+        }
+    }
+</style>

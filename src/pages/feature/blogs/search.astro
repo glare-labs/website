@@ -1,0 +1,80 @@
+---
+import {
+    Header,
+    NavigationBar,
+    NavigationRail,
+    ProductBlogsBodyLayout,
+} from "@modules/blogs-module";
+import SearchCollection from "@modules/blogs-module/core/search-collection/search-collection.vue";
+import {
+    BaseGlobalStyle,
+    BaseMaterialTheme,
+    ImportMaterialSymbols,
+    ImportRobotoStyle,
+} from "@modules/shared-module";
+import { getCollection } from "astro:content";
+import { ViewTransitions } from "astro:transitions";
+import ProductRootHtmlLayout from "src/layouts/ProductRootHtmlLayout.astro";
+
+const blogs = await getCollection("blog");
+---
+
+<ProductRootHtmlLayout>
+    <ImportRobotoStyle slot="head-after" />
+    <BaseMaterialTheme slot="head-after" />
+    <BaseGlobalStyle slot="head-after" />
+    <ImportMaterialSymbols slot="head-after" />
+
+    <ViewTransitions slot="head-after" />
+
+    <ProductBlogsBodyLayout>
+        <NavigationBar slot="bottom-app-bar" />
+        <NavigationRail slot="navigation-rail" />
+
+        <div class="sticky-header">
+            <Header />
+        </div>
+
+        <div class="page-content">
+            <SearchCollection
+                collection={blogs}
+                baseUrl={`/feature/blogs/blog/`}
+                client:only="vue"
+            />
+        </div>
+    </ProductBlogsBodyLayout>
+</ProductRootHtmlLayout>
+
+<style>
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: none;
+
+        @media (max-width: 600px) {
+            display: block;
+        }
+    }
+    .page-content {
+        --navigation-rail-width-computed: 84px;
+
+        padding: 24px;
+        @media (min-width: 840px) {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        @media (min-width: 1600px) {
+            max-width: calc(1600px - var(--navigation-rail-width-computed));
+        }
+        @media (min-width: 1600px) {
+            margin: auto;
+        }
+
+        & > :not([hidden]) ~ :not([hidden]) {
+            --space-y-reverse: 0;
+            margin-top: calc(32px * calc(1 - var(--space-y-reverse)));
+            margin-bottom: calc(32px * var(--space-y-reverse));
+        }
+    }
+</style>

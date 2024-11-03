@@ -1,0 +1,21 @@
+---
+interface Props {
+    headline: string;
+}
+
+const { headline } = Astro.props;
+---
+
+<h1 class="header-title md-typescale-title-medium">
+    {headline}
+</h1>
+
+<style>
+    .header-title {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        color: var(--md-sys-color-on-surface);
+    }
+</style>
