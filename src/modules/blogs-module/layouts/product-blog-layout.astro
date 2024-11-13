@@ -1,7 +1,9 @@
 ---
-import { Header, Footer } from "@modules/blogs-module";
+import { ProductTopAppbarLayout, Footer } from "@modules/blogs-module";
 import Catalog from "../core/catalog/catalog.astro";
 import ProductTopDrawerLayout from "./product-top-drawer-layout.astro";
+import HeaderMaterialHctPicker from "../components/header/header-material-hct-picker.astro";
+import HeaderSwitchThemeButton from "../components/header/header-switch-theme-button.astro";
 
 interface Props {
     headline: string;
@@ -18,7 +20,7 @@ const { headline, description, creationTime, tags, markdownString } =
 
 <div class="blog-preview at-top">
     <span class="sticky-header">
-        <Header headline={headline}>
+        <ProductTopAppbarLayout>
             <a
                 slot="start"
                 class="back-to-all-post-page-button"
@@ -30,7 +32,11 @@ const { headline, description, creationTime, tags, markdownString } =
                     <md-icon>arrow_back</md-icon>
                 </md-icon-button>
             </a>
-
+            <span class="header-title md-typescale-title-medium">
+                {headline}
+            </span>
+            <HeaderSwitchThemeButton slot="actions" />
+            <HeaderMaterialHctPicker slot="actions" />
             <ProductTopDrawerLayout slot="actions">
                 <h1 slot="headline">Catalog</h1>
                 <md-icon-button slot="toggle">
@@ -38,7 +44,7 @@ const { headline, description, creationTime, tags, markdownString } =
                 </md-icon-button>
                 <Catalog markdownRaw={markdownString} />
             </ProductTopDrawerLayout>
-        </Header>
+        </ProductTopAppbarLayout>
     </span>
 
     <article class="content">
@@ -80,6 +86,12 @@ const { headline, description, creationTime, tags, markdownString } =
         <Footer />
     </span>
 </div>
+
+<script>
+    import "@material/web/button/text-button";
+    import "@material/web/icon/icon";
+    import "@material/web/iconbutton/icon-button";
+</script>
 
 <script is:inline>
     const getElements = () => {
@@ -239,6 +251,10 @@ const { headline, description, creationTime, tags, markdownString } =
                 transition-property: opacity, top;
                 transition-duration: 200ms;
                 position: relative;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
             }
         }
 

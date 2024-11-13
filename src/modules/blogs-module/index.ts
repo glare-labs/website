@@ -9,7 +9,7 @@ import NavigationRail from './components/navigation/navigation-rail.astro'
 import SearchInput from './components/search-blog/search-input.astro'
 import ProductBlogLayout from './layouts/product-blog-layout.astro'
 import ProductBlogsBodyLayout from './layouts/product-blogs-body-layout.astro'
+import ProductTopAppbarLayout from './layouts/product-top-appbar-layout.astro'
 import ProductTopDrawerLayout from './layouts/product-top-drawer-layout.astro'
 
-
-export { Footer, Header, NavigationBar, NavigationRail, ProductBlogLayout, ProductBlogsBodyLayout, ProductTopDrawerLayout, SearchInput }
+export { Footer, Header, NavigationBar, NavigationRail, ProductBlogLayout, ProductBlogsBodyLayout, ProductTopAppbarLayout, ProductTopDrawerLayout, SearchInput }

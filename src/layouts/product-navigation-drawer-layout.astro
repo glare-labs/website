@@ -30,26 +30,30 @@
 <script>
     import type { MdIconButton } from "@material/web/all";
 
-    const root = document.querySelector(
-        ".product-navigation-drawer-layout",
-    ) as HTMLElement;
-    const toggle = document.querySelector(".toggle") as HTMLElement;
-    const dialog = document.querySelector(".dialog") as HTMLDialogElement;
-    const scrim = document.querySelector(".scrim") as HTMLDialogElement;
-    const closeButton = document.querySelector(".close-button") as MdIconButton;
+    const root = () =>
+        document.querySelector(
+            ".product-navigation-drawer-layout",
+        ) as HTMLElement;
+    const toggle = () => document.querySelector(".toggle") as HTMLElement;
+    const dialog = () => document.querySelector(".dialog") as HTMLDialogElement;
+    const scrim = () => document.querySelector(".scrim") as HTMLDialogElement;
+    const closeButton = () =>
+        document.querySelector(".close-button") as MdIconButton;
 
     const handleOpen = (_: Event) => {
-        root.setAttribute("data-open", "true");
-        dialog.show();
+        root().setAttribute("data-open", "true");
+        dialog().show();
     };
     const handleClose = () => {
-        root.setAttribute("data-open", "false");
-        dialog.close();
+        root().setAttribute("data-open", "false");
+        dialog().close();
     };
 
-    toggle.addEventListener("click", handleOpen);
-    scrim.addEventListener("click", handleClose);
-    closeButton.addEventListener("click", handleClose);
+    document.addEventListener("astro:page-load", () => {
+        toggle()?.addEventListener("click", handleOpen);
+        scrim()?.addEventListener("click", handleClose);
+        closeButton()?.addEventListener("click", handleClose);
+    });
 </script>
 
 <style>
