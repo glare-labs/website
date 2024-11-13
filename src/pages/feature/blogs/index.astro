@@ -23,10 +23,6 @@ import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import ProductRootHtmlLayout from "src/layouts/ProductRootHtmlLayout.astro";
 
-const hero = {
-    headline: "Bre97's Blogs",
-};
-
 const socialLinks = [
     {
         label: "Github",
@@ -73,56 +69,62 @@ const latestBlogs = (await getCollection("blog"))
             <Header />
         </div>
 
-        <div class="page-content">
-            <div class="hero-wrapper"></div>
+        <div class="body-content hero-wrapper">
+            <section class="hero">
+                <h1 class="title md-typescale-headline-medium">Bre97's Blog</h1>
+                <p class="body md-typescale-body-large">
+                    Welcome to our Blog website, if you like this website, you
+                    can provide any constructive feedback.
+                </p>
+            </section>
+        </div>
 
-            <div class="the-latest-blogs">
-                <h1 class="headline md-typescale-headline-medium">
-                    The Latest Blogs
-                </h1>
+        <div class="body-content the-latest-blogs">
+            <h1 class="headline md-typescale-headline-medium">
+                The Latest Blogs
+            </h1>
 
-                {
-                    latestBlogs.map((blog) => (
-                        <a
-                            class="blog"
-                            href={`/feature/blogs/blog/${blog.slug}`}
-                            target="_blank"
-                        >
-                            <h1 class="headline md-typescale-title-medium">
-                                {blog.data.headline}
-                            </h1>
-                            <p class="description md-typescale-body-medium">
-                                {blog.data.description}
-                            </p>
-                            <md-ripple />
-                        </a>
-                    ))
-                }
-            </div>
+            {
+                latestBlogs.map((blog) => (
+                    <a
+                        class="blog"
+                        href={`/feature/blogs/blog/${blog.slug}`}
+                        target="_blank"
+                    >
+                        <h1 class="headline md-typescale-title-medium">
+                            {blog.data.headline}
+                        </h1>
+                        <p class="description md-typescale-body-medium">
+                            {blog.data.description}
+                        </p>
+                        <md-ripple />
+                    </a>
+                ))
+            }
+        </div>
 
-            <div class="hero-social-link-list">
-                <h1 class="headline md-typescale-headline-medium">
-                    Activities
-                </h1>
+        <div class="body-content hero-social-link-list">
+            <h1 class="headline md-typescale-headline-medium">Activities</h1>
 
-                {
-                    socialLinks.map((link) => (
-                        <a
-                            class="social-link-list-item"
-                            href={link.url}
-                            target="_blank"
-                        >
-                            <span class="icon" set:html={link.svg} />
-                            <span class="label md-typescale-body-medium">
-                                {link.label}
-                            </span>
-                            <md-icon class="alt-icon">open_in_new</md-icon>
-                            <md-ripple />
-                        </a>
-                    ))
-                }
-            </div>
+            {
+                socialLinks.map((link) => (
+                    <a
+                        class="social-link-list-item"
+                        href={link.url}
+                        target="_blank"
+                    >
+                        <span class="icon" set:html={link.svg} />
+                        <span class="label md-typescale-body-medium">
+                            {link.label}
+                        </span>
+                        <md-icon class="alt-icon">open_in_new</md-icon>
+                        <md-ripple />
+                    </a>
+                ))
+            }
+        </div>
 
+        <div class="body-content">
             <Footer />
         </div>
     </ProductBlogsBodyLayout>
@@ -133,73 +135,54 @@ const latestBlogs = (await getCollection("blog"))
         position: sticky;
         top: 0;
         z-index: 1;
-        display: none;
-
-        @media (max-width: 600px) {
-            display: block;
+        display: block;
+        @media (min-width: 600px) {
+            display: none;
         }
     }
-    .page-content {
-        --navigation-rail-width-computed: 84px;
-
-        padding: 24px;
+    .body-content {
+        --navigation-rail-width-computed: 80px;
+        margin: 24px;
         @media (min-width: 840px) {
-            padding-left: 60px;
-            padding-right: 60px;
+            margin-left: 60px;
+            margin-right: 60px;
         }
         @media (min-width: 1600px) {
             max-width: calc(1600px - var(--navigation-rail-width-computed));
-        }
-        @media (min-width: 1600px) {
-            margin: auto;
-        }
-
-        & > :not([hidden]) ~ :not([hidden]) {
-            --space-y-reverse: 0;
-            margin-top: calc(32px * calc(1 - var(--space-y-reverse)));
-            margin-bottom: calc(32px * var(--space-y-reverse));
+            margin: 24px auto;
         }
     }
 </style>
 
-<!-- Hero & Logo -->
+<!-- Hero & Video -->
 <style>
+    body[dark="true"] {
+        .hero-wrapper {
+            background: url("/public/knowledge-overview-bg-dark.jpg");
+        }
+    }
+    body[dark="false"],
+    body:not([dark]) {
+        .hero-wrapper {
+            background: url("/public/knowledge-overview-bg-light.jpg");
+        }
+    }
+
     .hero-wrapper {
+        background-position: center;
+        background-size: cover;
+        height: min(210px, 25%);
         background-color: var(--md-sys-color-surface-container-lowest);
         border-radius: 28px;
-        padding: 8px;
-        display: grid;
+        padding: 28px;
 
-        @media (max-width: 840px) {
-            grid-template-columns: 1fr;
-            grid-template-rows: auto 1fr;
+        & > .hero {
+            pointer-events: none;
+            color: var(--md-sys-color-on-surface);
 
-            & > .hero-content {
-                grid-column: 1/2;
-                grid-row: 2/3;
+            & > .body {
+                margin-top: 8px;
             }
-            & > .hero-logo {
-                grid-column: 1/2;
-                grid-row: 1/2;
-            }
-        }
-        @media (min-width: 840px) {
-            grid-template-columns: auto 1fr;
-            grid-template-rows: 1fr;
-            & > .hero-content {
-                grid-column: 2/3;
-                grid-row: 1/2;
-            }
-            & > .hero-logo {
-                grid-column: 1/2;
-                grid-row: 1/2;
-            }
-        }
-
-        & > .hero-content {
-        }
-        & > .hero-logo {
-            border-radius: 28px;
         }
     }
 </style>
