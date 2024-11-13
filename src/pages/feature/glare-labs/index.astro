@@ -72,7 +72,7 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 		</div>
 
 		<div class="area part">
-			<h2 class="headline">News</h2>
+			<h2 class="headline">Blog</h2>
 
 			<p>
 				Browse the blog and get the latest information from the site and
@@ -82,9 +82,9 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 			<a
 				class="port-to-blog-button"
 				target="_blank"
-				href="https://bre97.web.app"
+				href="https://glare-labs.uk/feature/blog/"
 			>
-				Visit
+				<span class="label"> Visit </span>
 				<span class="material-symbols-outlined icon">open_in_new</span>
 			</a>
 		</div>
@@ -101,15 +101,6 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 				<span class="line top-left"></span>
 				<span class="line bottom-right"></span>
 			</div>
-
-			<!-- <a
-				class="port-to-blog-button"
-				target="_blank"
-				href="https://bre97.web.app"
-			>
-				Visit
-				<span class="material-symbols-outlined icon">open_in_new</span>
-			</a> -->
 		</div>
 
 		<ProductFooter />
@@ -261,9 +252,21 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 		margin: 16px 0 0;
 		gap: 8px;
 		border: 1px solid var(--md-sys-color-outline-variant);
-		background-color: var(--md-sys-color-primary-container);
-		color: var(--md-sys-color-on-primary-container);
+		background-color: var(--md-sys-color-surface-container);
+		color: var(--md-sys-color-on-surface);
 
+		& > .label {
+			text-decoration-line: underline;
+			text-underline-offset: 2px;
+
+			transition-property: text-underline-offset;
+			transition-duration: 150ms;
+		}
+		&:hover {
+			& > .label {
+				text-underline-offset: 4px;
+			}
+		}
 		& > .icon {
 			font-size: 14px;
 		}
