@@ -1,4 +1,5 @@
 ---
+import { GlareLabsLogo } from "@modules/glare-labs";
 import {
 	BaseGlobalStyle,
 	BaseMaterialTheme,
@@ -38,7 +39,10 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 
 	<main class="content">
 		<div class="hero area">
-			<h1 class="headline">Glare Labs</h1>
+			<span class="wrapper">
+				<GlareLabsLogo />
+				<h1 class="headline">Glare Labs</h1>
+			</span>
 			<span class="movable-background"></span>
 		</div>
 
@@ -165,13 +169,24 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 		border-bottom: 1px solid var(--md-sys-color-outline-variant);
 		position: relative;
 		padding: 48px 0;
-		& > .headline {
+
+		& > .wrapper {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			@media (max-width: 600px) {
+				flex-direction: column;
+			}
+		}
+
+		& .headline {
 			text-align: center;
 			display: block;
 			position: relative;
 			background-clip: text;
 			color: var(--md-sys-color-on-surface);
-			font-size: 48px;
+			font-size: 56px;
 			font-weight: 700;
 		}
 	}

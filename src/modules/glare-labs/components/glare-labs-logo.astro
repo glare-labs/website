@@ -1,0 +1,84 @@
+---
+
+---
+
+<div class="glare-labs-logo">
+    <div aria-hidden="true" class="round"></div>
+    <div aria-hidden="true" class="top block"></div>
+    <div aria-hidden="true" class="left block"></div>
+    <div aria-hidden="true" class="bottom block"></div>
+</div>
+
+<style>
+    .glare-labs-logo {
+        position: relative;
+        --_round-size: var(--round-size, 56px);
+        --_top-block-height: var(--top-block-height, 48px);
+        --_top-block-width: var(--top-block-width, 24px);
+        --_left-block-height: var(--left-block-height, 28px);
+        --_left-block-width: var(--left-block-width, 48px);
+        --_bottom-block-height: var(--bottom-block-height, 48px);
+        --_bottom-block-width: var(--bottom-block-width, 24px);
+        --_row-gap: var(--row-gap, 16px);
+        --_col-gap: var(--col-gap, 16px);
+
+        display: grid;
+        grid-template-columns: repeat(
+            3,
+            max(
+                var(--_top-block-height),
+                var(--_left-block-height),
+                var(--_bottom-block-height),
+                var(--_round-size)
+            )
+        );
+        grid-template-rows: repeat(
+            3,
+            max(
+                var(--_top-block-width),
+                var(--_left-block-width),
+                var(--_bottom-block-width),
+                var(--_round-size)
+            )
+        );
+        column-gap: var(--_col-gap);
+        row-gap: var(--_row-gap);
+
+        & > :is(.round, .block) {
+            position: relative;
+            display: block;
+            background-color: var(--md-sys-color-scrim);
+            align-self: center;
+        }
+
+        & > .round {
+            height: var(--_round-size);
+            width: var(--_round-size);
+            grid-row: 2/3;
+            grid-column: 2/3;
+            border-radius: 9999px;
+        }
+
+        & > .top.block {
+            height: var(--_top-block-height);
+            width: var(--_top-block-width);
+            grid-row: 1/2;
+            grid-column: 2/3;
+            justify-self: center;
+        }
+        & > .left.block {
+            height: var(--_left-block-height);
+            width: var(--_left-block-width);
+            grid-row: 2/3;
+            grid-column: 1/2;
+            justify-self: end;
+        }
+        & > .bottom.block {
+            height: var(--_bottom-block-height);
+            width: var(--_bottom-block-width);
+            grid-row: 3/4;
+            grid-column: 2/3;
+            justify-self: center;
+        }
+    }
+</style>

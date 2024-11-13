@@ -1,4 +1,6 @@
 ---
+import GlareLabsLogo from "./glare-labs-logo.astro";
+
 const links = [
     {
         label: "Github",
@@ -12,6 +14,8 @@ const links = [
 ---
 
 <footer class="footer-component">
+    <GlareLabsLogo />
+
     <div class="tabs">
         {
             links.map((link) => (
@@ -25,6 +29,16 @@ const links = [
 
 <style>
     .footer-component {
+        --round-size: 16px;
+        --top-block-height: 8px;
+        --top-block-width: 4px;
+        --left-block-height: 5px;
+        --left-block-width: 8px;
+        --bottom-block-height: 8px;
+        --bottom-block-width: 4px;
+        --col-gap: 4px;
+        --row-gap: 2px;
+
         min-height: 80px;
         padding: 0 24px;
         display: flex;
