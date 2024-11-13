@@ -17,7 +17,7 @@ export const headerTabs: Array<IRootPageHeaderTabs> = [
         label: 'Vue-MDC'
     },
     {
-        url: '/feature/blogs',
-        label: 'Blogs'
+        url: '/feature/blog',
+        label: 'Blog'
     },
 ] as const

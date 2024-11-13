@@ -5,19 +5,19 @@ export const routes = [
         id: 0,
         label: 'Home',
         iconString: 'home',
-        url: `/feature/blogs/`,
+        url: `/feature/blog/`,
     },
     {
         id: 1,
-        label: 'Blog',
+        label: 'Library',
         iconString: 'book',
-        url: `/feature/blogs/blog/`,
+        url: `/feature/blog/library/`,
     },
     {
         id: 2,
         label: 'Search',
         iconString: 'search',
-        url: `/feature/blogs/search/`,
+        url: `/feature/blog/search/`,
     },
 ]
 

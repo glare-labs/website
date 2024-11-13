@@ -11,6 +11,7 @@ import {
     BaseMaterialTheme,
     ImportMaterialSymbols,
     ImportRobotoStyle,
+    PageMetaInfo,
 } from "@modules/shared-module";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
@@ -20,6 +21,21 @@ const blogs = await getCollection("blog");
 ---
 
 <ProductRootHtmlLayout>
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description="Search blogs."
+        title="Search"
+        iconHref="/glare-labs-page-icon.svg"
+        keywords="blog, bre97, keynote, search"
+        language="en-US"
+        url="https://glare-labs.uk/feature/blog/search/"
+        imageUrl="https://media.glare-labs.uk/blog-logo.png"
+        imageAlt="Bre97's Blog"
+        robots="index, nofollow"
+        ogType="website"
+    />
+
     <ImportRobotoStyle slot="head-after" />
     <BaseMaterialTheme slot="head-after" />
     <BaseGlobalStyle slot="head-after" />
@@ -41,7 +57,7 @@ const blogs = await getCollection("blog");
                 {
                     blogs.map((blog) => (
                         <a
-                            href={`/feature/blogs/blog/${blog.slug}`}
+                            href={`/feature/blog/article/${blog.slug}`}
                             class="blog-list-item"
                             data-tags={blog.data.tags}
                             data-headline={blog.data.headline}

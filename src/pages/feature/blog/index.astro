@@ -16,9 +16,9 @@ import {
     BaseMaterialTheme,
     ImportMaterialSymbols,
     ImportRobotoStyle,
+    PageMetaInfo,
 } from "@modules/shared-module";
 
-import BaseHead from "@modules/blogs-module/core/head/base-head.astro";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import ProductRootHtmlLayout from "src/layouts/ProductRootHtmlLayout.astro";
@@ -52,7 +52,20 @@ const latestBlogs = (await getCollection("blog"))
 ---
 
 <ProductRootHtmlLayout>
-    <BaseHead slot="head" />
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description="Bre97' Blog is the blog website of the author of Glare Labs. Explore the behind-the-scenes story of Glare Labs and bre97."
+        title="Bre97's Blog - Daily keynotes"
+        iconHref="/glare-labs-page-icon.svg"
+        keywords="blog, bre97, keynote"
+        language="en-US"
+        url="https://glare-labs.uk/feature/blog/"
+        imageUrl="https://media.glare-labs.uk/blog-logo.png"
+        imageAlt="Bre97's Blog"
+        robots="index, follow"
+        ogType="website"
+    />
 
     <ImportRobotoStyle slot="head-after" />
     <BaseMaterialTheme slot="head-after" />
@@ -88,7 +101,7 @@ const latestBlogs = (await getCollection("blog"))
                 latestBlogs.map((blog) => (
                     <a
                         class="blog"
-                        href={`/feature/blogs/blog/${blog.slug}`}
+                        href={`/feature/blog/article/${blog.slug}`}
                         target="_blank"
                     >
                         <h1 class="headline md-typescale-title-medium">
@@ -171,7 +184,7 @@ const latestBlogs = (await getCollection("blog"))
     .hero-wrapper {
         background-position: center;
         background-size: cover;
-        height: min(210px, 25%);
+        height: fit-content;
         background-color: var(--md-sys-color-surface-container-lowest);
         border-radius: 28px;
         padding: 28px;

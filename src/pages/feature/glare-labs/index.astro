@@ -4,6 +4,7 @@ import {
 	BaseMaterialTheme,
 	ImportJetbrainsMonoStyle,
 	ImportMaterialSymbols,
+	PageMetaInfo,
 } from "@modules/shared-module";
 import ProductRootHtmlLayout from "../../../layouts/ProductRootHtmlLayout.astro";
 import ProductFooter from "../../../modules/glare-labs/components/ProductFooter.astro";
@@ -11,6 +12,21 @@ import ProductHeader from "../../../modules/glare-labs/components/ProductHeader.
 ---
 
 <ProductRootHtmlLayout>
+	<PageMetaInfo
+		slot="head"
+		author="bre97"
+		description="Glare Labs is a front-end open source development team focusing on Material Design. Provides front-end tools such as Vue-MDC."
+		title="Glare Labs - Novice programmer focusing on Material Design"
+		iconHref="/glare-labs-page-icon.svg"
+		keywords="material design, vue-mdc, bre97"
+		language="en-US"
+		url="https://glare-labs.uk/feature/glare-labs/"
+		imageUrl="https://media.glare-labs.uk/glare-labs-logo.png"
+		imageAlt="Glare Labs"
+		robots="index, follow"
+		ogType="website"
+	/>
+
 	<ImportJetbrainsMonoStyle slot="head-after" />
 	<BaseMaterialTheme slot="head-after" />
 	<BaseGlobalStyle slot="head-after" />

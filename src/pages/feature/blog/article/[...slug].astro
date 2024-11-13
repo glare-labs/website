@@ -1,6 +1,5 @@
 ---
 import "@fontsource/jetbrains-mono";
-import BaseHead from "@modules/blogs-module/core/head/base-head.astro";
 
 import {
     ProductBlogLayout,
@@ -11,6 +10,7 @@ import {
     BaseMaterialTheme,
     ImportJetbrainsMonoStyle,
     ImportMaterialSymbols,
+    PageMetaInfo,
 } from "@modules/shared-module";
 
 import { getCollection, type CollectionEntry } from "astro:content";
@@ -48,7 +48,20 @@ const { Content } = await blog.render();
 ---
 
 <ProductRootHtmlLayout>
-    <BaseHead slot="head" />
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description={blog.data.description}
+        title={blog.data.headline}
+        iconHref="/glare-labs-page-icon.svg"
+        keywords={blog.data.tags.join()}
+        language="en-US"
+        url={`https://glare-labs.uk/feature/blog/article/${blog.slug}`}
+        imageUrl="https://media.glare-labs.uk/blog-logo.png"
+        imageAlt="Bre97's Blog"
+        robots="index, follow"
+        ogType="website"
+    />
 
     <ImportJetbrainsMonoStyle slot="head-after" />
     <BaseMaterialTheme slot="head-after" />

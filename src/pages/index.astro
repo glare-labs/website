@@ -3,9 +3,14 @@ import ProductRootHtmlLayout from "../layouts/ProductRootHtmlLayout.astro";
 ---
 
 <ProductRootHtmlLayout>
+	<link
+		slot="head"
+		rel="canonical"
+		href="https://glare-labs.uk/feature/glare-labs/"
+	/>
 	<meta
 		slot="head"
 		http-equiv="refresh"
-		content={`1;url="${new URL("/feature/glare-labs", Astro.url)}"`}
+		content={`1;url="${new URL("/feature/glare-labs/", Astro.url)}"`}
 	/></ProductRootHtmlLayout
 >

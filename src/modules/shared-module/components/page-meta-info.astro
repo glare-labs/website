@@ -1,0 +1,46 @@
+---
+interface Props {
+    title: string;
+    description: string;
+    iconHref: string;
+    keywords: string;
+    author: string;
+    language: string;
+    url: string;
+    imageUrl: string;
+    imageAlt: string;
+    robots: string;
+    ogType: string;
+}
+
+const props = Astro.props;
+---
+
+<title>{props.title}</title>
+
+<meta name="description" content={props.description} />
+
+<link rel="icon" type="image/svg+xml" href={props.iconHref} />
+
+<meta lang={props.language} />
+
+<meta name="title" content={props.title} />
+<meta name="keywords" content={props.keywords} />
+<meta name="author" content={props.author} />
+<meta name="language" content={props.language} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={props.ogType} />
+<meta property="og:url" content={props.url} />
+<meta property="og:title" content={props.title} />
+<meta property="og:description" content={props.description} />
+<meta property="og:image" content={props.imageUrl} />
+<meta property="og:image:alt" content={props.imageAlt} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={props.url} />
+<meta property="twitter:title" content={props.title} />
+<meta property="twitter:description" content={props.description} />
+<meta property="twitter:image" content={props.imageUrl} />
+<meta property="twitter:image:alt" content={props.imageAlt} />
