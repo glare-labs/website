@@ -7,7 +7,8 @@ import ImportJetbrainsMonoStyle from './components/import-jetbrains-mono-style.a
 import ImportMaterialSymbols from './components/import-material-symbols.astro'
 import ImportRobotoStyle from './components/import-roboto-style.astro'
 import PageMetaInfo from './components/page-meta-info.astro'
+import ProductRootHtmlLayout from './layouts/product-root-html-layout.astro'
 
 export {
-    BaseGlobalStyle, BaseMaterialTheme, ImportJetbrainsMonoStyle, ImportMaterialSymbols, ImportRobotoStyle, PageMetaInfo
+    BaseGlobalStyle, BaseMaterialTheme, ImportJetbrainsMonoStyle, ImportMaterialSymbols, ImportRobotoStyle, PageMetaInfo, ProductRootHtmlLayout
 }

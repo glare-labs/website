@@ -1,0 +1,47 @@
+---
+
+---
+
+<header class="header-layout">
+    <span class="start">
+        <slot name="start" />
+    </span>
+
+    <div class="content">
+        <slot />
+    </div>
+
+    <div class="end">
+        <slot name="end" />
+    </div>
+</header>
+
+<style>
+    .header-layout {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: 1fr;
+        height: 56px;
+        padding: 0 24px;
+        background-color: var(--md-sys-color-surface);
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        align-items: center;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+
+        & > .start {
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
+        & > .content {
+            grid-column: 2/3;
+            grid-row: 1/2;
+        }
+        & > .end {
+            grid-column: 3/4;
+            grid-row: 1/2;
+        }
+    }
+</style>

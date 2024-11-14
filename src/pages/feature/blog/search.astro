@@ -15,7 +15,7 @@ import {
 } from "@modules/shared-module";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
-import ProductRootHtmlLayout from "src/layouts/ProductRootHtmlLayout.astro";
+import { ProductRootHtmlLayout } from "@modules/shared-module";
 
 const blogs = await getCollection("blog");
 ---
