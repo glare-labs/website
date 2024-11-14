@@ -55,7 +55,7 @@ const collection = (await getCollection("vue-mdc")).filter(
                     collection.map((article) => (
                         <DocumentationCard
                             target="_self"
-                            href={`/feature/vue-mdc/article/${article.slug}`}
+                            href={`/feature/vue-mdc/article/${article.slug}/`}
                         >
                             <Typography variant="title-large" slot="headline">
                                 {article.data.headline}

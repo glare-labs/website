@@ -43,4 +43,11 @@
                 document.body.setAttribute("dark", `${data.isDark}`);
             }, 50);
         });
+
+    document.addEventListener("astro:page-load", () => {
+        document.body.setAttribute(
+            "dark",
+            `${getMaterialThemeConfiguration().getIsDark()}`,
+        );
+    });
 </script>

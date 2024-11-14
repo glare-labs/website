@@ -43,7 +43,7 @@ const tags = Array.from(
         slot="head"
         author="bre97"
         description="Retrieve all blog posts on bre97'blog."
-        title="Library"
+        title="Library - Bre97's Blog"
         iconHref="/glare-labs-page-icon.svg"
         keywords="blog, bre97, keynote"
         language="en-US"
@@ -106,7 +106,7 @@ const tags = Array.from(
                     {
                         blogs.map((blog) => (
                             <a
-                                href={`/feature/blog/article/${blog.slug}`}
+                                href={`/feature/blog/article/${blog.slug}/`}
                                 class="blog-list-item"
                                 data-tags={blog.data.tags}
                                 data-astro-reload

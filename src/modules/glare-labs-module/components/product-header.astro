@@ -67,6 +67,10 @@ const tabs = headerTabs.slice(1);
     .compact-tabs,
     .tabs {
         gap: 16px;
+
+        & > .tab:hover {
+            color: var(--md-sys-color-on-surface);
+        }
     }
 
     .tabs > .tab,
@@ -97,10 +101,6 @@ const tabs = headerTabs.slice(1);
         align-self: center;
         display: flex;
         align-items: center;
-    }
-
-    :is(.tabs > .tab):hover {
-        color: var(--md-sys-color-on-surface);
     }
 
     .open-tabs-panel-button {

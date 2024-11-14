@@ -58,7 +58,7 @@ const latestBlogs = (await getCollection("blog"))
         description="Bre97' Blog is the blog website of the author of Glare Labs. Explore the behind-the-scenes story of Glare Labs and bre97."
         title="Bre97's Blog - Daily keynotes"
         iconHref="/glare-labs-page-icon.svg"
-        keywords="blog, bre97, keynote"
+        keywords="blog, bre97, keynote, bre97-blog"
         language="en-US"
         url="https://glare-labs.uk/feature/blog/"
         imageUrl="https://media.glare-labs.uk/blog-logo.png"
@@ -101,8 +101,8 @@ const latestBlogs = (await getCollection("blog"))
                 latestBlogs.map((blog) => (
                     <a
                         class="blog"
-                        href={`/feature/blog/article/${blog.slug}`}
-                        target="_blank"
+                        href={`/feature/blog/article/${blog.slug}/`}
+                        target="_self"
                     >
                         <h1 class="headline md-typescale-title-medium">
                             {blog.data.headline}
@@ -175,7 +175,7 @@ const latestBlogs = (await getCollection("blog"))
         }
     }
     body[dark="false"],
-    body:not([dark]) {
+    body:not([dark="true"]) {
         .hero-wrapper {
             background: url("/public/knowledge-overview-bg-light.jpg");
         }

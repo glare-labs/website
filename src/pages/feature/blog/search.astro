@@ -25,7 +25,7 @@ const blogs = await getCollection("blog");
         slot="head"
         author="bre97"
         description="Search blogs."
-        title="Search"
+        title="Search - Bre97's Blog"
         iconHref="/glare-labs-page-icon.svg"
         keywords="blog, bre97, keynote, search"
         language="en-US"
@@ -57,7 +57,7 @@ const blogs = await getCollection("blog");
                 {
                     blogs.map((blog) => (
                         <a
-                            href={`/feature/blog/article/${blog.slug}`}
+                            href={`/feature/blog/article/${blog.slug}/`}
                             class="blog-list-item"
                             data-tags={blog.data.tags}
                             data-headline={blog.data.headline}

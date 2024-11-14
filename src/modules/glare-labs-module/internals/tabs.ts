@@ -5,7 +5,7 @@ export interface IRootPageHeaderTabs {
 
 export const headerTabs: Array<IRootPageHeaderTabs> = [
     {
-        url: '/feature/glare-labs',
+        url: '/',
         label: 'Glare Labs'
     },
     {
