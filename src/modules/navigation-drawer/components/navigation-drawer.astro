@@ -27,8 +27,6 @@
         const navigationDrawers =
             document.querySelectorAll(".navigation-drawer");
 
-        console.log(navigationDrawers);
-
         navigationDrawers.forEach((drawer) => {
             const handleClose = (e: Event) => {
                 drawer.setAttribute("data-open", `false`);

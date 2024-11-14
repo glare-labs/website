@@ -148,15 +148,17 @@ const tags = Array.from(
             ".tag-filter.chip-set",
         ) as MdChipSet | null;
 
-        const chips = Array.from(
-            chipset.querySelectorAll("&>.filter-chip"),
-        ) as Array<MdFilterChip>;
+        const chips = chipset
+            ?.querySelectorAll("&>.filter-chip")
+            .values()
+            .toArray() as Array<MdFilterChip>;
 
-        const blogs = Array.from(
-            document.querySelectorAll(".blog-list>.blog-list-item"),
-        ) as Array<HTMLElement>;
+        const blogs = document
+            .querySelectorAll(".blog-list>.blog-list-item")
+            .values()
+            .toArray();
 
-        const setBlogVisible = (blog: HTMLElement, visible: boolean) => {
+        const setBlogVisible = (blog: Element, visible: boolean) => {
             if (visible) {
                 blog.removeAttribute("invisible");
             } else {

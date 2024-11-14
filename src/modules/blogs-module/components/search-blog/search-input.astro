@@ -2,48 +2,54 @@
 
 ---
 
-<div class="search-input" transition:persist="search-blog-input">
+<div class="search-blog-text-field" transition:persist="search-blog-input">
     <md-icon class="search-icon">search</md-icon>
     <input
-        class="search-input md-typescale-body-medium"
+        class="search-text-field md-typescale-body-medium"
         placeholder="Type here to search"
-        id="search-blog-input-standalone"
     />
     <md-elevation></md-elevation>
 </div>
 
 <script>
-    const searchInput = () =>
-        document.querySelector(
-            "#search-blog-input-standalone",
-        ) as HTMLInputElement;
-
-    let timer = null as NodeJS.Timeout | null;
-
-    const handleInput = (e: Event) => {
-        if (timer !== null) {
-            clearTimeout(timer);
-        }
-
-        timer = setTimeout(() => {
-            searchInput().dispatchEvent(
-                new CustomEvent("request-search", {
-                    bubbles: true,
-                    cancelable: false,
-                    detail: { value: searchInput().value },
-                }),
-            );
-            clearTimeout(timer);
-        }, 50);
-    };
-
     document.addEventListener("astro:page-load", () => {
-        searchInput()?.addEventListener("input", handleInput);
+        const searchInputs = document.querySelectorAll(
+            ".search-blog-text-field",
+        );
+
+        searchInputs.forEach((input) => {
+            let timer = null as NodeJS.Timeout | null;
+
+            const handleInput = (e: Event) => {
+                if (timer !== null) {
+                    clearTimeout(timer);
+                }
+
+                timer = setTimeout(() => {
+                    input.dispatchEvent(
+                        new CustomEvent("request-search", {
+                            bubbles: true,
+                            cancelable: false,
+                            detail: {
+                                value: (
+                                    input.querySelector(
+                                        "&>.search-text-field",
+                                    ) as HTMLInputElement
+                                ).value,
+                            },
+                        }),
+                    );
+                    clearTimeout(timer);
+                }, 50);
+            };
+
+            input.addEventListener("input", handleInput);
+        });
     });
 </script>
 
 <style>
-    div.search-input {
+    div.search-blog-text-field {
         --var-background-color: var(
             --search-input-background-color,
             var(--md-sys-color-surface-container)
@@ -72,7 +78,7 @@
             justify-self: center;
         }
 
-        & > input.search-input {
+        & > input.search-text-field {
             border-radius: inherit;
             appearance: none;
             outline: none;
