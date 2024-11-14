@@ -1,0 +1,20 @@
+---
+
+---
+
+<md-icon-button class="close-button">
+    <md-icon>close</md-icon>
+</md-icon-button>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const closeButtons = document.querySelectorAll(".close-button");
+
+        closeButtons.forEach((button) => {
+            const handleCloseButtonClick = (e: Event) => {
+                button.dispatchEvent(new Event("close", { bubbles: true }));
+            };
+            button.addEventListener("click", handleCloseButtonClick);
+        });
+    });
+</script>

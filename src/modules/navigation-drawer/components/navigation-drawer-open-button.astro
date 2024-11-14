@@ -1,0 +1,31 @@
+---
+
+---
+
+<span class="navigation-drawer-open-button">
+    <span class="toggle">
+        <slot />
+    </span>
+
+    <slot name="navigation-drawer" />
+</span>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const openButtons = document.querySelectorAll(
+            ".navigation-drawer-open-button",
+        );
+
+        openButtons.forEach((button) => {
+            const handleOpenButtonClick = (e: Event) => {
+                button
+                    .querySelector("&>.navigation-drawer")
+                    ?.dispatchEvent(new Event("open"));
+            };
+
+            button
+                .querySelector("&>.toggle")
+                .addEventListener("click", handleOpenButtonClick);
+        });
+    });
+</script>

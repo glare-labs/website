@@ -6,7 +6,7 @@
 
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
-import ProductRootHtmlLayout from "src/layouts/ProductRootHtmlLayout.astro";
+import { ProductRootHtmlLayout } from "@modules/shared-module";
 import {
     Footer,
     Header,
@@ -21,7 +21,12 @@ import {
     ImportRobotoStyle,
     PageMetaInfo,
 } from "@modules/shared-module";
-import ProductNavigationDrawerLayout from "src/layouts/product-navigation-drawer-layout.astro";
+import {
+    NavigationDrawer,
+    NavigationDrawerCloseButton,
+    NavigationDrawerHeader,
+    NavigationDrawerOpenButton,
+} from "@modules/navigation-drawer";
 
 const blogs = await getCollection("blog");
 const tags = Array.from(
@@ -66,29 +71,34 @@ const tags = Array.from(
 
         <div class="page-content">
             <div class="filter-container">
-                <ProductNavigationDrawerLayout>
-                    <md-text-button slot="toggle" id="open-filter-button">
+                <NavigationDrawerOpenButton>
+                    <md-text-button id="open-filter-button">
                         Filter
                         <md-icon slot="icon">tune</md-icon>
                     </md-text-button>
-                    <h1 slot="headline">Filter</h1>
-
-                    <div class="filter-panel">
-                        <md-chip-set
-                            class="tag-filter chip-set"
-                            id="filter-chip-set"
+                    <NavigationDrawer slot="navigation-drawer">
+                        <NavigationDrawerHeader slot="headline"
+                            >Filter</NavigationDrawerHeader
                         >
-                            {
-                                tags.map((tag) => (
-                                    <md-filter-chip
-                                        class="filter-chip"
-                                        label={tag}
-                                    />
-                                ))
-                            }
-                        </md-chip-set>
-                    </div>
-                </ProductNavigationDrawerLayout>
+                        <NavigationDrawerCloseButton slot="close-button" />
+
+                        <div class="filter-panel">
+                            <md-chip-set
+                                class="tag-filter chip-set"
+                                id="filter-chip-set"
+                            >
+                                {
+                                    tags.map((tag) => (
+                                        <md-filter-chip
+                                            class="filter-chip"
+                                            label={tag}
+                                        />
+                                    ))
+                                }
+                            </md-chip-set>
+                        </div>
+                    </NavigationDrawer>
+                </NavigationDrawerOpenButton>
             </div>
 
             <div class="collection-list">
@@ -133,60 +143,65 @@ const tags = Array.from(
 <script>
     import type { MdChipSet, MdFilterChip } from "@material/web/all";
 
-    const chipset = document.querySelector(".tag-filter.chip-set") as MdChipSet;
-    const chips = Array.from(
-        chipset.querySelectorAll("&>.filter-chip"),
-    ) as Array<MdFilterChip>;
+    document.addEventListener("astro:page-load", () => {
+        const chipset = document.querySelector(
+            ".tag-filter.chip-set",
+        ) as MdChipSet | null;
 
-    const blogs = Array.from(
-        document.querySelectorAll(".blog-list>.blog-list-item"),
-    ) as Array<HTMLElement>;
+        const chips = Array.from(
+            chipset.querySelectorAll("&>.filter-chip"),
+        ) as Array<MdFilterChip>;
 
-    const setBlogVisible = (blog: HTMLElement, visible: boolean) => {
-        if (visible) {
-            blog.removeAttribute("invisible");
-        } else {
-            blog.setAttribute("invisible", "");
-        }
-    };
+        const blogs = Array.from(
+            document.querySelectorAll(".blog-list>.blog-list-item"),
+        ) as Array<HTMLElement>;
 
-    chipset.addEventListener("click", (e) => {
-        const isChipClick = chips.includes(e.target as unknown as any);
+        const setBlogVisible = (blog: HTMLElement, visible: boolean) => {
+            if (visible) {
+                blog.removeAttribute("invisible");
+            } else {
+                blog.setAttribute("invisible", "");
+            }
+        };
 
-        if (!isChipClick) {
-            return;
-        }
+        chipset?.addEventListener("click", (e) => {
+            const isChipClick = chips.includes(e.target as unknown as any);
 
-        const activatedChips = chips
-            .filter((chip) => chip.selected)
-            .map((chip) => chip.label);
-
-        if (activatedChips.length === 0) {
-            blogs.forEach((blog) => {
-                setBlogVisible(blog, true);
-            });
-            return;
-        }
-
-        for (const index in blogs) {
-            const blog = blogs[index];
-
-            const attr = blog.getAttribute("data-tags");
-            if (attr === null) {
-                continue;
+            if (!isChipClick) {
+                return;
             }
 
-            const attrArray = attr.split(",");
-            let isTarget = false;
-            for (const attrArrayItem of attrArray) {
-                if (activatedChips.includes(attrArrayItem)) {
-                    isTarget = true;
-                    break;
+            const activatedChips = chips
+                .filter((chip) => chip.selected)
+                .map((chip) => chip.label);
+
+            if (activatedChips.length === 0) {
+                blogs.forEach((blog) => {
+                    setBlogVisible(blog, true);
+                });
+                return;
+            }
+
+            for (const index in blogs) {
+                const blog = blogs[index];
+
+                const attr = blog.getAttribute("data-tags");
+                if (attr === null) {
+                    continue;
                 }
-            }
 
-            setBlogVisible(blog, isTarget);
-        }
+                const attrArray = attr.split(",");
+                let isTarget = false;
+                for (const attrArrayItem of attrArray) {
+                    if (activatedChips.includes(attrArrayItem)) {
+                        isTarget = true;
+                        break;
+                    }
+                }
+
+                setBlogVisible(blog, isTarget);
+            }
+        });
     });
 </script>
 
