@@ -1,0 +1,166 @@
+---
+
+---
+
+<div class="logo">
+    <div class="box left"></div>
+    <div class="box center">
+        <span class="label">M</span>
+    </div>
+    <div class="box right"></div>
+</div>
+
+<style>
+    .logo {
+        --between-unit: 32px;
+
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, var(--between-unit));
+
+        @media (max-width: 600px) {
+            --between-unit: 48px;
+        }
+        @media (min-width: 600px) {
+            --between-unit: 55.5px;
+        }
+
+        & > .box {
+            position: relative;
+            top: 0;
+            left: 0;
+            rotate: 45deg;
+
+            @media (max-width: 600px) {
+                width: 64px;
+                height: 64px;
+            }
+            @media (min-width: 600px) {
+                width: 74px;
+                height: 74px;
+            }
+        }
+        & > .left {
+            background-color: var(--md-sys-color-secondary-container);
+            scale: 0.75;
+        }
+        & > .center {
+            background-color: var(--md-sys-color-primary);
+            z-index: 1;
+            display: grid;
+            place-content: center;
+            position: relative;
+
+            & > .label {
+                position: absolute;
+                inset: 0;
+                display: grid;
+                place-content: center;
+                color: var(--md-sys-color-on-primary);
+                font-weight: 700;
+                font-family: "Roboto";
+                font-size: 24px;
+            }
+        }
+        & > .right {
+            background-color: var(--md-sys-color-tertiary-container);
+            scale: 0.75;
+        }
+
+        & > .left {
+            animation-name: left-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+        & > .center {
+            animation-name: center-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+        & > .right {
+            animation-name: right-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+        & > .center > .label {
+            animation-name: label-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+    }
+    @keyframes left-fade-in-animation {
+        0% {
+            left: 64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+        50% {
+            left: -50%;
+            opacity: 1;
+            filter: blur(0px);
+        }
+        100% {
+            left: 64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+    }
+    @keyframes center-fade-in-animation {
+        0% {
+            scale: 1;
+            border-radius: 16px;
+            rotate: 45deg;
+        }
+        50% {
+            scale: 1.25;
+            border-radius: 0px;
+            rotate: 315deg;
+        }
+        100% {
+            scale: 1;
+            border-radius: 16px;
+            rotate: 405deg;
+        }
+    }
+    @keyframes right-fade-in-animation {
+        0% {
+            left: -64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+        50% {
+            left: 50%;
+            opacity: 1;
+            filter: blur(0px);
+        }
+        100% {
+            left: -64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+    }
+    @keyframes label-fade-in-animation {
+        0% {
+            rotate: -45deg;
+            opacity: 1;
+        }
+        25% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0;
+            rotate: -315deg;
+        }
+        75% {
+            opacity: 1;
+        }
+        100% {
+            rotate: -405deg;
+            opacity: 1;
+        }
+    }
+</style>

@@ -1,0 +1,147 @@
+---
+
+---
+
+<div class="handler"></div>
+
+<script>
+    import { type IDragHandlerHost, SDragHandler } from "./DragHandler"
+    const controller = document.querySelector(".handler")! as IDragHandlerHost;
+    
+
+
+    const position = {
+        y: 0,
+        x: 0,
+    };
+
+    const getPosition = () => {
+        return {
+            x: position.x,
+            y: position.y,
+        };
+    };
+    const setPosition = (x: number, y: number) => {
+        position.x = x;
+        position.y = y;
+        controller.style.left = x + "px";
+        controller.style.top = y + "px";
+    };
+
+    controller[SDragHandler] = {
+        getPosition: getPosition,
+        setPosition: setPosition,
+    };
+
+
+    const dragMouseDown = (e: MouseEvent) => {
+        e.preventDefault();
+        document.addEventListener("mouseup", handleMouseUp);
+        document.addEventListener("mousemove", handleDrag);
+    };
+
+    const handleDrag = (e: MouseEvent) => {
+        e.preventDefault();
+        position.x = controller.getBoundingClientRect().x;
+        position.y = controller.getBoundingClientRect().y;
+
+        controller.dispatchEvent(
+            new CustomEvent("change", {
+                bubbles: true,
+                cancelable: false,
+                composed: true,
+                detail: {
+                    x: position.x,
+                    y: position.y,
+                },
+            }),
+        );
+
+        setHandlerPosition(
+            position.x - e.clientX, 
+            position.y - e.clientY
+        );
+
+    };
+
+    const handleMouseUp = () => {
+        document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener("mousemove", handleDrag);
+    };
+
+    const setHandlerPosition = (x: number, y: number) => {
+        controller.style.left = controller.offsetLeft - x + "px";
+        controller.style.top = controller.offsetTop - y + "px";
+    };
+    controller.addEventListener("mousedown", dragMouseDown);
+</script>
+
+<style>
+    .handler {
+        --_container-color: var(--_current-container-color);
+        --_container-width: var(--_current-container-width);
+        --_container-height: var(--_current-container-height);
+
+        --handle-default-container-color: var(--md-sys-color-error);
+        --handle-hover-container-color: var(--md-sys-color-error-container);
+        --handle-pressed-container-color: var(--md-sys-color-error-container);
+
+        --handle-default-container-width: 32px;
+        --handle-hover-container-width: 32px;
+        --handle-pressed-container-width: 48px;
+
+        --handle-default-container-height: 32px;
+        --handle-hover-container-height: 36px;
+        --handle-pressed-container-height: 48px;
+
+        z-index: 3;
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        pointer-events: all;
+        display: grid;
+        width: fit-content;
+        height: fit-content;
+        margin: 0;
+        padding: 0;
+
+        
+        &::after {
+            content: "";
+            background-color: var(--_container-color);
+            width: var(--_container-width);
+            height: var(--_container-height);
+            transition-property: width, height, background-color, transform;
+            transition-duration: 200ms;
+            display: block;
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            /* transform-origin: center; */
+            transform: translateX(calc(-1 * var(--_container-width) / 2)) translateY(calc(-1 * var(--_container-height) / 2));
+            border-radius: 32px;
+        }
+
+        &:hover::after {
+            /* transform: translateX(-16px) scaleX(1.05); */
+        }
+
+        & {
+            --_current-container-color: var(--handle-default-container-color);
+            --_current-container-width: var(--handle-default-container-width);
+            --_current-container-height: var(--handle-default-container-height);
+        }
+        &:hover {
+            --_current-container-color: var(--handle-hover-container-color);
+            --_current-container-width: var(--handle-hover-container-width);
+            --_current-container-height: var(--handle-hover-container-height);
+        }
+        &:hover:active,
+        &:active {
+            --_current-container-color: var(--handle-pressed-container-color);
+            --_current-container-width: var(--handle-pressed-container-width);
+            --_current-container-height: var(--handle-pressed-container-height);
+        }
+    }
+</style>

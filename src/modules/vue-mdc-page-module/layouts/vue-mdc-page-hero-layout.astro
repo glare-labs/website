@@ -1,0 +1,75 @@
+---
+import { Typography } from "@glare-labs/vue-mdc/typography";
+
+interface Props {
+    title: string;
+    description: string;
+}
+
+const { description, title } = Astro.props;
+---
+
+<div class="hero">
+    <Typography class="title" variant="display-large">{title}</Typography>
+    <Typography class="description" variant="body-large"
+        >{description}</Typography
+    >
+
+    <span class="background-image-wrapper">
+        <slot name="image" />
+    </span>
+</div>
+
+<style>
+    .hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-auto-flow: auto;
+        gap: 32px;
+        border-radius: 28px;
+        padding: 48px 32px;
+        overflow: hidden;
+        position: relative;
+
+        @media (max-width: 600px) {
+            margin-top: 32px;
+        }
+
+        &::after {
+            z-index: -1;
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to right,
+                var(--md-sys-color-surface-container) 15%,
+                transparent
+            );
+            background-repeat: repeat;
+        }
+        & > .background-image-wrapper {
+            display: block;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            position: absolute;
+            inset: 0;
+        }
+
+        @media (max-width: 600px) {
+            & > .title {
+                font-size: 42px;
+            }
+            & > .description {
+                font-size: 16px;
+            }
+        }
+    }
+</style>
+
+<style is:global>
+    .background-image-wrapper > img {
+        width: 100%;
+        height: 100%;
+    }
+</style>

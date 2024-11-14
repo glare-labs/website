@@ -1,0 +1,28 @@
+---
+headline: 'Sass Example'
+description: ''
+collection: 'welcome-page-example'
+---
+
+```html
+<vmdc-button
+    class="override-button"
+    appearance="filled"
+>My Filled Button</vmdc-button>
+```
+
+```css
+.override-button {
+    --md-filled-button-container-color: blue;
+    --md-filled-button-container-height: 56px;
+}
+```
+
+```scss
+@include ripple.theme((
+    hover-color: var(--my-hover-color, red),
+    pressed-color: var(--my-pressed-color, blue),
+    hover-opacity: var(--my-hover-opacity, 0.08),
+    pressed-opacity: var(--my-pressed-opacity, 0.12),
+));
+```

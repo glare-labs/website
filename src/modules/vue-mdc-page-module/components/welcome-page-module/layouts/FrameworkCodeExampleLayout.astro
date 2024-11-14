@@ -1,0 +1,35 @@
+---
+
+---
+
+<div class="override-md-styles">
+    <slot />
+</div>
+
+<style is:global>
+    .override-md-styles {
+        & > .astro-code {
+            background-color: transparent !important;
+            opacity: 1;
+            border-radius: 24px;
+            padding: 16px;
+            position: relative;
+
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: -1;
+                opacity: 0.75;
+                background-color: var(--md-sys-color-surface);
+                pointer-events: none;
+                border-radius: inherit;
+                backdrop-filter: blur(32px);
+            }
+        }
+        & .line {
+            font-size: 16px;
+            display: block;
+        }
+    }
+</style>

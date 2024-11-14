@@ -1,0 +1,75 @@
+---
+---
+
+<div class="hero">
+    <section class="section-side">
+        <slot name="title"></slot>
+        <slot name="body"></slot>
+        <span class="actions-wrapper">
+            <slot name="actions"></slot>
+        </span>
+    </section>
+
+    <div class="logo-side">
+        <slot name="logo"></slot>
+    </div>
+</div>
+
+<style>
+    .hero {
+        position: relative;
+        display: grid;
+
+        @media (max-width: 600px) {
+            padding: 8px;
+            row-gap: 32px;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr;
+
+            & > .section-side {
+                grid-row: 2/3;
+                grid-column: 1/2;
+                text-align: center;
+            }
+            & > .logo-side {
+                grid-row: 1/2;
+                grid-column: 1/2;
+                width: fit-content;
+                display: flex;
+                place-self: center;
+            }
+        }
+        @media (min-width: 600px) {
+            padding: 16px;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: 1fr;
+
+            & > .section-side {
+                grid-row: 1/2;
+                grid-column: 1/2;
+                text-align: start;
+            }
+            & > .logo-side {
+                grid-row: 1/2;
+                grid-column: 2/3;
+            }
+        }
+
+        & > .section-side {
+            display: flex;
+            flex-direction: column;
+            
+            & > .actions-wrapper {
+                display: flex;
+                gap: 16px;
+                margin-top: 64px;
+                --md-filled-button-container-height: 48px;
+                --md-outlined-button-container-height: 48px;
+
+                @media (max-width: 600px) {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+</style>

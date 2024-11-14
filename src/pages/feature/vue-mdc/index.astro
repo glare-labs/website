@@ -1,11 +1,911 @@
 ---
-import { ProductRootHtmlLayout } from "@modules/shared-module";
+/**
+ * Welcome page
+ * @url /
+ * @module welcome-page-module
+ */
+
+import "@modules/vue-mdc-page-module/styles/global.css";
+import { Typography } from "@glare-labs/vue-mdc/typography";
+import { Button } from "@glare-labs/vue-mdc/button";
+import { Content as SassExampleContent } from "@modules/vue-mdc-page-module/examples/sass-example.mdx";
+import { Content as ProviderLeftExampleContent } from "@modules/vue-mdc-page-module/examples/theme-provider-left-example.mdx";
+import { Content as ProviderRightExampleContent } from "@modules/vue-mdc-page-module/examples/theme-provider-right-example.mdx";
+import { Content as TypescriptExampleContent } from "@modules/vue-mdc-page-module/examples/typescript-example.mdx";
+import {
+    DragDiffContainer,
+    FrameworkCodeExampleLayout,
+    Highlights,
+    ProductLayout,
+} from "@modules/vue-mdc-page-module";
+import {
+    ImportMaterialSymbols,
+    ImportRobotoStyle,
+    PageMetaInfo,
+    ProductRootHtmlLayout,
+} from "@modules/shared-module";
+
+const homeUrl = "/feature/vue-mdc/home/";
+const documentUrl = "/feature/vue-mdc/document/";
 ---
 
 <ProductRootHtmlLayout>
-    <meta
+    <PageMetaInfo
         slot="head"
-        http-equiv="refresh"
-        content={`1;url="https://vue-mdc.web.app"`}
-    /></ProductRootHtmlLayout
->
+        author="bre97"
+        description="@glare-labs/vue-mdc is a Vue3 component library that implements Material Design 3. It Supports Material You dynamic colors, typescript, Vue3."
+        title="Vue-MDC - A Vue3 component library that implements Material Design 3"
+        iconHref="/vue-mdc-page-icon.svg"
+        keywords="blog, bre97, keynote, vue-mdc, vue, component-library, vue-library, vue-components, npm-package, glare-labs"
+        language="zh-TW"
+        url="https://glare-labs.uk/feature/vue-mdc/components/"
+        imageUrl="https://media.glare-labs.uk/vue-mdc-logo.png"
+        imageAlt="Vue-MDC"
+        robots="index, follow"
+        ogType="website"
+    />
+
+    <ImportMaterialSymbols slot="head-after" />
+    <ImportRobotoStyle slot="head-after" />
+
+    <ProductLayout>
+        <div
+            class="dark"
+            style="background-color: var(--md-sys-color-surface);"
+        >
+            <span class="background logo left"></span>
+            <span class="background logo center"></span>
+            <span class="background logo right"></span>
+
+            <span class="grid-line-background"></span>
+
+            <div class="welcome-page-content-wrapper">
+                <div class="hero-wrapper">
+                    <div class="hero">
+                        <section class="section-side">
+                            <Typography class="title" variant="display-medium">
+                                Vue MDC
+                            </Typography>
+                            <Typography class="body" variant="body-large">
+                                A fork of Vue for material/web. Dark mode,
+                                Material You dynamic colors, Vue3.
+                            </Typography>
+                            <span class="actions-wrapper">
+                                <Button
+                                    client:load
+                                    type="link"
+                                    target="_self"
+                                    href={homeUrl}>Get Started</Button
+                                >
+                                <Button
+                                    client:load
+                                    type="link"
+                                    appearance="outlined"
+                                    target="_self"
+                                    href={documentUrl}>Documents</Button
+                                >
+                            </span>
+                        </section>
+
+                        <div class="logo-side">
+                            <div class="logo">
+                                <div class="box left"></div>
+                                <div class="box center">
+                                    <span class="label">M</span>
+                                </div>
+                                <div class="box right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <Highlights />
+
+                <div class="wrapper">
+                    <div class="gridient-border-wrapper">
+                        <div class="content-part">
+                            <section class="heading">
+                                <Typography
+                                    class="headline"
+                                    variant="headline-small"
+                                    >Build with Sass</Typography
+                                >
+                                <Typography
+                                    class="description"
+                                    variant="body-small"
+                                    >Completely built with SASS and deeply
+                                    customizable.</Typography
+                                >
+                            </section>
+                            <div class="flex-list">
+                                <Typography class="item" variant="label-small"
+                                    >button.module.css</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_filled-button.scss</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_elevated-button.scss</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >>_filled-tonal-butto</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_outlined-button.scss</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_text-button.scss</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >checkbox.module.css</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_checkbox.scss</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >fab-module.css</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_fab.scss</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >ripple.module.css</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >_ripple.scss</Typography
+                                >
+                            </div>
+                            <FrameworkCodeExampleLayout>
+                                <SassExampleContent />
+                            </FrameworkCodeExampleLayout>
+                        </div>
+                        <span class="content-light"></span>
+                        <span class="content-background"></span>
+                        <span class="gridient-border"></span>
+                    </div>
+
+                    <div class="gridient-border-wrapper">
+                        <div class="content-part">
+                            <section class="heading">
+                                <Typography
+                                    class="headline"
+                                    variant="headline-small"
+                                    >Typescript</Typography
+                                >
+                                <Typography
+                                    class="description"
+                                    variant="body-small"
+                                    >Developed entirely in Typescript, with full
+                                    type support.</Typography
+                                >
+                            </section>
+                            <div class="flex-list">
+                                <Typography class="item" variant="label-small"
+                                    >INavigableControllerHost</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >TButtonAppearance</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >TFabSize</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >TTypographyVariant</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >EButtonAppearance</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >EFabSize</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >ETypographyVariant</Typography
+                                >
+                                <Typography class="item" variant="label-small"
+                                    >SAttachableController</Typography
+                                >
+                            </div>
+                            <FrameworkCodeExampleLayout>
+                                <TypescriptExampleContent />
+                            </FrameworkCodeExampleLayout>
+                        </div>
+                        <span class="content-light"></span>
+                        <span class="content-background"></span>
+                        <span class="gridient-border"></span>
+                    </div>
+
+                    <div
+                        class="gridient-border-wrapper"
+                        id="theme-DragDiffContainer"
+                    >
+                        <DragDiffContainer>
+                            <div class="content-part" slot="left">
+                                <section class="heading">
+                                    <Typography
+                                        class="headline"
+                                        variant="headline-small"
+                                        >Theme Provider</Typography
+                                    >
+                                    <Typography
+                                        class="description"
+                                        variant="body-small"
+                                        >With the help of the third-party
+                                        library
+                                        @material/material-color-utilities, you
+                                        can easily create a color scheme that
+                                        conforms to the rules.</Typography
+                                    >
+                                </section>
+
+                                <FrameworkCodeExampleLayout>
+                                    <ProviderLeftExampleContent />
+                                </FrameworkCodeExampleLayout>
+                                <span class="content-background"></span>
+                            </div>
+
+                            <div class="content-part light" slot="right">
+                                <section class="heading">
+                                    <Typography
+                                        class="headline"
+                                        variant="headline-small"
+                                        >Theme Provider</Typography
+                                    >
+                                    <Typography
+                                        class="description"
+                                        variant="body-small"
+                                        >With the help of the third-party
+                                        library
+                                        @material/material-color-utilities, you
+                                        can easily create a color scheme that
+                                        conforms to the rules.</Typography
+                                    >
+                                </section>
+                                <FrameworkCodeExampleLayout>
+                                    <ProviderRightExampleContent />
+                                </FrameworkCodeExampleLayout>
+                                <span class="content-background"></span>
+                            </div>
+                        </DragDiffContainer>
+                        <span class="content-light"></span>
+                        <span class="gridient-border"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ProductLayout>
+</ProductRootHtmlLayout>
+
+<script>
+    const gridientBorderWrapperArray: NodeListOf<HTMLElement> =
+        document.querySelectorAll(".gridient-border-wrapper")!;
+
+    const handlePageScroll = (_: Event) => {
+        gridientBorderWrapperArray.forEach((wrapper) => {
+            const top = wrapper.getBoundingClientRect().top;
+            const bottom = wrapper.getBoundingClientRect().bottom;
+            const centerTopPosition = window.innerHeight / 2;
+
+            if (
+                top <= centerTopPosition &&
+                bottom > centerTopPosition &&
+                wrapper.getAttribute("active") === null
+            ) {
+                wrapper.setAttribute("active", "");
+                wrapper.removeAttribute("over-top");
+            } else if (
+                top <= centerTopPosition &&
+                bottom <= centerTopPosition
+            ) {
+                wrapper.removeAttribute("active");
+                wrapper.setAttribute("over-top", "");
+            } else if (
+                top > centerTopPosition &&
+                wrapper.getAttribute("active") !== null
+            ) {
+                wrapper.removeAttribute("active");
+                wrapper.removeAttribute("over-top");
+            } else {
+            }
+        });
+    };
+    document.addEventListener("scroll", handlePageScroll, { capture: true });
+
+    const handleMouseMove = (event: MouseEvent) => {
+        const light = (event.currentTarget as HTMLElement).querySelector(
+            "&>.content-light",
+        ) as HTMLElement;
+        const self = light.getBoundingClientRect();
+        const parent = (
+            event.currentTarget as HTMLElement
+        ).getBoundingClientRect();
+        light.setAttribute("active", "");
+        light.style.setProperty(
+            "left",
+            `${event.clientX - parent.left - self.width / 2}px`,
+        );
+        light.style.setProperty(
+            "top",
+            `${event.clientY - parent.top - self.height / 2}px`,
+        );
+    };
+    const handleMouseEnter = (e: MouseEvent) => {
+        (e.currentTarget as HTMLElement).addEventListener(
+            "mousemove",
+            handleMouseMove,
+        );
+    };
+    const handleMouseOut = (e: MouseEvent) => {
+        (e.currentTarget as HTMLElement).removeEventListener(
+            "mousemove",
+            handleMouseEnter,
+        );
+
+        const light = (e.currentTarget as HTMLElement).querySelector(
+            "&>.content-light",
+        ) as HTMLElement;
+
+        light.removeAttribute("active");
+    };
+    gridientBorderWrapperArray.forEach((e) => {
+        e.addEventListener("mouseenter", handleMouseEnter);
+        e.addEventListener("mouseout", handleMouseOut);
+    });
+</script>
+
+<style>
+    .welcome-page-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 128px;
+        position: relative;
+        z-index: 0;
+        --padding-x: 32px;
+        padding-bottom: 512px;
+        padding-left: var(--padding-x);
+        padding-right: var(--padding-x);
+
+        @media (max-width: 600px) {
+            gap: 64px;
+        }
+
+        @media (min-width: 840px) {
+            --padding-x: 48px;
+            max-width: calc(840px - 2 * var(--padding-x));
+            margin: auto;
+        }
+        @media (min-width: 1200px) {
+            --padding-x: 64px;
+            max-width: calc(1200px - 2 * var(--padding-x));
+            margin: auto;
+        }
+
+        & > .hero-wrapper {
+            margin-top: 256px;
+        }
+    }
+    .grid-line-background {
+        display: block;
+        position: fixed;
+        height: 100%;
+        inset: 0;
+        background-image: radial-gradient(
+            circle,
+            var(--md-sys-color-outline-variant) 2px,
+            transparent 2px
+        );
+        background-size: 48px 48px;
+        background-position: top;
+        z-index: 0;
+        pointer-events: none;
+    }
+    .background {
+        --height: 512px;
+        --width: 512px;
+        z-index: 0;
+        position: fixed;
+        bottom: calc(-1 * var(--height) / 4);
+        width: var(--width);
+        height: var(--height);
+        filter: blur(128px);
+        opacity: 0.75;
+        pointer-events: none;
+
+        &.logo.left {
+            left: 0;
+            background: var(--md-sys-color-secondary);
+            transform: translateX(
+                    calc(50vw - (var(--width) + var(--width) / 2))
+                )
+                translateY(calc(100% + -1 * var(--height) / 2)) rotate(45deg)
+                scale(0.75);
+        }
+        &.logo.center {
+            left: 0;
+            background: var(--md-sys-color-primary);
+            transform: translateX(calc(50vw - var(--width) / 2))
+                translateY(calc(100% + -1 * var(--height) / 2)) rotate(45deg);
+        }
+        &.logo.right {
+            right: 0;
+            background: var(--md-sys-color-tertiary);
+            transform: translateX(
+                    calc(-1 * 50vw + (var(--width) + var(--width) / 2))
+                )
+                translateY(calc(100% + -1 * var(--height) / 2)) rotate(45deg)
+                scale(0.75);
+        }
+    }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 128px;
+        padding-bottom: 128px;
+
+        .gridient-border-wrapper {
+            --border-width: 1px;
+            overflow: hidden;
+            border-radius: 28px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition-duration: 200ms;
+            position: relative;
+
+            &[active] > .gridient-border {
+                left: -100%;
+            }
+            &:not([active]) > .gridient-border {
+                left: 200%;
+            }
+
+            & > .gridient-border {
+                z-index: -3;
+                position: absolute;
+                left: 100%;
+                top: 0;
+                background: linear-gradient(
+                    to right,
+                    transparent 0,
+                    var(--md-sys-color-primary) 35%,
+                    var(--md-sys-color-secondary) 50%,
+                    var(--md-sys-color-tertiary) 75%,
+                    transparent 100%
+                );
+                display: block;
+                height: calc(100% + var(--border-width) * 2);
+                width: calc(300% + var(--border-width) * 2);
+                margin-left: calc(-1 * var(--border-width));
+                margin-top: calc(-1 * var(--border-width));
+                overflow: hidden;
+                pointer-events: none;
+                border-radius: inherit;
+                transition-property: all;
+                transition-duration: 1000ms;
+
+                animation-name: gridient-border-rotate-animation;
+                animation-duration: 5000ms;
+                animation-iteration-count: infinite;
+            }
+
+            & .content-part {
+                position: relative;
+                z-index: 0;
+                min-height: 200px;
+                border-radius: 28px;
+                flex-grow: 1;
+                padding: 28px 32px 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                & > .heading {
+                    z-index: 1;
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    grid-auto-rows: auto;
+                    & .headline {
+                        color: var(--md-sys-color-on-surface);
+                    }
+                    & .description {
+                        color: var(--md-sys-color-on-surface-variant);
+                        margin-top: 8px;
+                    }
+                }
+            }
+            & .content-background {
+                border-radius: inherit;
+                background-color: var(--md-sys-color-surface-container);
+                opacity: 0.9;
+                position: absolute;
+                inset: 0;
+                z-index: -2;
+                display: block;
+                backdrop-filter: brightness(0);
+                margin: var(--border-width);
+            }
+            & > .content-light {
+                height: 256px;
+                width: 256px;
+                background-color: var(--md-sys-color-on-surface);
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: -1;
+                filter: blur(64px);
+                border-radius: 50%;
+                transition-property: opacity;
+                transition-duration: 200ms;
+                &[active] {
+                    opacity: 0.25;
+                }
+            }
+        }
+    }
+
+    @keyframes gridient-border-rotate-animation {
+        0% {
+            filter: hue-rotate(0deg);
+        }
+        25% {
+            filter: hue-rotate(90deg);
+        }
+        50% {
+            filter: hue-rotate(180deg);
+        }
+        75% {
+            filter: hue-rotate(270deg);
+        }
+        100% {
+            filter: hue-rotate(360deg);
+        }
+    }
+    .flex-list {
+        margin: 32px 0px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        & > .item {
+            padding: 8px;
+            display: block;
+            border-radius: 8px;
+            color: var(--md-sys-color-on-surface-variant);
+            outline: 1px solid var(--md-sys-color-outline);
+        }
+    }
+</style>
+
+<!-- We dont't dynamiclly generate md theme -->
+<style>
+    .light {
+        --md-sys-color-primary-palette-key-color: #88fe00;
+        --md-sys-color-secondary-palette-key-color: #607f61;
+        --md-sys-color-tertiary-palette-key-color: #488266;
+        --md-sys-color-neutral-palette-key-color: #73796a;
+        --md-sys-color-neutral-variant-palette-key-color: #727a68;
+        --md-sys-color-background: #f6fce9;
+        --md-sys-color-on-background: #181d12;
+        --md-sys-color-surface: #f6fce9;
+        --md-sys-color-surface-dim: #d6dcca;
+        --md-sys-color-surface-bright: #f6fce9;
+        --md-sys-color-surface-container-lowest: #ffffff;
+        --md-sys-color-surface-container-low: #f0f6e3;
+        --md-sys-color-surface-container: #eaf0de;
+        --md-sys-color-surface-container-high: #e4ebd8;
+        --md-sys-color-surface-container-highest: #dfe5d3;
+        --md-sys-color-on-surface: #181d12;
+        --md-sys-color-surface-variant: #dde6d0;
+        --md-sys-color-on-surface-variant: #414939;
+        --md-sys-color-inverse-surface: #2c3226;
+        --md-sys-color-inverse-on-surface: #edf3e1;
+        --md-sys-color-outline: #727a67;
+        --md-sys-color-outline-variant: #c1cab4;
+        --md-sys-color-shadow: #000000;
+        --md-sys-color-scrim: #000000;
+        --md-sys-color-surface-tint: #366b00;
+        --md-sys-color-primary: #366b00;
+        --md-sys-color-on-primary: #ffffff;
+        --md-sys-color-primary-container: #88fe00;
+        --md-sys-color-on-primary-container: #275000;
+        --md-sys-color-inverse-primary: #77df00;
+        --md-sys-color-secondary: #486549;
+        --md-sys-color-on-secondary: #ffffff;
+        --md-sys-color-secondary-container: #c9ebc7;
+        --md-sys-color-on-secondary-container: #314d33;
+        --md-sys-color-tertiary: #2e694f;
+        --md-sys-color-on-tertiary: #ffffff;
+        --md-sys-color-tertiary-container: #b2f0ce;
+        --md-sys-color-on-tertiary-container: #125138;
+        --md-sys-color-error: #ba1a1a;
+        --md-sys-color-on-error: #ffffff;
+        --md-sys-color-error-container: #ffdad6;
+        --md-sys-color-on-error-container: #93000a;
+        --md-sys-color-primary-fixed: #88fe00;
+        --md-sys-color-primary-fixed-dim: #77df00;
+        --md-sys-color-on-primary-fixed: #0c2000;
+        --md-sys-color-on-primary-fixed-variant: #275000;
+        --md-sys-color-secondary-fixed: #c9ebc7;
+        --md-sys-color-secondary-fixed-dim: #aecfad;
+        --md-sys-color-on-secondary-fixed: #04210b;
+        --md-sys-color-on-secondary-fixed-variant: #314d33;
+        --md-sys-color-tertiary-fixed: #b2f0ce;
+        --md-sys-color-tertiary-fixed-dim: #97d4b3;
+        --md-sys-color-on-tertiary-fixed: #002114;
+        --md-sys-color-on-tertiary-fixed-variant: #125138;
+    }
+    .dark {
+        --md-sys-color-primary-palette-key-color: #88fe00;
+        --md-sys-color-secondary-palette-key-color: #607f61;
+        --md-sys-color-tertiary-palette-key-color: #488266;
+        --md-sys-color-neutral-palette-key-color: #73796a;
+        --md-sys-color-neutral-variant-palette-key-color: #727a68;
+        --md-sys-color-background: #0f150a;
+        --md-sys-color-on-background: #dfe5d3;
+        --md-sys-color-surface: #0f150a;
+        --md-sys-color-surface-dim: #0f150a;
+        --md-sys-color-surface-bright: #353b2e;
+        --md-sys-color-surface-container-lowest: #0a1006;
+        --md-sys-color-surface-container-low: #181d12;
+        --md-sys-color-surface-container: #1c2116;
+        --md-sys-color-surface-container-high: #262c20;
+        --md-sys-color-surface-container-highest: #31372a;
+        --md-sys-color-on-surface: #dfe5d3;
+        --md-sys-color-surface-variant: #414939;
+        --md-sys-color-on-surface-variant: #c1cab4;
+        --md-sys-color-inverse-surface: #dfe5d3;
+        --md-sys-color-inverse-on-surface: #2c3226;
+        --md-sys-color-outline: #8b9480;
+        --md-sys-color-outline-variant: #414939;
+        --md-sys-color-shadow: #000000;
+        --md-sys-color-scrim: #000000;
+        --md-sys-color-surface-tint: #77df00;
+        --md-sys-color-primary: #77df00;
+        --md-sys-color-on-primary: #193700;
+        --md-sys-color-primary-container: #275000;
+        --md-sys-color-on-primary-container: #88fe00;
+        --md-sys-color-inverse-primary: #366b00;
+        --md-sys-color-secondary: #aecfad;
+        --md-sys-color-on-secondary: #1a361e;
+        --md-sys-color-secondary-container: #314d33;
+        --md-sys-color-on-secondary-container: #c9ebc7;
+        --md-sys-color-tertiary: #97d4b3;
+        --md-sys-color-on-tertiary: #003824;
+        --md-sys-color-tertiary-container: #125138;
+        --md-sys-color-on-tertiary-container: #b2f0ce;
+        --md-sys-color-error: #ffb4ab;
+        --md-sys-color-on-error: #690005;
+        --md-sys-color-error-container: #93000a;
+        --md-sys-color-on-error-container: #ffdad6;
+        --md-sys-color-primary-fixed: #88fe00;
+        --md-sys-color-primary-fixed-dim: #77df00;
+        --md-sys-color-on-primary-fixed: #0c2000;
+        --md-sys-color-on-primary-fixed-variant: #275000;
+        --md-sys-color-secondary-fixed: #c9ebc7;
+        --md-sys-color-secondary-fixed-dim: #aecfad;
+        --md-sys-color-on-secondary-fixed: #04210b;
+        --md-sys-color-on-secondary-fixed-variant: #314d33;
+        --md-sys-color-tertiary-fixed: #b2f0ce;
+        --md-sys-color-tertiary-fixed-dim: #97d4b3;
+        --md-sys-color-on-tertiary-fixed: #002114;
+        --md-sys-color-on-tertiary-fixed-variant: #125138;
+    }
+</style>
+
+<!-- Logo -->
+<style>
+    .logo {
+        --between-unit: 32px;
+
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, var(--between-unit));
+
+        @media (max-width: 600px) {
+            --between-unit: 48px;
+        }
+        @media (min-width: 600px) {
+            --between-unit: 55.5px;
+        }
+
+        & > .box {
+            position: relative;
+            top: 0;
+            left: 0;
+            rotate: 45deg;
+
+            @media (max-width: 600px) {
+                width: 64px;
+                height: 64px;
+            }
+            @media (min-width: 600px) {
+                width: 74px;
+                height: 74px;
+            }
+        }
+        & > .left {
+            background-color: var(--md-sys-color-secondary-container);
+            scale: 0.75;
+        }
+        & > .center {
+            background-color: var(--md-sys-color-primary);
+            z-index: 1;
+            display: grid;
+            place-content: center;
+            position: relative;
+
+            & > .label {
+                position: absolute;
+                inset: 0;
+                display: grid;
+                place-content: center;
+                color: var(--md-sys-color-on-primary);
+                font-weight: 700;
+                font-family: "Roboto";
+                font-size: 24px;
+            }
+        }
+        & > .right {
+            background-color: var(--md-sys-color-tertiary-container);
+            scale: 0.75;
+        }
+
+        & > .left {
+            animation-name: left-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+        & > .center {
+            animation-name: center-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+        & > .right {
+            animation-name: right-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+        & > .center > .label {
+            animation-name: label-fade-in-animation;
+            animation-duration: 5000ms;
+            animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+            animation-iteration-count: infinite;
+        }
+    }
+    @keyframes left-fade-in-animation {
+        0% {
+            left: 64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+        50% {
+            left: -50%;
+            opacity: 1;
+            filter: blur(0px);
+        }
+        100% {
+            left: 64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+    }
+    @keyframes center-fade-in-animation {
+        0% {
+            scale: 1;
+            border-radius: 16px;
+            rotate: 45deg;
+        }
+        50% {
+            scale: 1.25;
+            border-radius: 0px;
+            rotate: 315deg;
+        }
+        100% {
+            scale: 1;
+            border-radius: 16px;
+            rotate: 405deg;
+        }
+    }
+    @keyframes right-fade-in-animation {
+        0% {
+            left: -64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+        50% {
+            left: 50%;
+            opacity: 1;
+            filter: blur(0px);
+        }
+        100% {
+            left: -64px;
+            opacity: 0;
+            filter: blur(24px);
+        }
+    }
+    @keyframes label-fade-in-animation {
+        0% {
+            rotate: -45deg;
+            opacity: 1;
+        }
+        25% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0;
+            rotate: -315deg;
+        }
+        75% {
+            opacity: 1;
+        }
+        100% {
+            rotate: -405deg;
+            opacity: 1;
+        }
+    }
+</style>
+
+<style>
+    .hero {
+        position: relative;
+        display: grid;
+
+        @media (max-width: 600px) {
+            padding: 8px;
+            row-gap: 32px;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr;
+
+            & > .section-side {
+                grid-row: 2/3;
+                grid-column: 1/2;
+                text-align: center;
+            }
+            & > .logo-side {
+                grid-row: 1/2;
+                grid-column: 1/2;
+                width: fit-content;
+                display: flex;
+                place-self: center;
+            }
+        }
+        @media (min-width: 600px) {
+            padding: 16px;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: 1fr;
+
+            & > .section-side {
+                grid-row: 1/2;
+                grid-column: 1/2;
+                text-align: start;
+            }
+            & > .logo-side {
+                grid-row: 1/2;
+                grid-column: 2/3;
+            }
+        }
+
+        & > .section-side {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: var(--md-sys-color-on-surface);
+
+            & > .actions-wrapper {
+                display: flex;
+                gap: 16px;
+                margin-top: 64px;
+                --md-filled-button-container-height: 48px;
+                --md-outlined-button-container-height: 48px;
+
+                @media (max-width: 600px) {
+                    justify-content: center;
+                }
+            }
+        }
+    }
+</style>

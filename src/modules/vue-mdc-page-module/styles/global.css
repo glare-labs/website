@@ -1,0 +1,19 @@
+@import url('@glare-labs/vue-mdc/build/components/button/styles/button.module.css');
+@import url('@glare-labs/vue-mdc/build/components/icon-button/styles/icon-button.module.css');
+@import url('@glare-labs/vue-mdc/build/components/fab/styles/fab.module.css');
+@import url('@glare-labs/vue-mdc/build/components/focus-ring/styles/focus-ring.module.css');
+@import url('@glare-labs/vue-mdc/build/components/ripple/styles/ripple.module.css');
+@import url('@glare-labs/vue-mdc/build/components/elevation/styles/elevation.module.css');
+@import url('@glare-labs/vue-mdc/build/components/icon/styles/icon.module.css');
+@import url('@glare-labs/vue-mdc/build/components/navigation-tab/styles/navigation-tab.module.css');
+@import url('@glare-labs/vue-mdc/build/components/navigation-bar/styles/navigation-bar.module.css');
+@import url('@glare-labs/vue-mdc/build/components/navigation-rail/styles/navigation-rail.module.css');
+@import url('@glare-labs/vue-mdc/build/components/navigation-rail-tab/styles/navigation-rail-tab.module.css');
+@import url('@glare-labs/vue-mdc/build/components/typography/styles/typography.module.css');
+
+@layer base {
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}

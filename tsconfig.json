@@ -1,9 +1,7 @@
 {
   "extends": "astro/tsconfigs/base",
   "compilerOptions": {
-    "types": [
-      "@aws-sdk/client-s3"
-    ],
+    "types": [],
     "baseUrl": ".",
     "paths": {
       "@modules/*": [

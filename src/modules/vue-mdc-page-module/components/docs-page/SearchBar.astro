@@ -1,0 +1,89 @@
+---
+import { Elevation } from "@glare-labs/vue-mdc/elevation";
+import { Icon } from "@glare-labs/vue-mdc/icon";
+---
+
+<header class="search-bar-wrapper" transition:persist="search-bar">
+    <div class="search-bar">
+        <Icon>search</Icon>
+        <input class="input" placeholder="Type here to search" />
+    </div>
+    <Elevation class="elevation" client:load />
+</header>
+
+<script>
+    const handleScroll = (e: Event) => {
+        const searchBarWrapper = document.querySelector(
+            ".search-bar-wrapper",
+        ) as HTMLElement;
+        const scrollElement = e.target as HTMLElement;
+
+        if (scrollElement.scrollTop > 12) {
+            searchBarWrapper.setAttribute("over-top", "");
+        } else {
+            searchBarWrapper.removeAttribute("over-top");
+        }
+    };
+
+    window.addEventListener("scroll", handleScroll, { capture: true });
+</script>
+
+<style is:global>
+    .search-bar-wrapper {
+        z-index: 1;
+        position: sticky;
+        top: 12px;
+        border-radius: 9999px;
+
+        transition-property: margin, box-shadow, background-color;
+        transition-duration: 200ms;
+
+        &[over-top] {
+            --search-bar-container-color: var(
+                --md-sys-color-surface-container-low
+            );
+            --md-elevation-level: 1;
+            margin-left: 32px;
+            margin-right: 32px;
+        }
+
+        & .elevation {
+            border-radius: 9999px;
+        }
+
+        & > .search-bar {
+            --_container-color: var(
+                --search-bar-container-color,
+                var(--md-sys-color-surface-container-high)
+            );
+
+            transition-property: background-color;
+            transition-duration: 200ms;
+            border-radius: 9999px;
+            padding-left: 24px;
+            padding-right: 24px;
+            height: 56px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-template-rows: 1fr;
+            align-items: center;
+            background-color: var(--_container-color);
+
+            & > .input {
+                border: none;
+                outline: none;
+                display: block;
+                height: 100%;
+                background-color: transparent;
+                padding-left: 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            display: block;
+        }
+        @media (min-width: 600px) {
+            display: none;
+        }
+    }
+</style>

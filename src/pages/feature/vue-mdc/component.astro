@@ -1,0 +1,89 @@
+---
+/**
+ * Docs component page
+ * @url /docs/component
+ */
+import { Typography } from "@glare-labs/vue-mdc/typography";
+import { PageMetaInfo, ProductRootHtmlLayout } from "@modules/shared-module";
+import {
+    DocumentationCard,
+    DocumentationCardList,
+    SearchBar,
+    VueMdcPageHeroLayout,
+    VueMdcPageLayout,
+} from "@modules/vue-mdc-page-module";
+import "@modules/vue-mdc-page-module/styles/global.css";
+import { getCollection } from "astro:content";
+
+const collection = (await getCollection("vue-mdc")).filter(
+    (article) => article.data.collection === "component",
+);
+---
+
+<ProductRootHtmlLayout>
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description="Check out Vue-MDC's component documentation."
+        title="Components - Vue-MDC"
+        iconHref="/vue-mdc-page-icon.svg"
+        keywords="blog, bre97, keynote, vue-mdc, components"
+        language="zh-TW"
+        url="https://glare-labs.uk/feature/vue-mdc/components/"
+        imageUrl="https://media.glare-labs.uk/vue-mdc-logo.png"
+        imageAlt="Vue-MDC"
+        robots="index, follow"
+        ogType="website"
+    />
+
+    <VueMdcPageLayout>
+        <SearchBar />
+
+        <VueMdcPageHeroLayout
+            description="Material 3 is the latest version of Google’s open-source design system. Design and build beautiful, usable products with Material 3."
+            title="Components"
+        >
+            <img slot="image" src="/blog-placeholder-3.jpg" />
+        </VueMdcPageHeroLayout>
+
+        <div class="collection-part">
+            <Typography class="title" variant="headline-large"
+                >Components</Typography
+            >
+
+            <DocumentationCardList>
+                {
+                    collection.map((article) => (
+                        <DocumentationCard
+                            target="_self"
+                            href={`/feature/vue-mdc/article/${article.slug}`}
+                        >
+                            <Typography variant="title-large" slot="headline">
+                                {article.data.headline}
+                            </Typography>
+                            <Typography
+                                variant="body-medium"
+                                slot="description"
+                            >
+                                {article.data.description}
+                            </Typography>
+                        </DocumentationCard>
+                    ))
+                }
+            </DocumentationCardList>
+        </div>
+    </VueMdcPageLayout>
+</ProductRootHtmlLayout>
+
+<style>
+    .collection-part {
+        margin: 32px 0;
+        & > .title {
+            padding-left: 16px;
+        }
+    }
+
+    .icon-instead-of-image {
+        --md-icon-size: 42px;
+    }
+</style>

@@ -1,0 +1,36 @@
+---
+import ProductNavigationBar from "../components/navigation-module/ProductNavigationBar.vue";
+import ProductNavigationRail from "../components/navigation-module/ProductNavigationRail.vue";
+import ThemeProvider from "../components/ThemeProvider.vue";
+import ProductLayout from "./product-layout.astro";
+---
+
+<ThemeProvider client:load />
+<ProductLayout>
+    <div class="content">
+        <slot />
+    </div>
+
+    <span slot="navigation-bar" transition:persist="navigation-bar">
+        <ProductNavigationBar client:load />
+    </span>
+    <span slot="navigation-rail">
+        <ProductNavigationRail client:load />
+    </span>
+</ProductLayout>
+
+<style>
+    .content {
+        padding-top: 24px;
+        padding-bottom: 24px;
+        padding-left: 32px;
+        padding-right: 32px;
+
+        --navigation-rail-width: 80px;
+
+        @media (min-width: 1200px) {
+            max-width: calc(1200px - var(--navigation-rail-width));
+            margin: auto;
+        }
+    }
+</style>

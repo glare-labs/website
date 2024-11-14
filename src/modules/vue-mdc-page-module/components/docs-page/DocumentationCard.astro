@@ -1,0 +1,96 @@
+---
+import { Ripple } from "@glare-labs/vue-mdc/ripple";
+
+interface Props {
+    href?: string;
+    target?: "_self" | "_top" | "_blank" | "_parent";
+}
+
+const props = Astro.props;
+---
+
+<a class="documentation-card" {...props}>
+    <span class="image-wrapper">
+        <slot name="image" />
+    </span>
+    <span class="headline-wrapper">
+        <slot name="headline" />
+    </span>
+    <span class="description-wrapper">
+        <slot name="description" />
+    </span>
+
+    <Ripple client:load />
+</a>
+
+<style>
+    .documentation-card {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+
+        & > .image-wrapper {
+            grid-row: 1/2;
+        }
+        & > .headline-wrapper {
+            grid-row: 2/3;
+        }
+        & > .description-wrapper {
+            grid-row: 3/4;
+        }
+
+        &:focus,
+        &:focus-within {
+            outline-color: var(--md-sys-color-outline);
+        }
+
+        outline-color: transparent;
+        outline-width: 4px;
+        outline-style: solid;
+        position: relative;
+        background-color: var(--md-sys-color-surface-container);
+        border-radius: 16px;
+        transition-property: border-radius, background-color, outline;
+        transition-duration: 200ms;
+        text-decoration: none;
+
+        & > .image-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 128px;
+            width: 100%;
+            overflow: hidden;
+            border-radius: inherit;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        & > .headline-wrapper {
+            margin-top: 24px;
+            color: var(--md-sys-color-on-surface);
+        }
+        & > .description-wrapper {
+            margin-bottom: 24px;
+            margin-top: 8px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        & > .headline-wrapper,
+        & > .description-wrapper {
+            padding: 0 24px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        &:not(:has(.description-wrapper > *)) > .description-wrapper {
+            margin-top: 0px;
+        }
+
+        &:hover {
+            background-color: var(--md-sys-color-secondary-container);
+            border-radius: 28px;
+        }
+    }
+</style>

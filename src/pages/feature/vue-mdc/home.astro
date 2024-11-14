@@ -1,0 +1,124 @@
+---
+/**
+ * Docs home page
+ * @url /docs
+ */
+
+import { Icon } from "@glare-labs/vue-mdc/icon"
+import { Typography } from "@glare-labs/vue-mdc/typography"
+import { PageMetaInfo, ProductRootHtmlLayout } from '@modules/shared-module'
+import {
+    DocumentationCard,
+    DocumentationCardList,
+    SearchBar,
+    VueMdcPageHeroLayout,
+    VueMdcPageLayout
+} from '@modules/vue-mdc-page-module'
+import "@modules/vue-mdc-page-module/styles/global.css"
+import { getCollection } from 'astro:content'
+
+const news = (await getCollection("vue-mdc")).filter(
+    (article) => article.data.collection === "news",
+);
+---
+
+<ProductRootHtmlLayout>
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description="@glare-labs/vue-mdc is a Vue3 component library that implements Material Design 3. It Supports Material You dynamic colors, typescript, Vue3."
+        title="Home - Vue-MDC"
+        iconHref="/vue-mdc-page-icon.svg"
+        keywords="blog, bre97, keynote, vue-mdc"
+        language="zh-TW"
+        url="https://glare-labs.uk/feature/vue-mdc/home/"
+        imageUrl="https://media.glare-labs.uk/vue-mdc-logo.png"
+        imageAlt="Vue-MDC"
+        robots="index, follow"
+        ogType="website"
+    />
+    
+    <VueMdcPageLayout>
+
+        <SearchBar />
+
+        <VueMdcPageHeroLayout title='Vue MDC' description='Material 3 is the latest version of Google’s open-source design system. Design and build beautiful, usable products with Material 3.'>
+            <img slot="image" src="/blog-placeholder-2.jpg" />
+        </VueMdcPageHeroLayout>
+
+        {
+            news.length !== 0 && (
+            <div class="collection-part">
+            <Typography class="title" variant="headline-large">News</Typography>
+
+            <DocumentationCardList>
+                {
+                    news.map((article) => (
+                        <DocumentationCard target='_self' href={`/feature/vue-mdc/article/${article.slug}`}}>
+                            <Typography variant="title-large" slot="headline">
+                                {article.data.headline}
+                            </Typography>
+                            <Typography variant="body-medium" slot="description">
+                                {article.data.description}
+                            </Typography>
+                        </DocumentationCard>
+                    ))
+                }
+            </DocumentationCardList>
+        </div>
+            )
+        }
+
+
+        <div class="collection-part">
+            <Typography class="title" variant="headline-large"
+                >Resources</Typography
+            >
+
+            <DocumentationCardList>
+                <DocumentationCard target='_blank' href="https://github.com/glare-labs/vue-mdc/wiki/Roadmap">
+                    <Icon class="icon-instead-of-image" slot="image">map</Icon>
+                    <Typography variant="title-large" slot="headline"
+                        >Roadmap</Typography
+                    >
+                </DocumentationCard>
+                <DocumentationCard target='_blank' href="https://github.com/glare-labs/vue-mdc/issues">
+                    <Icon class="icon-instead-of-image" slot="image"
+                        >bug_report</Icon
+                    >
+                    <Typography variant="title-large" slot="headline"
+                        >Issuse</Typography
+                    >
+                </DocumentationCard>
+                <DocumentationCard target='_blank' href="https://github.com/glare-labs/vue-mdc/pulls">
+                    <Icon class="icon-instead-of-image" slot="image">share</Icon
+                    >
+                    <Typography variant="title-large" slot="headline"
+                        >Pull Requests</Typography
+                    >
+                </DocumentationCard>
+                <DocumentationCard target='_blank' href="https://github.com/orgs/glare-labs/discussions">
+                    <Icon class="icon-instead-of-image" slot="image">share</Icon
+                    >
+                    <Typography variant="title-large" slot="headline"
+                        >Discussions</Typography
+                    >
+                </DocumentationCard>
+            </DocumentationCardList>
+        </div>
+    </VueMdcPageLayout>
+
+</ProductRootHtmlLayout>
+
+<style>
+    .collection-part {
+        margin: 32px 0;
+        & > .title {
+            padding-left: 16px;
+        }
+    }
+
+    .icon-instead-of-image {
+        --md-icon-size: 42px;
+    }
+</style>

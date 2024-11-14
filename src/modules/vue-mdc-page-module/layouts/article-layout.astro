@@ -1,0 +1,216 @@
+---
+import { Button } from "@glare-labs/vue-mdc/button";
+import { Icon } from "@glare-labs/vue-mdc/icon";
+import { Typography } from "@glare-labs/vue-mdc/typography";
+import "@modules/vue-mdc-page-module/styles/global.css";
+---
+
+<div class="article-layout">
+    <!-- Two mode -->
+    <header class="nav-header">
+        <Button
+            client:load
+            type="link"
+            href={"/feature/vue-mdc/home/"}
+            appearance="outlined"
+        >
+            Home
+            <Icon slot="leading-icon">home</Icon>
+        </Button>
+
+        <Typography class="headline" variant="body-medium" />
+    </header>
+
+    <main class="article-content">
+        <slot />
+    </main>
+</div>
+
+<script>
+    const article = document.querySelector(".article-layout")!;
+    const title = article.querySelector("&>main>h1:first-child")!;
+
+    document.querySelector(".nav-header>.headline")!.textContent =
+        title.textContent;
+
+    const handleScroll = (_: Event) => {
+        const navHeader = article.querySelector("&>.nav-header")!;
+        const between = 64;
+        if (document.scrollingElement!.scrollTop <= between) {
+            navHeader.classList.remove("active");
+        } else {
+            navHeader.classList.add("active");
+        }
+
+        if (title.getBoundingClientRect().top <= 0) {
+            navHeader.classList.add("active-headline");
+        } else {
+            navHeader.classList.remove("active-headline");
+        }
+    };
+
+    window.addEventListener("scroll", handleScroll, { capture: true });
+</script>
+
+<style is:inline>
+    body {
+        background-color: var(--md-sys-color-surface);
+    }
+
+    .article-layout {
+        --padding-x: 32px;
+        --padding-y: 64px;
+
+        position: relative;
+        padding: var(--padding-y) var(--padding-x);
+        background-color: var(--md-sys-color-surface);
+        min-height: 300svh;
+
+        @media (min-width: 1200px) {
+            max-width: calc(1200px);
+            margin: auto;
+        }
+    }
+    .nav-header {
+        position: relative;
+        top: 0;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 16px;
+        align-items: center;
+        z-index: 1;
+        padding: 8px;
+        background-color: var(--md-sys-color-surface);
+        transition-property: margin, padding, top, width, background-color;
+        transition-duration: 200ms;
+        border-radius: 9999px;
+        overflow: hidden;
+
+        &.active {
+            position: sticky;
+            top: 4px;
+            background-color: var(--md-sys-color-surface-container);
+        }
+        &.active-headline {
+            & > .headline {
+                opacity: 1;
+                left: 0;
+            }
+        }
+        & > .headline {
+            transition-property: opacity, left;
+            transition-duration: 200ms;
+            opacity: 0;
+            left: -8px;
+            position: relative;
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+        }
+    }
+</style>
+
+<style is:inline>
+    main.article-content {
+        font-family: "jetbrains mono", "noto mono", "roboto mono",
+            "noto sans sc";
+
+        & > h1:first-child {
+            font-size: 48px;
+            line-height: 56px;
+            font-weight: 700;
+        }
+
+        & > :is(h1, h2, h3, h4, h5, h6) {
+            margin-top: 72px;
+        }
+
+        & > h2 {
+            font-size: 36px;
+        }
+
+        & > h3 {
+            font-size: 32px;
+        }
+
+        & > p {
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+        & > ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+
+            & > li {
+                font-size: 16px;
+                line-height: 26px;
+            }
+        }
+
+        & > pre {
+            &,
+            & > * {
+                font-family: "jetbrains mono" !important;
+            }
+
+            border-radius: 24px;
+            padding: 32px 24px;
+            margin: 32px 0;
+            background-color: var(--md-sys-color-shadow) !important;
+
+            & > code > .line {
+                font-size: 14px;
+                line-height: 18px;
+            }
+        }
+
+        & > table {
+            border-radius: 28px;
+            overflow: auto;
+
+            margin-left: auto;
+            margin-right: auto;
+            & > thead {
+                & > tr {
+                    background-color: var(--md-sys-color-primary-container);
+                    color: var(--md-sys-color-on-primary-container);
+                    &:first-child {
+                        border-top-left-radius: 28px;
+                        border-top-right-radius: 28px;
+                    }
+                    & > th {
+                        border: 2px solid var(--md-sys-color-outline);
+
+                        &:first-child {
+                            border-style: none;
+                        }
+                    }
+                }
+            }
+            & > tbody {
+                min-height: 48px;
+                & > tr {
+                    background-color: var(--md-sys-color-surface-dim);
+                    color: var(--md-sys-color-on-surface);
+                    &:last-child {
+                        border-bottom-left-radius: 28px;
+                        border-bottom-right-radius: 28px;
+                    }
+                }
+            }
+        }
+
+        & a {
+            text-underline-offset: 2px;
+            transition-property: text-underline-offset;
+            transition-duration: 200ms;
+
+            &:hover {
+                text-underline-offset: 4px;
+            }
+        }
+    }
+</style>

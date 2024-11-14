@@ -1,0 +1,56 @@
+---
+import {
+    ImportJetbrainsMonoStyle,
+    ImportMaterialSymbols,
+    PageMetaInfo,
+    ProductRootHtmlLayout,
+} from "@modules/shared-module";
+import ThemeProvider from "@modules/vue-mdc-page-module/components/ThemeProvider.vue";
+import ArticleLayout from "@modules/vue-mdc-page-module/layouts/article-layout.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const collection = await getCollection("vue-mdc");
+    return collection.map((article) => ({
+        params: {
+            slug: article.slug,
+        },
+        props: {
+            article: article,
+        },
+    }));
+}
+
+interface Props {
+    article: CollectionEntry<"vue-mdc">;
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+---
+
+<ProductRootHtmlLayout>
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description={article.data.description}
+        title={article.data.headline}
+        iconHref="/vue-mdc-page-icon.svg"
+        keywords="blog, bre97, keynote, vue-mdc"
+        language="zh-TW"
+        url={`https://glare-labs.uk/feature/vue-mdc/article/${article.slug}`}
+        imageUrl="https://media.glare-labs.uk/vue-mdc-logo.png"
+        imageAlt="Vue-MDC"
+        robots="index, follow"
+        ogType="website"
+    />
+
+    <ImportJetbrainsMonoStyle slot="head-after" />
+    <ImportMaterialSymbols slot="head-after" />
+
+    <ThemeProvider client:load />
+    <ArticleLayout parentPageUrl="/feature/vue-mdc/home/">
+        <Content />
+    </ArticleLayout>
+</ProductRootHtmlLayout>

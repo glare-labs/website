@@ -43,3 +43,17 @@ export const blogDefinition = defineCollection({
         collection: z.string(),
     }),
 })
+
+
+export const vueMdcDefinition = defineCollection({
+    type: 'content',
+    schema: z.object({
+        headline: z.string(),
+        description: z.string(),
+
+        /**
+         * 'component' | 'document' | 'welcome-page-example' | ...
+         */
+        collection: z.string(),
+    })
+})

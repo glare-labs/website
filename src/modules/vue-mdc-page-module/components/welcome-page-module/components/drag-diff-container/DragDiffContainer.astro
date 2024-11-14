@@ -1,0 +1,72 @@
+---
+import DragHandler from "./DragHandler.astro";
+---
+
+<div class="diff">
+    <div class="left">
+        <slot name="left" />
+    </div>
+    <div class="right">
+        <slot name="right" />
+    </div>
+    <DragHandler />
+</div>
+
+<script>
+    import { SDragHandler, type IDragHandlerHost } from "./DragHandler";
+
+    const diffElement = document.querySelector(".diff")! as HTMLElement;
+    const diffElementWidth = diffElement.getBoundingClientRect().width;
+    const diffElementHeight = diffElement.getBoundingClientRect().height;
+    const diffElementOffsetLeft = diffElement.getBoundingClientRect().left;
+
+    const leftElement = diffElement.querySelector(
+        ".diff>.left",
+    )! as HTMLElement;
+    leftElement.style.setProperty("width", `${diffElementWidth / 2}px`);
+    leftElement.children
+        .item(0)!
+        .setAttribute("style", `width: ${diffElementWidth - 32 - 32}px;`);
+
+    diffElement.addEventListener("change", (e: Event) => {
+        (leftElement as HTMLElement).style.setProperty(
+            "width",
+            `${(e as CustomEvent<{ x: number; y: number }>).detail.x - diffElementOffsetLeft}px`,
+        );
+    });
+
+    const handler = diffElement.querySelector(".handler") as IDragHandlerHost;
+    window.addEventListener("DOMContentLoaded", () => {
+        handler[SDragHandler].setPosition(
+            diffElementWidth / 2,
+            diffElementHeight / 2,
+        );
+    });
+</script>
+
+<style>
+    .diff {
+        position: relative;
+        z-index: 100;
+        display: block;
+        border-radius: inherit;
+        display: grid;
+        grid-template-columns: repeat(2, 100%);
+        overflow: hidden;
+
+        & > .left {
+            position: relative;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        & > .right {
+            position: relative;
+            left: -100%;
+            top: 0;
+            z-index: 1;
+        }
+    }
+</style>

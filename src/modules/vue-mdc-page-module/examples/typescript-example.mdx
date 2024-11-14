@@ -1,0 +1,26 @@
+---
+headline: 'Typescript Example'
+description: ''
+collection: 'welcome-page-example'
+---
+
+```html
+<template>
+    <div>
+        <vmdc-button
+            :appearance="EButtonAppearance.Filled"
+        >My Filled Button</vmdc-button>
+
+        <vmdc-fab
+            :variant="EFabVariant.Primary"
+            label="My Primary Fab"
+        >
+        </vmdc-fab>
+    </div>
+</template>
+<script setup lang="ts">
+import { EButtonAppearance } from '@glare-labs/vue-mdc/button'
+import { EFabVariant } from '@glare-labs/vue-mdc/fab'
+
+</script>
+```
