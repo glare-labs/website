@@ -51,7 +51,7 @@ const blogs = await getCollection("blog");
             <Header />
         </div>
 
-        <div class="page-content">
+        <div class="search-blog-wrapper page-content">
             <SearchInput />
             <ul id="blog-list-result" class="blog-list">
                 {
@@ -90,45 +90,43 @@ const blogs = await getCollection("blog");
 </ProductRootHtmlLayout>
 
 <script>
-    const seachWrapper = () =>
-        document.querySelector(".page-content") as HTMLElement;
-
-    const handleRequestSearch = (e: Event) => {
-        const event = e as CustomEvent<{ value: string }>;
-
-        const input = event.detail.value;
+    document.addEventListener("astro:page-load", () => {
+        const seachWrapper = document.querySelector(".search-blog-wrapper");
 
         const blogs = document.querySelectorAll(
             "#blog-list-result>.blog-list-item",
-        ) as NodeListOf<HTMLElement>;
+        );
 
-        if (input.length === 0 || input.replaceAll(" ", "").length === 0) {
-            blogs.forEach((blog) => {
-                blog.setAttribute("data-invisible", "true");
-            });
-            return;
-        }
+        const handleRequestSearch = (e: Event) => {
+            const event = e as CustomEvent<{ value: string }>;
+            const input = event.detail.value;
 
-        blogs.forEach((blog) => {
-            const validates = [
-                blog.getAttribute("data-headline").includes(input),
-                blog.getAttribute("data-tags").includes(input),
-                blog.getAttribute("data-description").includes(input),
-                blog.getAttribute("data-creationTime").includes(input),
-                blog.getAttribute("data-collection").includes(input),
-                blog.getAttribute("data-slug").includes(input),
-                blog.getAttribute("data-body").includes(input),
-            ];
-            if (validates.includes(true)) {
-                blog.setAttribute("data-invisible", "false");
-            } else {
-                blog.setAttribute("data-invisible", "true");
+            if (input.length === 0 || input.replaceAll(" ", "").length === 0) {
+                blogs.forEach((blog) => {
+                    blog.setAttribute("data-invisible", "true");
+                });
+                return;
             }
-        });
-    };
 
-    document.addEventListener("astro:page-load", () => {
-        seachWrapper()?.addEventListener("request-search", handleRequestSearch);
+            blogs.forEach((blog) => {
+                const validates = [
+                    blog.getAttribute("data-headline").includes(input),
+                    blog.getAttribute("data-tags").includes(input),
+                    blog.getAttribute("data-description").includes(input),
+                    blog.getAttribute("data-creationTime").includes(input),
+                    blog.getAttribute("data-collection").includes(input),
+                    blog.getAttribute("data-slug").includes(input),
+                    blog.getAttribute("data-body").includes(input),
+                ];
+                if (validates.includes(true)) {
+                    blog.setAttribute("data-invisible", "false");
+                } else {
+                    blog.setAttribute("data-invisible", "true");
+                }
+            });
+        };
+
+        seachWrapper?.addEventListener("request-search", handleRequestSearch);
     });
 </script>
 
