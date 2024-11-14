@@ -25,7 +25,8 @@ const createContentFile = (collection, fileName, content) => {
 }
 
 const buckets = [
-    'blog'
+    'blog',
+    'vue-mdc'
 ]
 
 for (const bucket of buckets) {
@@ -36,22 +37,23 @@ for (const bucket of buckets) {
 }
 
 for (const Bucket of buckets) {
-    const list = await fetch(`https://function.glare-labs.uk/api/GetBlogObjects`)
+    const list = await fetch(`https://function.glare-labs.uk/api/GetObjectsByBucket?bucket=${Bucket}`)
     const keys = (await list.json()).Contents.map(obj => obj.Key)
 
     console.log(keys)
 
-
     for (const key of keys) {
-        const file = await fetch(`https://function.glare-labs.uk/api/FindBlogContentByKey?key=${key}`)
-        const content = await file.text()
+        fetch(`https://function.glare-labs.uk/api/FindContent?bucket=${Bucket}&key=${key}`)
+            .then(res => res.text())
+            .then(text => {
+                try {
+                    createContentFile(Bucket, key, text)
+                    console.log(`Write File ${key} Successfully. ./src/content/${Bucket}/${key}`)
+                } catch (error) {
+                    console.error(error)
+                }
+            })
 
-        try {
-            createContentFile(Bucket, key, content)
-            console.log(`Write File ${key} Successfully. ./src/content/${Bucket}/${key}`)
-        } catch (error) {
-            console.error(error)
-        }
     }
 
 }
