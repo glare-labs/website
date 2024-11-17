@@ -34,4 +34,10 @@
     "files.autoSaveDelay": 2000,
     "scss.format.braceStyle": "collapse",
     "deno.enable": false,
+    "prettier.documentSelectors": [
+        "**/*.astro"
+    ],
+    "[astro]": {
+        "editor.defaultFormatter": "astro-build.astro-vscode"
+    }
 }
