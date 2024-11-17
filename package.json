@@ -2,39 +2,26 @@
   "name": "website",
   "type": "module",
   "version": "0.0.0",
+  "workspaces": [
+    "packages/blog",
+    "packages/glare-labs",
+    "packages/vue-mdc",
+    "packages/blog-database-worker"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "npm run sync && astro check && astro build",
-    "preview": "astro preview",
+    "dev:blog": "npm run dev -w blog",
+    "dev:glare-labs": "npm run dev -w glare-labs",
+    "dev:vue-mdc": "npm run dev -w vue-mdc",
+    "build:blog": "npm run build -w blog",
+    "build:glare-labs": "npm run build -w glare-labs",
+    "build:vue-mdc": "npm run build -w vue-mdc",
     "astro": "astro",
     "sync": "node ./scripts/download-bucket.js"
   },
-  "dependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@astrojs/lit": "^4.3.0",
-    "@astrojs/mdx": "^3.1.8",
-    "@astrojs/rss": "^4.0.9",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/vue": "^4.5.2",
-    "@fontsource/jetbrains-mono": "^5.1.1",
-    "@fontsource/roboto": "^5.1.0",
-    "@glare-labs/material-tokens-generator": "^0.2.1",
-    "@glare-labs/vue-mdc": "^0.0.1-pre.2.1",
-    "@material/material-color-utilities": "^0.3.0",
-    "@material/web": "^2.2.0",
-    "@nanostores/persistent": "^0.10.2",
-    "@nanostores/vue": "^0.10.0",
-    "@webcomponents/template-shadowroot": "^0.2.1",
-    "astro": "^4.16.7",
-    "lit": "^3.2.1",
-    "material-symbols": "^0.25.1",
-    "nanostores": "^0.11.3",
-    "vue": "^3.5.12"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.6.2"
   }
 }

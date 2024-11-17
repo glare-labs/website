@@ -1,0 +1,53 @@
+---
+import { PageHeaderLayout } from "@shared/layouts";
+import HeaderMaterialHctPicker from "./header-material-hct-picker.astro";
+import HeaderSwitchThemeButton from "./header-switch-theme-button.astro";
+
+interface Props {
+    headline?: string;
+}
+
+const { headline = "Bre97's Blog" } = Astro.props;
+---
+
+<PageHeaderLayout transition:persist="header">
+    <span class="header-drop" transition:persist="header-drop"></span>
+
+    <span class="header-title md-typescale-title-medium">
+        {headline}
+    </span>
+
+    <HeaderSwitchThemeButton slot="actions" />
+    <HeaderMaterialHctPicker slot="actions" />
+</PageHeaderLayout>
+
+<style>
+    .header-title {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        color: var(--md-sys-color-on-surface);
+        margin-left: 4px;
+        font-weight: 600;
+    }
+
+    .header-drop {
+        --header-drop-height: 24px;
+        --var-background-color: var(
+            --header-drop-background-color,
+            var(--md-sys-color-surface)
+        );
+        position: absolute;
+        left: 0px;
+        bottom: calc(0px - var(--header-drop-height));
+        width: 100%;
+        height: var(--header-drop-height);
+        z-index: 1;
+        background: linear-gradient(
+            180deg,
+            var(--var-background-color) 0%,
+            transparent var(--header-drop-height)
+        );
+    }
+</style>

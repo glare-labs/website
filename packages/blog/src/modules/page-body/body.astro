@@ -1,0 +1,12 @@
+---
+import NavigationBar from "src/components/navigation/navigation-bar.astro";
+import NavigationRail from "src/components/navigation/navigation-rail.astro";
+import BodyLayout from "./body-layout.astro";
+---
+
+<BodyLayout>
+    <NavigationBar slot="bottom-app-bar" />
+    <NavigationRail slot="navigation-rail" />
+
+    <slot />
+</BodyLayout>

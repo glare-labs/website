@@ -1,54 +1,54 @@
 import fs from 'fs'
 
 /**
- * @param {string} contentFolderName 
+ * @param {string} contentFolderPath 
  */
-const createContentFolder = (contentFolderName) => {
-    fs.mkdirSync(`./src/content/${contentFolderName}`)
+const createContentFolder = (contentFolderPath) => {
+    fs.mkdirSync(`${contentFolderPath}`)
 }
 
 /**
- * @param {string} contentFolderName 
+ * @param {string} contentFolderPath 
  * @returns boolean
  */
-const existContentFolder = (contentFolderName) => fs.existsSync(`./src/content/${contentFolderName}`) && fs.statSync(`./src/content/${contentFolderName}`).isDirectory()
+const existContentFolder = (contentFolderPath) => fs.existsSync(`${contentFolderPath}`) && fs.statSync(`${contentFolderPath}`).isDirectory()
 
 /**
- * @param {string} collection 
+ * @param {string} contentPath 
  * @param {string} fileName
  * @param {string} content 
  */
-const createContentFile = (collection, fileName, content) => {
-    fs.writeFileSync(`./src/content/${collection}/${fileName}`, content, {
+const createContentFile = (contentPath, fileName, content) => {
+    fs.writeFileSync(`${contentPath}/${fileName}`, content, {
         encoding: 'utf-8',
     })
 }
 
-const buckets = [
-    'blog',
-    'vue-mdc'
+const bucketMaps = [
+    { bucket: 'blog', projectContentPath: './packages/blog/src/content/article' },
+    { bucket: 'vue-mdc', projectContentPath: './packages/vue-mdc/src/content/article' }
 ]
 
-for (const bucket of buckets) {
-    if (!existContentFolder(bucket)) {
-        console.log(`Create Content Folder ${bucket} Successfully.`)
-        createContentFolder(bucket)
+for (const item of bucketMaps) {
+    if (!existContentFolder(item.projectContentPath)) {
+        console.log(`Create Content Folder ${item.projectContentPath} Successfully.`)
+        createContentFolder(item.projectContentPath)
     }
 }
 
-for (const Bucket of buckets) {
-    const list = await fetch(`https://function.glare-labs.uk/api/GetObjectsByBucket?bucket=${Bucket}`)
+for (const item of bucketMaps) {
+    const list = await fetch(`https://function.glare-labs.uk/api/GetObjectsByBucket?bucket=${item.bucket}`)
     const keys = (await list.json()).Contents.map(obj => obj.Key)
 
     console.log(keys)
 
     for (const key of keys) {
-        fetch(`https://function.glare-labs.uk/api/FindContent?bucket=${Bucket}&key=${key}`)
+        fetch(`https://function.glare-labs.uk/api/FindContent?bucket=${item.bucket}&key=${key}`)
             .then(res => res.text())
             .then(text => {
                 try {
-                    createContentFile(Bucket, key, text)
-                    console.log(`Write File ${key} Successfully. ./src/content/${Bucket}/${key}`)
+                    createContentFile(item.projectContentPath, key, text)
+                    console.log(`Write File ${key} Successfully. ${item.projectContentPath}/${key}`)
                 } catch (error) {
                     console.error(error)
                 }

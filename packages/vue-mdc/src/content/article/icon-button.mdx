@@ -1,0 +1,116 @@
+---
+headline: 'IconButton'
+description: 'Icon buttons help people take minor actions with one tap.'
+collection: 'component'
+---
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+
+# IconButton
+
+## Required
+
+IconButton組件需要引入`icon-button`, `ripple`和`elevation`組件的樣式:
+
+```css
+@import url('@glare-labs/vue-mdc/build/components/icon-button/styles/icon-button.module.css');
+@import url('@glare-labs/vue-mdc/build/components/ripple/styles/ripple.module.css');
+@import url('@glare-labs/vue-mdc/build/components/elevation/styles/elevation.module.css');
+```
+
+IconButton組件需要引入`icon-button`組件的核心:
+
+```js
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'
+```
+
+若要在Fab中使用圖標, 需要引入Icon組件樣式和核心:
+
+```css
+@import url('@glare-labs/vue-mdc/build/components/icon/styles/icon.module.css');
+```
+
+```js
+import { Icon } from '@glare-labs/vue-mdc/icon'
+```
+
+## Props
+
+### Appearance
+
+|Value|EIconButtonAppearance|
+|:--|:--|
+|`"filled"`|`EIconButtonAppearance.Filled`|
+|`"filled-tonal"`|`EIconButtonAppearance.FilledTonal`|
+|`"outlined"`|`EIconButtonAppearance.Outlined`|
+|`"standard"`|`EIconButtonAppearance.Standard`|
+
+<IconButton client:load appearance="filled">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton client:load appearance="filled-tonal">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton client:load appearance="outlined">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton client:load appearance="standard">
+    <Icon>send</Icon>
+</IconButton>
+
+```html
+<IconButton appearance="filled">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton appearance="filled-tonal">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton appearance="outlined">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton appearance="standard">
+    <Icon>send</Icon>
+</IconButton>
+```
+
+### Disabled
+
+<IconButton client:load disabled appearance="filled">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton client:load disabled appearance="filled-tonal">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton client:load disabled appearance="outlined">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton client:load disabled appearance="standard">
+    <Icon>send</Icon>
+</IconButton>
+
+```html
+<IconButton disabled appearance="filled">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton disabled appearance="filled-tonal">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton disabled appearance="outlined">
+    <Icon>send</Icon>
+</IconButton>
+<IconButton disabled appearance="standard">
+    <Icon>send</Icon>
+</IconButton>
+```import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { IconButton } from '@glare-labs/vue-mdc/icon-button'

@@ -1,0 +1,114 @@
+---
+headline: 'Fab'
+description: 'Floating action buttons (FABs) help people take primary actions.'
+collection: 'component'
+---
+import { Fab, EFabVariant } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+
+# Fab
+
+## Required
+
+Fab組件需要引入`fab`, `ripple`和`elevation`組件的樣式:
+
+```css
+@import url('@glare-labs/vue-mdc/build/components/fab/styles/fab.module.css');
+@import url('@glare-labs/vue-mdc/build/components/ripple/styles/ripple.module.css');
+@import url('@glare-labs/vue-mdc/build/components/elevation/styles/elevation.module.css');
+```
+
+Fab組件需要引入`fab`組件的核心:
+
+```js
+import { Fab } from '@glare-labs/vue-mdc/fab'
+```
+
+若要在Fab中使用圖標, 需要引入Icon組件樣式和核心:
+
+```css
+@import url('@glare-labs/vue-mdc/build/components/icon/styles/icon.module.css');
+```
+
+```js
+import { Icon } from '@glare-labs/vue-mdc/icon'
+```
+
+## Measure
+
+Fab組件可以包含圖標和標籤，但其中存在一些設計約定:
+
+|Prop|是否允許圖標|是否允許標籤|
+|:--|--:|--:|
+|size="small"|是|否|
+|size="medium"|是|是|
+|size="large"|是|否|
+
+## Props
+
+### Size
+
+|Value|EFabVariant|
+|:--|:--|
+|`"small"`|`EFabSize.Small`|
+|`"medium"`|`EFabSize.Medium`|
+|`"large"`|`EFabSize.Large`|
+
+<Fab client:load size="small">
+    <Icon>send</Icon>
+</Fab>
+<Fab client:load size="medium">
+    <Icon>send</Icon>
+</Fab>
+<Fab client:load size="large">
+    <Icon>send</Icon>
+</Fab>
+
+### Variant
+
+|Value|EFabVariant|
+|:--|:--|
+|`"primary"`|`EFabVariant.Primary`|
+|`"secondary"`|`EFabVariant.Secondary`|
+|`"tertiary"`|`EFabVariant.Tertiary`|
+|`"surface"`|`EFabVariant.Surface`|
+
+<Fab client:load variant="primary">
+    <Icon>send</Icon>
+</Fab>
+<Fab client:load variant="secondary">
+    <Icon>send</Icon>
+</Fab>
+<Fab client:load variant="tertiary">
+    <Icon>send</Icon>
+</Fab>
+<Fab client:load variant="surface">
+    <Icon>send</Icon>
+</Fab>
+
+```html
+<Fab variant="primary">
+    <Icon>send</Icon>
+</Fab>
+<Fab variant="secondary">
+    <Icon>send</Icon>
+</Fab>
+<Fab variant="tertiary">
+    <Icon>send</Icon>
+</Fab>
+<Fab variant="surface">
+    <Icon>send</Icon>
+</Fab>
+```import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'
+import { EFabVariant, Fab } from '@glare-labs/vue-mdc/fab'
+import { Icon } from '@glare-labs/vue-mdc/icon'

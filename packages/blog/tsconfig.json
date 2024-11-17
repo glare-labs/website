@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@content/*": [
+        "src/content/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@router/*": [
+        "src/router/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@shared/*": [
+        "../shared/*"
+      ]
+    },
+  },
+  "include": [
+    "./src/**/*"
+  ],
+}

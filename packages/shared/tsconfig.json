@@ -1,0 +1,27 @@
+{
+  "extends": "astro/tsconfigs/base",
+  "compilerOptions": {
+    "types": [],
+    "baseUrl": ".",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "jsx": "preserve"
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.astro"
+  ],
+  "exclude": [
+    "node_modules/**/*"
+  ],
+}

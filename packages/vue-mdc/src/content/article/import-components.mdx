@@ -1,0 +1,47 @@
+---
+headline: '引入組件'
+description: '這篇文章將引導開發者如何正確引入Vue-MDC的組件。'
+collection: 'document'
+---
+# 引入組件
+
+請注意，`@glare-labs/vue-mdc`上不存在任何導出，並且引入組件時不會自動引入樣式。
+
+有關引入樣式的更多信息請前往[引入樣式章節]()。
+
+|錯誤示範|正確示範|
+|:--|:--|
+|`import { Button } from "@glare-labs/vue-mdc"`|`import { Button } from "@glare-labs/vue-mdc/button"`|
+
+## 局部引入組件
+
+```html
+<template>
+    <Button>My First Button</Button>
+</template>
+<script setup lang="ts">
+import { Button } from "@glare-labs/vue-mdc/button"
+</script>
+```
+
+## 全局引入組件
+
+```typescript
+import { registerComponents } from "@glare-labs/vue-mdc/component-register"
+
+const app = createApp(App)
+
+app.use(registerComponents())
+
+app.mount("#app")
+```
+
+```html
+<template>
+    <vmdc-fab label="My First Fab">
+        <template #icon>
+            <vmdc-icon>add</vmdc-icon>
+        </template>
+    </vmdc-fab>
+</template>
+```

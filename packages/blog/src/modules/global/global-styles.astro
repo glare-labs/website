@@ -1,0 +1,352 @@
+<style is:global>
+    @import url("material-symbols/rounded.css");
+
+    body {
+        padding: 0;
+        margin: 0;
+
+        font-family: "Jetbrains mono", "Roboto", "Noto sans sc", "Noto sans";
+
+        --md-ref-typeface-brand: "Jetbrains mono", "Roboto", "Noto sans sc", "Noto sans";
+        --md-ref-typeface-plain: "Jetbrains mono", "Roboto", "Noto sans sc", "Noto sans";
+    }
+
+    @layer md-sys-typescale {
+        .md-typescale-display-small,
+        .md-typescale-display-small-prominent {
+            font: var(--md-sys-typescale-display-small-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-display-small-size, 2.25rem) / var(--md-sys-typescale-display-small-line-height, 2.75rem) var(--md-sys-typescale-display-small-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-display-medium,
+        .md-typescale-display-medium-prominent {
+            font: var(--md-sys-typescale-display-medium-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-display-medium-size, 2.8125rem) / var(--md-sys-typescale-display-medium-line-height, 3.25rem) var(--md-sys-typescale-display-medium-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-display-large,
+        .md-typescale-display-large-prominent {
+            font: var(--md-sys-typescale-display-large-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-display-large-size, 3.5625rem) / var(--md-sys-typescale-display-large-line-height, 4rem) var(--md-sys-typescale-display-large-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-headline-small,
+        .md-typescale-headline-small-prominent {
+            font: var(--md-sys-typescale-headline-small-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-headline-small-size, 1.5rem) / var(--md-sys-typescale-headline-small-line-height, 2rem) var(--md-sys-typescale-headline-small-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-headline-medium,
+        .md-typescale-headline-medium-prominent {
+            font: var(--md-sys-typescale-headline-medium-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-headline-medium-size, 1.75rem) / var(--md-sys-typescale-headline-medium-line-height, 2.25rem) var(--md-sys-typescale-headline-medium-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-headline-large,
+        .md-typescale-headline-large-prominent {
+            font: var(--md-sys-typescale-headline-large-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-headline-large-size, 2rem) / var(--md-sys-typescale-headline-large-line-height, 2.5rem) var(--md-sys-typescale-headline-large-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-title-small,
+        .md-typescale-title-small-prominent {
+            font: var(--md-sys-typescale-title-small-weight, var(--md-ref-typeface-weight-medium, 500)) var(--md-sys-typescale-title-small-size, 0.875rem) / var(--md-sys-typescale-title-small-line-height, 1.25rem) var(--md-sys-typescale-title-small-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-title-medium,
+        .md-typescale-title-medium-prominent {
+            font: var(--md-sys-typescale-title-medium-weight, var(--md-ref-typeface-weight-medium, 500)) var(--md-sys-typescale-title-medium-size, 1rem) / var(--md-sys-typescale-title-medium-line-height, 1.5rem) var(--md-sys-typescale-title-medium-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-title-large,
+        .md-typescale-title-large-prominent {
+            font: var(--md-sys-typescale-title-large-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-title-large-size, 1.375rem) / var(--md-sys-typescale-title-large-line-height, 1.75rem) var(--md-sys-typescale-title-large-font, var(--md-ref-typeface-brand, Roboto));
+        }
+
+        .md-typescale-body-small,
+        .md-typescale-body-small-prominent {
+            font: var(--md-sys-typescale-body-small-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-body-small-size, 0.75rem) / var(--md-sys-typescale-body-small-line-height, 1rem) var(--md-sys-typescale-body-small-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-body-medium,
+        .md-typescale-body-medium-prominent {
+            font: var(--md-sys-typescale-body-medium-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-body-medium-size, 0.875rem) / var(--md-sys-typescale-body-medium-line-height, 1.25rem) var(--md-sys-typescale-body-medium-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-body-large,
+        .md-typescale-body-large-prominent {
+            font: var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-body-large-size, 1rem) / var(--md-sys-typescale-body-large-line-height, 1.5rem) var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-label-small,
+        .md-typescale-label-small-prominent {
+            font: var(--md-sys-typescale-label-small-weight, var(--md-ref-typeface-weight-medium, 500)) var(--md-sys-typescale-label-small-size, 0.6875rem) / var(--md-sys-typescale-label-small-line-height, 1rem) var(--md-sys-typescale-label-small-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-label-medium,
+        .md-typescale-label-medium-prominent {
+            font: var(--md-sys-typescale-label-medium-weight, var(--md-ref-typeface-weight-medium, 500)) var(--md-sys-typescale-label-medium-size, 0.75rem) / var(--md-sys-typescale-label-medium-line-height, 1rem) var(--md-sys-typescale-label-medium-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-label-medium-prominent {
+            font-weight: var(--md-sys-typescale-label-medium-weight-prominent, var(--md-ref-typeface-weight-bold, 700));
+        }
+
+        .md-typescale-label-large,
+        .md-typescale-label-large-prominent {
+            font: var(--md-sys-typescale-label-large-weight, var(--md-ref-typeface-weight-medium, 500)) var(--md-sys-typescale-label-large-size, 0.875rem) / var(--md-sys-typescale-label-large-line-height, 1.25rem) var(--md-sys-typescale-label-large-font, var(--md-ref-typeface-plain, Roboto));
+        }
+
+        .md-typescale-label-large-prominent {
+            font-weight: var(--md-sys-typescale-label-large-weight-prominent, var(--md-ref-typeface-weight-bold, 700));
+        }
+    }
+
+    @layer scroll-bar {
+        /* width */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: var(--md-sys-color-surface);
+        }
+
+        ::-webkit-scrollbar-track:hover {
+            background: var(--md-sys-color-surface-dim);
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: var(--md-sys-color-tertiary-fixed-dim);
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover,
+        ::-webkit-scrollbar-thumb:active {
+            background: var(--md-sys-color-tertiary-fixed-dim);
+        }
+    }
+
+    @layer base {
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: var(--md-sys-color-outline-variant);
+        }
+
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-feature-settings: normal;
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit;
+        }
+
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px;
+        }
+
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+
+        b,
+        strong {
+            font-weight: bolder;
+        }
+
+        code,
+        kbd,
+        samp,
+        pre {
+            font-family: "Jetbrains mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 1em;
+        }
+
+        small {
+            font-size: 80%;
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+
+        sub {
+            bottom: -0.25em;
+        }
+
+        sup {
+            top: -0.5em;
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0;
+        }
+
+        button,
+        select {
+            text-transform: none;
+        }
+
+        button,
+        [type="button"],
+        [type="reset"],
+        [type="submit"] {
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none;
+        }
+
+        :-moz-focusring {
+            outline: auto;
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none;
+        }
+
+        progress {
+            vertical-align: baseline;
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto;
+        }
+
+        [type="search"] {
+            -webkit-appearance: textfield;
+            outline-offset: -2px;
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none;
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit;
+        }
+
+        summary {
+            display: list-item;
+        }
+
+        blockquote,
+        dl,
+        dd,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        figure,
+        p,
+        pre {
+            margin: 0;
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0;
+        }
+
+        legend {
+            padding: 0;
+        }
+
+        ol,
+        ul,
+        menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        button,
+        [role="button"] {
+            cursor: pointer;
+        }
+
+        :disabled {
+            cursor: default;
+        }
+
+        img,
+        svg,
+        video,
+        canvas,
+        audio,
+        iframe,
+        embed,
+        object {
+            display: block;
+            vertical-align: middle;
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        [hidden] {
+            display: none;
+        }
+    }
+</style>

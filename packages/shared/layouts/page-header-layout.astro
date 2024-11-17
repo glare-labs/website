@@ -1,0 +1,42 @@
+---
+
+---
+
+<header class="page-header-layout">
+    <slot name="start" />
+
+    <span class="page-header-layout-title">
+        <slot />
+    </span>
+    <span class="page-header-layout-actions">
+        <slot name="actions" />
+    </span>
+</header>
+
+<style>
+    .page-header-layout {
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+
+        height: 64px;
+        padding: 0 12px;
+        background-color: var(
+            --header-container-color,
+            var(--md-sys-color-surface)
+        );
+
+        .page-header-layout-title {
+            grid-row: 1/2;
+            grid-column: 2/3;
+        }
+
+        .page-header-layout-actions {
+            grid-row: 1/2;
+            grid-column: 3/4;
+            display: inline-flex;
+            gap: 4px;
+        }
+    }
+</style>

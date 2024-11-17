@@ -1,0 +1,10 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "blog-database"
+main = "src/index.ts"
+compatibility_date = "2024-07-12"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "blog-database"
+database_id = "82e668b6-aea0-4a5d-912d-d102d3bc71d2"

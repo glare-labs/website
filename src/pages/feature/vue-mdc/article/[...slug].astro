@@ -1,14 +1,14 @@
 ---
+import ThemeProvider from "@modules/vue-mdc-page-module/components/ThemeProvider.vue";
+import ArticleLayout from "@modules/vue-mdc-page-module/layouts/article-layout.astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
 import {
     ImportJetbrainsMonoStyle,
     ImportMaterialSymbols,
     PageMetaInfo,
     ProductRootHtmlLayout,
-} from "@modules/shared-module";
-import ThemeProvider from "@modules/vue-mdc-page-module/components/ThemeProvider.vue";
-import ArticleLayout from "@modules/vue-mdc-page-module/layouts/article-layout.astro";
-import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+} from "packages/shared";
 
 export async function getStaticPaths() {
     const collection = await getCollection("vue-mdc");

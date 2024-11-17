@@ -6,16 +6,16 @@
 
 import { Icon } from "@glare-labs/vue-mdc/icon"
 import { Typography } from "@glare-labs/vue-mdc/typography"
-import { PageMetaInfo, ProductRootHtmlLayout } from '@modules/shared-module'
 import {
-    DocumentationCard,
-    DocumentationCardList,
-    SearchBar,
-    VueMdcPageHeroLayout,
-    VueMdcPageLayout
+DocumentationCard,
+DocumentationCardList,
+SearchBar,
+VueMdcPageHeroLayout,
+VueMdcPageLayout
 } from '@modules/vue-mdc-page-module'
 import "@modules/vue-mdc-page-module/styles/global.css"
 import { getCollection } from 'astro:content'
+import { PageMetaInfo, ProductRootHtmlLayout } from 'packages/shared'
 
 const news = (await getCollection("vue-mdc")).filter(
     (article) => article.data.collection === "news",

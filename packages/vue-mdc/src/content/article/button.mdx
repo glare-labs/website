@@ -1,0 +1,66 @@
+---
+headline: 'Button'
+description: 'Buttons let people take action and make choices with one tap.'
+collection: 'component'
+---
+import { Button, EButtonAppearance } from '@glare-labs/vue-mdc/button'
+
+# Button
+
+## Required
+
+Button組件需要引入`button`, `ripple`和`elevation`組件的樣式:
+
+```css
+@import url('@glare-labs/vue-mdc/build/components/button/styles/button.module.css');
+@import url('@glare-labs/vue-mdc/build/components/ripple/styles/ripple.module.css');
+@import url('@glare-labs/vue-mdc/build/components/elevation/styles/elevation.module.css');
+```
+
+Button組件需要引入`button`組件的核心:
+
+```js
+import { Button } from '@glare-labs/vue-mdc/button'
+```
+
+## Props
+
+### Appearance
+
+|Value|EButtonAppearance|
+|:--|:--|
+|`"filled"`|`EButtonAppearance.Filled`|
+|`"filled-tonal"`|`EButtonAppearance.FilledTonal`|
+|`"elevated"`|`EButtonAppearance.Elevated`|
+|`"outlined"`|`EButtonAppearance.Outlined`|
+|`"text"`|`EButtonAppearance.Text`|
+
+<Button client:load appearance="filled">Filled</Button>
+<Button client:load appearance="filled-tonal">Filled Tonal</Button>
+<Button client:load appearance="elevated">Elevated</Button>
+<Button client:load appearance="outlined">Outlined</Button>
+<Button client:load appearance="text">Text</Button>
+
+```html
+<Button appearance="filled">Filled</Button>
+<Button appearance="filled-tonal">Filled Tonal</Button>
+<Button appearance="elevated">Elevated</Button>
+<Button appearance="outlined">Outlined</Button>
+<Button appearance="text">Text</Button>
+```
+
+### Disabled
+
+<Button client:load disabled appearance="filled">Filled</Button>
+<Button client:load disabled appearance="filled-tonal">Filled Tonal</Button>
+<Button client:load disabled appearance="elevated">Elevated</Button>
+<Button client:load disabled appearance="outlined">Outlined</Button>
+<Button client:load disabled appearance="text">Text</Button>
+
+```html
+<Button disabled appearance="filled">Filled</Button>
+<Button disabled appearance="filled-tonal">Filled Tonal</Button>
+<Button disabled appearance="elevated">Elevated</Button>
+<Button disabled appearance="outlined">Outlined</Button>
+<Button disabled appearance="text">Text</Button>
+```

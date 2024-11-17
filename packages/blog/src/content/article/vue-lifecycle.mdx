@@ -1,0 +1,133 @@
+---
+headline: Vue Lifecycle
+description: 從創建到銷毀，詳解vue生命週期
+creationTime: 2024/6/1
+pubDate: 2024/10/10
+tags: [vue, life cycle, hooks]
+collection: 'Vue'
+---
+# Summary
+Vue生命周期是Vue实例或组件的运作过程。简单的理解为一个**组件从诞生到死亡的过程**，这个过程中会留下**关键节点**，这些关键节点叫做**钩子函数**。 
+
+Vue的生命周期大致可分为4个部分：
++ 数据
++ 视图
++ 更新
++ 销毁
+
+每个部分都有两个钩子函数，一个是当前部分初始化前，一个是当前部分初始化后。
+
+# 生命周期钩子函数
+基础的Vue生命周期包含8个钩子函数：
+
+| Options API   | Composition API |
+| :------------ | :-------------- |
+| beforeCreate  |                 |
+| created       |                 |
+| beforeMount   | onBeforeMount   |
+| mounted       | onMounted       |
+| beforeUpdate  | onBeforeUpdate  |
+| updated       | onUpdated       |
+| beforeDestroy | onBeforeUnmount |
+| destroyed     | onUnmounted     |
+
+## 数据
+与数据相关的生命周期钩子函数位于实例的最开始调用。它有两个钩子，beforeCreated和created。
+**beforeCreated在实例创建前**调用，**created在实例创建后**调用。
++ beforeCreated
+  - 实例创建后且初始化后调用
+  - 数据、方法、模版、计算属性、监听不可用
++ created
+  - 实例创建后调用
+  - 数据、方法、计算属性、监听可用
+  - 模版不可用
+
+在此阶段通常不会对模版作任何操作，因为DOM还未准备好。beforeCreated时甚至无法使用数据和方法。created钩子非常**适合作网络请求，数据初始化**。
+## 模版
+与模版相关的生命周期钩子位于created之后调用。它包括两个钩子，beforeMount和mounted。
+**beforeMount在响应性数据初始化后且VDOM创建前**调用，**mounted在DOM挂载后**调用。
++ beforeMount
+  - VDOM可用
+  - 尚未挂载
++ mounted
+  - ADOM可用
+  - 已挂载
+
+在此阶段通常会对模版进行操作。可以在beforeMount中设置VDOM的样式，在mount中获取ADOM**设置样式、事件、请求数据**等。唯一的区别是，在beforeMount中修改的是即将挂载的VDOM，在mounted中设置的是已经挂载的ADOM。
+## 更新
+与更新相关的生命周期钩子函数位于挂载之后且数据发生更新时调用。它包括两个钩子，beforeUpdate和updated。
+只有**手动引起更新**或**响应性变更**才会引起Vue对视图的更新，Vue对视图的**更新不是立即的**，Vue会收集变更然后在某一时刻进行更新。由于不是立即更新且在某一时刻进行更新，**beforeUpdate中对响应性数据进行更改并不会引起重复更新**，在**updated中进行响应性数据更改则会引起无限循环**。
++ beforeUpdate
+  - 引起更新后且模版更新前调用
+  - 更改响应性数据不会引起无限循环
++ updated
+  - 引起更新后且模版更新后调用
+  - 更改响应性数据将引起无限循环
+
+beforeUpdate发生在响应性数据更改后且视图更新前，这个阶段可以安全地修改响应性数据。updated发生在beforeUpdate之后且模版已经计算完毕，这个阶段修改响应性数据是危险的，这会引起updated的无限调用。
+## 销毁
+与销毁相关的生命周期钩子函数在接收到销毁请求时调用。它包括beforeDestroy和destroyed。
+beforeDestroy在销毁工作之前调用，beforeDestroy调用之后进行**子组件的销毁、卸载DOM事件、终止监听**等（这意味着beforeDestroy阶段时的Vue实例依然存活），当所有Vue实例销毁工作结束后调用destroyed。
++ beforeDestroy
+  - 销毁前调用
+  - 卸载子组件、移除监听、移除事件
++ destroyed
+  - 销毁后调用
+
+在此阶段通常对模版和数据进行终止操作。可以在beforeDestroy中作**网络请求，读写数据，销毁ADOM的事件**等。在destroyed中实例已经被销毁，destroyed通常用于**销毁事件、清理副作用**。
+# 生命周期的过程
+生命周期钩子函数反映了一个实例或一个组件的几个重要节点，生命周期的过程则是一个实例或一个组件的全过程。
+生命周期的过程和生命周期钩子函数一样按照数据、挂载、更新、销毁的方向进行。
+
+## 针对Vue2的Options API
+*由于Vue2缺失setup的完整功能，vue2和vue3采用不同的生命周期节点表示。
+
+| 生命周期节点                                                | 生命周期钩子函数      | Description                                                                      |
+| ----------------------------------------------------- | ------------- | -------------------------------------------------------------------------------- |
+| new Vue()                                             |               | 创建Vue实例。                                                                         |
+| Init events and lifecycle                             |               | 初始化事件和生命周期（Vue的事件和生命周期）。                                                         |
+|                                                       | beforeCreated |                                                                                  |
+| Init reactivity and injections                        |               | 初始化数据（方法、响应性数据、计算属性、监听可用）。                                                       |
+|                                                       | created       |                                                                                  |
+| Has el option?                                        |               | 如果Vue实例在创建时制定了el选项或调用了挂载方法则进行下一步。（如果没有el选项并且没有调用mount方法，vue实例将会等待）               |
+| Has template option?                                  |               | 如果vue实例指定了template选项或指定了el选项则进行下一步。                                              |
+| Compile template or el’s HTML                         |               | 如果指定了template选项，则编译template为DOM。如果没有指定template但指定了el，则获取el指定的DOM并将其作为template编译。 |
+|                                                       | beforeMount   |                                                                                  |
+| Create $el and replace el with it                     |               | 将el选项从开发者提供的选择器改变为ADOM。                                                          |
+|                                                       | mounted       |                                                                                  |
+| Mounted                                               |               | 挂载为ADOM。                                                                         |
+| When data changes                                     |               | 当响应性数据变化被vue检测到时进行下一步。                                                           |
+|                                                       | beforeUpdate  |                                                                                  |
+| VDOM rerender and patch                               |               | 将检测到的变化与原始数据进行对比，将变化的部分重新渲染然后更新DOM。                                              |
+|                                                       | updated       |                                                                                  |
+| When $destroy is called                               |               | 当$destroy方法调用被vue检测到时进行下一步。                                                      |
+|                                                       | beforeDestroy |                                                                                  |
+| Tear down child components, watchers, event listeners |               | 卸载子组件、事件、监听。                                                                     |
+| Destroyed                                             |               | vue生命周期即将停止。                                                                     |
+|                                                       | destroyed     |                                                                                  |
+
+## 针对Vue3的CompositionAPI
+Vue3的核心特点那大概率是setup。
+setup运行在beforeCreate之前，这意味着setup中无法使用this（指指向组件自身的this），也无法在setup中访问optionsAPI中的data、computed、watch和methods。
+
+看看Vue3中的生命周期过程。
+
+| 生命周期节点                                      | 生命周期钩子函数      |     |
+| ------------------------------------------- | ------------- | --- |
+| Renderer encounters component               |               |     |
+| Setup                                       |               |     |
+|                                             | beforeCreate  |     |
+| Init OptionsAPI                             |               |     |
+|                                             | created       |     |
+| Has compiled template?                      |               |     |
+|                                             | beforeMount   |     |
+| Initial render, create and insert DOM nodes |               |     |
+|                                             | mounted       |     |
+| Mounted                                     |               |     |
+|                                             | beforeUpdate  |     |
+| Rerender and patch                          |               |     |
+|                                             | updated       |     |
+| When component is unmount                   |               |     |
+|                                             | beforeUnmount |     |
+| Unmounted                                   |               |     |
+|                                             | unmounted     |     |

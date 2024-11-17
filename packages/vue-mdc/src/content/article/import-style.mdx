@@ -1,0 +1,26 @@
+---
+headline: '引入樣式'
+description: '這篇文章將引導開發者如何正確引入Vue-MDC的組件的樣式。'
+collection: 'document'
+---
+# 引入樣式
+
+建議在`.css`文件中引入樣式，引入樣式時需要以node_modules為起點：
+
+```css
+/* Button */
+@import url("node_module/@glare-labs/vue-mdc/build/components/button/styles/button.module.css");
+
+/* Ripple */
+@import url("node_module/@glare-labs/vue-mdc/build/components/ripple/styles/ripple.module.css");
+
+/* FocusRing */
+@import url("node_module/@glare-labs/vue-mdc/build/components/focus-ring/styles/focus-ring.module.css");
+
+/* Elevation */
+@import url("node_module/@glare-labs/vue-mdc/build/components/elevation/styles/elevation.module.css");
+```
+
+大多數情況下，ripple, focus-ring和elevation的樣式需要被引入，這是因為大多數組件的內部使用了Ripple, FocusRing和Elevation。
+
+以Button組件為例，若不引入ripple樣式, focus-ring樣式和elevation樣式，Button組件內部的Ripple組件, FocusRing組件和Elevation組件將不能按照預期呈現樣式、Button組件的結構會被打亂。
