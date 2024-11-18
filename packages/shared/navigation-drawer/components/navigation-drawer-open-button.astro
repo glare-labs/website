@@ -12,20 +12,14 @@
 
 <script>
     document.addEventListener("astro:page-load", () => {
-        const openButtons = document.querySelectorAll(
-            ".navigation-drawer-open-button",
-        );
+        const openButtons = document.querySelectorAll(".navigation-drawer-open-button");
 
         openButtons.forEach((button) => {
-            const handleOpenButtonClick = (e: Event) => {
-                button
-                    .querySelector("&>.navigation-drawer")
-                    ?.dispatchEvent(new Event("open"));
+            const handleOpenButtonClick = (_: Event) => {
+                button.querySelector("&>.navigation-drawer")?.dispatchEvent(new Event("open"));
             };
 
-            button
-                .querySelector("&>.toggle")
-                .addEventListener("click", handleOpenButtonClick);
+            button.querySelector("&>.toggle").addEventListener("click", handleOpenButtonClick);
         });
     });
 </script>

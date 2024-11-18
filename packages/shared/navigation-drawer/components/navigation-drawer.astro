@@ -24,37 +24,28 @@
 
 <script>
     document.addEventListener("astro:page-load", () => {
-        const navigationDrawers =
-            document.querySelectorAll(".navigation-drawer");
+        const navigationDrawers = document.querySelectorAll(".navigation-drawer");
 
         navigationDrawers.forEach((drawer) => {
-            const handleClose = (e: Event) => {
+            const handleClose = (_: Event) => {
                 drawer.setAttribute("data-open", `false`);
-                (
-                    drawer.querySelector("&>dialog.dialog") as HTMLDialogElement
-                )?.close();
+                (drawer.querySelector("&>dialog.dialog") as HTMLDialogElement)?.close();
             };
 
-            const handleOpen = (e: Event) => {
+            const handleOpen = (_: Event) => {
                 drawer.setAttribute("data-open", `true`);
-                (
-                    drawer.querySelector("&>dialog.dialog") as HTMLDialogElement
-                )?.show();
+                (drawer.querySelector("&>dialog.dialog") as HTMLDialogElement)?.show();
             };
 
             const handleScrimClick = (e: Event) => {
                 drawer.setAttribute("data-open", `false`);
-                (
-                    drawer.querySelector("&>dialog.dialog") as HTMLDialogElement
-                )?.close();
+                (drawer.querySelector("&>dialog.dialog") as HTMLDialogElement)?.close();
                 e.stopPropagation();
             };
 
             drawer.addEventListener("close", handleClose);
             drawer.addEventListener("open", handleOpen);
-            drawer
-                .querySelector("&>.scrim")
-                ?.addEventListener("click", handleScrimClick);
+            drawer.querySelector("&>.scrim")?.addEventListener("click", handleScrimClick);
         });
     });
 </script>

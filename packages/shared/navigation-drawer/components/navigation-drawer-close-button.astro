@@ -11,7 +11,7 @@
         const closeButtons = document.querySelectorAll(".close-button");
 
         closeButtons.forEach((button) => {
-            const handleCloseButtonClick = (e: Event) => {
+            const handleCloseButtonClick = (_: Event) => {
                 button.dispatchEvent(new Event("close", { bubbles: true }));
             };
             button.addEventListener("click", handleCloseButtonClick);
