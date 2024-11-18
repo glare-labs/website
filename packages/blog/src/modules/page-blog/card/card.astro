@@ -1,0 +1,24 @@
+<div class="page-blog-card">
+    <slot name="title" />
+
+    <div class="content">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .page-blog-card {
+        border-width: 1px;
+        border-radius: 28px;
+        padding: 16px;
+        margin: 16px;
+        background-color: var(--md-sys-color-surface-container-lowest);
+
+        display: flex;
+        flex-direction: column;
+
+        & > .content {
+            flex-grow: 1;
+        }
+    }
+</style>

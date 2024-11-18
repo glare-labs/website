@@ -1,0 +1,101 @@
+---
+import CardTitle from "../card/card-title.astro";
+import Card from "../card/card.astro";
+import DisagreeButton from "./disagree-button.astro";
+import RecommendButton from "./recommend-button.astro";
+
+interface Props {
+    slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<Card>
+    <CardTitle slot="title">Do you agree with this article?</CardTitle>
+
+    <div id="article-reaction" class="reaction">
+        <RecommendButton slug={slug} />
+        <DisagreeButton slug={slug} />
+    </div>
+
+    <div id="article-reaction-result" class="reaction-result" data-for-slug={slug}>
+        <md-linear-progress id="reaction-percentage" min="0" max="100"></md-linear-progress>
+        <div class="result-detail">
+            <span class="detail-positive md-typescale-label-medium">
+                Positive
+                <span class="number"></span>
+            </span>
+            <span class="detail-negative md-typescale-label-medium">
+                Negative
+                <span class="number"></span>
+            </span>
+        </div>
+    </div>
+</Card>
+
+<script>
+    import "@material/web/progress/linear-progress";
+</script>
+
+<script is:inline>
+    document.addEventListener("astro:page-load", () => {
+        const reaction = document.querySelector("#article-reaction");
+        const reactionResult = document.querySelector("#article-reaction-result");
+        const progress = reactionResult.querySelector(`&>#reaction-percentage`);
+        const slug = reactionResult.getAttribute("data-for-slug");
+
+        reaction.addEventListener("commend-reaction", () => {
+            reaction.setAttribute("open", "false");
+
+            fetch(`https://blog-database.function.glare-labs.uk/api/getCommends/${slug}`)
+                .then((res) => res.json())
+                .then((json) => {
+                    const { positive, negative } = json;
+                    const percentage = (positive * 100) / (positive + negative);
+
+                    progress.setAttribute("value", `${percentage}`);
+                    reactionResult.querySelector("&>.result-detail>.detail-positive>.number").textContent = positive;
+                    reactionResult.querySelector("&>.result-detail>.detail-negative>.number").textContent = negative;
+                });
+        });
+    });
+</script>
+
+<style>
+    .reaction {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        &[open="false"] {
+            display: none;
+        }
+    }
+
+    .reaction-result {
+        --md-linear-progress-active-indicator-color: var(--md-sys-color-primary-container);
+        --md-linear-progress-track-color: var(--md-sys-color-error-container);
+        --md-linear-progress-track-height: 40px;
+        --md-linear-progress-active-indicator-height: 40px;
+        --md-linear-progress-track-shape: 999px;
+        display: block;
+        margin-top: 8px;
+
+        &[open="true"] {
+        }
+        &[open="false"] {
+            display: none;
+        }
+
+        & > .result-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 24px;
+            & > :is(.detail-positive, .detail-negative) {
+                color: var(--md-sys-color-on-surface-variant);
+            }
+        }
+    }
+</style>
