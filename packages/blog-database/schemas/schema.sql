@@ -1,12 +1,20 @@
 drop table if exists comments;
 
 create table if not exists comments (
-    guid text primary key not null,
+    guid text not null primary key,
+    slug text not null,
     content text not null,
     sendTimestamp integer not null,
-    slug text not null,
     userGuid text not null,
     isAnonymous integer not null
+);
+
+drop table if exists commends;
+
+create table if not exists commends (
+    slug text not null primary key,
+    positive integer not null,
+    negative integer not null
 );
 
 drop table if exists users;

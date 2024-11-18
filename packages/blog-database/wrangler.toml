@@ -8,3 +8,6 @@ compatibility_flags = ["nodejs_compat"]
 binding = "DB"
 database_name = "blog-database"
 database_id = "82e668b6-aea0-4a5d-912d-d102d3bc71d2"
+
+[observability]
+enabled = true
