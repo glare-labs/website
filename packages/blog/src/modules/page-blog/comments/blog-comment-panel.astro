@@ -1,0 +1,248 @@
+---
+import CardTitle from "../card/card-title.astro";
+import Card from "../card/card.astro";
+
+interface Props {
+    slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<Card>
+    <CardTitle>Comments</CardTitle>
+
+    <div id="article-comments" data-for-slug={slug}>
+        <section id="comments"></section>
+
+        <form data-status="inactive" id="comment-form">
+            <md-outlined-text-field type="textarea" minlength="2" label="Comment" name="content" required no-asterisk id="form-field-content" supporting-text="The website sends information anonymously and we do not collect private data."></md-outlined-text-field>
+
+            <div class="actions">
+                <span class="progress-status">
+                    <md-icon id="ok-icon">check</md-icon>
+                    <md-icon id="error-icon">exclamation</md-icon>
+                    <md-circular-progress indeterminate id="circular-progress"></md-circular-progress>
+                </span>
+                <md-filled-button id="send-button" type="submit">
+                    Send
+                    <md-icon slot="icon">send</md-icon>
+                </md-filled-button>
+            </div>
+        </form>
+    </div>
+</Card>
+
+<script>
+    const createCommentField = (classList: Array<string>, textContent: string) => {
+        const div = document.createElement("div");
+        div.classList.add(...classList);
+        div.textContent = textContent;
+        return div;
+    };
+
+    const createComment = (guid: string, content: string, sendTimestamp: number, userGuid: string, isAnonymous: "0" | "1") => {
+        const commentBox = document.createElement("div");
+        commentBox.classList.add("comment");
+
+        commentBox.appendChild(createCommentField(["content", "md-typescale-body-medium"], content));
+        commentBox.appendChild(createCommentField(["user-name", "md-typescale-label-medium"], isAnonymous ? "Anonymous" : "???"));
+
+        const date = new Date();
+        date.setMilliseconds(sendTimestamp);
+        commentBox.appendChild(createCommentField(["send-time", "md-typescale-label-medium"], date.toUTCString()));
+        commentBox.appendChild(createCommentField(["avatar"], ""));
+
+        return commentBox;
+    };
+
+    const getComments = (slug: string) => {
+        return fetch(`https://blog-database.function.glare-labs.uk/api/getComments/${slug}`)
+            .then((res) => res.json())
+            .then((json) => {
+                return json;
+            })
+            .catch(() => {
+                return [];
+            });
+    };
+
+    const updateComments = (comments) => {
+        const commentsElement = document.querySelector("#article-comments>#comments");
+        for (const comment of commentsElement.querySelectorAll("&>.comment")) {
+            comment.remove();
+        }
+        for (const comment of comments) {
+            const { guid, content, sendTimestamp, userGuid, isAnonymous } = comment;
+            commentsElement.appendChild(createComment(guid, content, sendTimestamp, userGuid, isAnonymous));
+        }
+    };
+
+    document.addEventListener("astro:page-load", () => {
+        const slug = document.querySelector(`#article-comments`).getAttribute("data-for-slug");
+
+        getComments(slug).then((comments) => updateComments(comments));
+
+        /**
+         * @type {HTMLFormElement}
+         */
+        const form = document.querySelector("#article-comments form#comment-form");
+        /**
+         * @type {HTMLElement}
+         */
+        const sendButton = form.querySelector(".actions #send-button");
+        /**
+         * @type {HTMLInputElement}
+         */
+        const contentField = form.querySelector("#form-field-content");
+
+        contentField.addEventListener("input", (e) => {
+            form.setAttribute("data-status", "inactive");
+        });
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target as HTMLFormElement);
+            form.setAttribute("data-status", "pending");
+            sendButton.setAttribute("soft-disabled", "true");
+
+            try {
+                const response = await fetch(`https://blog-database.function.glare-labs.uk/api/pushComment/${slug}`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        content: formData.get("content"),
+                        userGuid: "ANONYMOUS",
+                        isAnonymous: "1",
+                    }),
+                    signal: AbortSignal.timeout(5000),
+                });
+
+                if (response.ok) {
+                    form.setAttribute("data-status", "success");
+                    getComments(slug).then((comments) => updateComments(comments));
+                } else {
+                    form.setAttribute("data-status", "error");
+                }
+            } catch (e) {
+                console.log(e);
+                form.setAttribute("data-status", "error");
+            } finally {
+                sendButton.removeAttribute("soft-disabled");
+            }
+        });
+    });
+</script>
+
+<!-- Comments -->
+<style is:global>
+    #article-comments {
+        z-index: 0;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+
+        & #comments {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            & > .comment {
+                padding: 16px;
+                border-radius: 16px;
+                border-width: 1px;
+                display: grid;
+                grid-template-columns: auto 1fr;
+                grid-template-rows: 24px 24px auto;
+                column-gap: 12px;
+                row-gap: 0px;
+
+                & > .avatar {
+                    grid-column: 1/2;
+                    grid-row: 1/3;
+                    height: 40px;
+                    width: 40px;
+                    background-color: var(--md-sys-color-surface-tint);
+                    border-radius: 9999px;
+                    overflow: hidden;
+                }
+                & > .user-name {
+                    grid-column: 2/3;
+                    grid-row: 1/3;
+                    color: var(--md-sys-color-on-surface);
+                }
+                & > .content {
+                    grid-column: 2/3;
+                    grid-row: 3/4;
+                    margin-top: 12px;
+                    color: var(--md-sys-color-on-surface);
+                }
+                & > .send-time {
+                    grid-column: 2/3;
+                    grid-row: 2/3;
+                    color: var(--md-sys-color-on-surface-variant);
+                }
+                /* &>.user-name {} */
+            }
+        }
+
+        & #comment-form {
+            --md-outlined-text-field-container-shape-start-end: 16px;
+            --md-outlined-text-field-container-shape-end-start: 16px;
+            --md-outlined-text-field-container-shape-start-start: 16px;
+            --md-outlined-text-field-container-shape-end-end: 16px;
+
+            --md-circular-progress-size: 40px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            & > .actions {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                justify-content: end;
+
+                & .progress-status {
+                    position: relative;
+                    height: 40px;
+                    width: 40px;
+                    & > * {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+            }
+
+            &[data-status="inactive"] .progress-status {
+                display: none;
+            }
+            &[data-status="pending"] .progress-status {
+                & :is(#ok-icon, #error-icon) {
+                    display: none;
+                }
+                & #circular-progress {
+                }
+            }
+            &[data-status="success"] .progress-status {
+                & #error-icon {
+                    display: none;
+                }
+                & #circular-progress {
+                    display: none;
+                }
+            }
+            &[data-status="error"] .progress-status {
+                & #ok-icon {
+                    display: none;
+                }
+                & #circular-progress {
+                    display: none;
+                }
+            }
+        }
+    }
+</style>

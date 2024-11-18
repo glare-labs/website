@@ -19,7 +19,7 @@ const { slug } = Astro.props;
         <DisagreeButton slug={slug} />
     </div>
 
-    <div id="article-reaction-result" class="reaction-result" data-for-slug={slug}>
+    <div id="article-reaction-result" class="reaction-result" data-for-slug={slug} data-open="false">
         <md-linear-progress id="reaction-percentage" min="0" max="100"></md-linear-progress>
         <div class="result-detail">
             <span class="detail-positive md-typescale-label-medium">
@@ -57,6 +57,12 @@ const { slug } = Astro.props;
                     progress.setAttribute("value", `${percentage}`);
                     reactionResult.querySelector("&>.result-detail>.detail-positive>.number").textContent = positive;
                     reactionResult.querySelector("&>.result-detail>.detail-negative>.number").textContent = negative;
+                    reactionResult.setAttribute("data-open", "true");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    reactionResult.setAttribute("data-open", "false");
+                    reaction.setAttribute("open", "true");
                 });
         });
     });
@@ -77,15 +83,15 @@ const { slug } = Astro.props;
     .reaction-result {
         --md-linear-progress-active-indicator-color: var(--md-sys-color-primary-container);
         --md-linear-progress-track-color: var(--md-sys-color-error-container);
-        --md-linear-progress-track-height: 40px;
-        --md-linear-progress-active-indicator-height: 40px;
         --md-linear-progress-track-shape: 999px;
-        display: block;
         margin-top: 8px;
 
-        &[open="true"] {
+        &[data-open="true"] {
+            display: block;
+            --md-linear-progress-track-height: 40px;
+            --md-linear-progress-active-indicator-height: 40px;
         }
-        &[open="false"] {
+        &[data-open="false"] {
             display: none;
         }
 
