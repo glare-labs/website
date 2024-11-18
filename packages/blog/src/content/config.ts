@@ -6,6 +6,7 @@ const articleDefinition = defineCollection({
         headline: z.string(),
         description: z.string(),
         creationTime: z.coerce.date(),
+        imageUrl: z.string(),
         tags: z.array(z.string()),
 
         /**
@@ -27,6 +28,7 @@ const articleDefinition = defineCollection({
          * headline: "Setup angular project"
          * description: "Create a angular project in one minutes."
          * creationTime: 1/1/2000
+         * imageUrl: "source.jpg"
          * tags: ['test file', 'Tag 1', 'Tag 2', 'Tag3']
          * collection: 'Angular'
          * ---

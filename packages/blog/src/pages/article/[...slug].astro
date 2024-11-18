@@ -10,6 +10,7 @@ import { ImportJetbrainsMonoStyle, ImportMaterialSymbols, MaterialThemeScript, P
 import { PageHeaderLayout, PageRootHtmlLayout } from "@shared/layouts";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
+import { BlogCommentPanel, BlogReactionPanel } from "@modules/page-blog";
 
 export async function getStaticPaths() {
     /**
@@ -84,6 +85,14 @@ const headings = parseHeadings(article.body);
             </PageHeaderLayout>
         </span>
 
+        {
+            article.data.imageUrl.length !== 0 && (
+                <div aria-hidden="true" id="image-before-article">
+                    <div class="image" style={`background-image: url("https://media.glare-labs.uk/${article.data.imageUrl}")`} />
+                </div>
+            )
+        }
+
         <article id="article">
             <section id="article-content" class="prose">
                 <Content />
@@ -127,27 +136,11 @@ const headings = parseHeadings(article.body);
             </nav>
         </article>
 
-        <article id="article-comments">
-            <span class="title md-typescale-headline-medium">Comments</span>
-            <section id="comments"></section>
-            <form data-status="inactive" id="comment-form">
-                <md-outlined-text-field type="textarea" minlength="2" label="Comment" name="content" required no-asterisk id="form-field-content" supporting-text="The website sends information anonymously and we do not collect private data."></md-outlined-text-field>
-
-                <div class="actions">
-                    <span class="progress-status">
-                        <md-icon id="ok-icon">check</md-icon>
-                        <md-icon id="error-icon">exclamation</md-icon>
-                        <md-circular-progress indeterminate id="circular-progress"></md-circular-progress>
-                    </span>
-                    <md-filled-button id="send-button" type="submit">
-                        Send
-                        <md-icon slot="icon">send</md-icon>
-                    </md-filled-button>
-                </div>
-            </form>
-        </article>
-
-        <PageFooter />
+        <div class="page-footer">
+            <BlogReactionPanel slug={article.slug} />
+            <BlogCommentPanel slug={article.slug} />
+            <PageFooter />
+        </div>
     </PageBodyLayout>
 </PageRootHtmlLayout>
 
@@ -254,118 +247,12 @@ const headings = parseHeadings(article.body);
     });
 </script>
 
-<!-- Comments -->
-<script is:inline>
-    const createCommentField = (classList, textContent) => {
-        const div = document.createElement("div");
-        div.classList.add(...classList);
-        div.textContent = textContent;
-        return div;
-    };
-
-    const createComment = (guid, content, sendTimestamp, userGuid, isAnonymous) => {
-        const commentBox = document.createElement("div");
-        commentBox.classList.add("comment");
-
-        commentBox.appendChild(createCommentField(["content", "md-typescale-body-medium"], content));
-        commentBox.appendChild(createCommentField(["user-name", "md-typescale-label-medium"], isAnonymous ? "Anonymous" : "???"));
-
-        const date = new Date();
-        date.setMilliseconds(sendTimestamp);
-        commentBox.appendChild(createCommentField(["send-time", "md-typescale-label-medium"], date.toUTCString()));
-        commentBox.appendChild(createCommentField(["avatar"], ""));
-
-        return commentBox;
-    };
-
-    const getComments = (slug) => {
-        return fetch(`https://blog-database-worker.glare-labs.uk/api/getComments/${slug}`)
-            .then((res) => res.json())
-            .then((json) => {
-                return json;
-            })
-            .catch(() => {
-                return [];
-            });
-    };
-
-    const updateComments = (comments) => {
-        const commentsElement = document.querySelector("#article-comments>#comments");
-        for (const comment of commentsElement.querySelectorAll("&>.comment")) {
-            comment.remove();
-        }
-        for (const comment of comments) {
-            const { guid, content, sendTimestamp, userGuid, isAnonymous } = comment;
-            commentsElement.appendChild(createComment(guid, content, sendTimestamp, userGuid, isAnonymous));
-        }
-    };
-
-    document.addEventListener("astro:page-load", () => {
-        const slug = document.querySelector(`#article-slug`).getAttribute("data-slug");
-
-        getComments(slug).then((comments) => updateComments(comments));
-
-        /**
-         * @type {HTMLFormElement}
-         */
-        const form = document.querySelector("#article-comments>form#comment-form");
-        /**
-         * @type {HTMLElement}
-         */
-        const sendButton = form.querySelector(".actions #send-button");
-        /**
-         * @type {HTMLInputElement}
-         */
-        const contentField = form.querySelector("#form-field-content");
-
-        contentField.addEventListener("input", (e) => {
-            form.setAttribute("data-status", "inactive");
-            /**
-             * @type {HTMLInputElement}
-             */
-            const inputValue = e.target;
-            if (inputValue.value.length !== 0) {
-            }
-        });
-
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            form.setAttribute("data-status", "pending");
-            sendButton.setAttribute("soft-disabled", "true");
-
-            try {
-                const response = await fetch(`https://blog-database-worker.glare-labs.uk/api/pushComment/${slug}`, {
-                    method: "POST",
-                    body: JSON.stringify({
-                        content: formData.get("content"),
-                        userGuid: "ANONYMOUS",
-                        isAnonymous: "1",
-                    }),
-                    signal: AbortSignal.timeout(5000),
-                });
-
-                if (response.ok) {
-                    form.setAttribute("data-status", "success");
-                    getComments(slug).then((comments) => updateComments(comments));
-                } else {
-                    form.setAttribute("data-status", "error");
-                }
-            } catch (e) {
-                console.log(e);
-                form.setAttribute("data-status", "error");
-            } finally {
-                sendButton.removeAttribute("soft-disabled");
-            }
-        });
-    });
-</script>
-
 <!-- Page Header -->
 <style>
     #page-header {
         position: sticky;
         top: 0;
+        z-index: 2;
         transition-property: background-color;
         transition-duration: 200ms;
 
@@ -412,19 +299,23 @@ const headings = parseHeadings(article.body);
         overflow: clip;
 
         @media (min-width: 840px) {
-            grid-template-columns: auto 1fr auto;
+            grid-template-columns: 32px 1fr auto;
         }
 
         &:has(#article-catalog[data-open="false"]) {
-            grid-template-columns: auto 1fr 0;
+            grid-template-columns: 32px 1fr 0;
         }
 
         #article-content {
             --space-y: 16px;
             --space-x: 16px;
             margin: var(--space-y) var(--space-x);
-            grid-column: 2/3;
+            grid-column: 1/3;
             grid-row: 1/2;
+            @media (min-width: 840px) {
+                grid-column: 2/3;
+                grid-row: 1/2;
+            }
         }
         #article-footer {
             --space-y: 16px;
@@ -477,12 +368,11 @@ const headings = parseHeadings(article.body);
             --space-x: 16px;
 
             width: 280px;
-            position: fixed;
             z-index: 1;
+            position: fixed;
             right: 0;
+            top: calc(var(--header-height));
             margin: var(--space-y) var(--space-x);
-            grid-column: 3/4;
-            grid-row: 1/-1;
 
             @media (min-width: 840px) {
                 grid-column: 3/4;
@@ -558,127 +448,6 @@ const headings = parseHeadings(article.body);
                         margin-left: 32px;
                         list-style-type: disc;
                     }
-                }
-            }
-        }
-    }
-</style>
-
-<!-- Comments -->
-<style is:global>
-    #article-comments {
-        background-color: var(--md-sys-color-surface-container-lowest);
-        border-radius: 28px;
-        border-width: 1px;
-        margin: 16px;
-
-        & > .title {
-            display: inline-block;
-            padding: 22px 16px 0px;
-            color: var(--md-sys-color-on-surface);
-        }
-
-        & #comments {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-
-            & > .comment {
-                padding: 16px;
-                border-radius: 16px;
-                border-width: 1px;
-                display: grid;
-                grid-template-columns: auto 1fr;
-                grid-template-rows: 24px 24px auto;
-                column-gap: 12px;
-                row-gap: 0px;
-
-                & > .avatar {
-                    grid-column: 1/2;
-                    grid-row: 1/3;
-                    height: 40px;
-                    width: 40px;
-                    background-color: var(--md-sys-color-surface-tint);
-                    border-radius: 9999px;
-                    overflow: hidden;
-                }
-                & > .user-name {
-                    grid-column: 2/3;
-                    grid-row: 1/3;
-                    color: var(--md-sys-color-on-surface);
-                }
-                & > .content {
-                    grid-column: 2/3;
-                    grid-row: 3/4;
-                    margin-top: 12px;
-                    color: var(--md-sys-color-on-surface);
-                }
-                & > .send-time {
-                    grid-column: 2/3;
-                    grid-row: 2/3;
-                    color: var(--md-sys-color-on-surface-variant);
-                }
-                /* &>.user-name {} */
-            }
-        }
-
-        & #comment-form {
-            --md-outlined-text-field-container-shape-start-end: 16px;
-            --md-outlined-text-field-container-shape-end-start: 16px;
-            --md-outlined-text-field-container-shape-start-start: 16px;
-            --md-outlined-text-field-container-shape-end-end: 16px;
-
-            --md-circular-progress-size: 40px;
-
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin: 16px;
-
-            & > .actions {
-                display: flex;
-                align-items: center;
-                gap: 4px;
-                justify-content: end;
-
-                & .progress-status {
-                    position: relative;
-                    height: 40px;
-                    width: 40px;
-                    & > * {
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                    }
-                }
-            }
-
-            &[data-status="inactive"] .progress-status {
-                display: none;
-            }
-            &[data-status="pending"] .progress-status {
-                & :is(#ok-icon, #error-icon) {
-                    display: none;
-                }
-                & #circular-progress {
-                }
-            }
-            &[data-status="success"] .progress-status {
-                & #error-icon {
-                    display: none;
-                }
-                & #circular-progress {
-                    display: none;
-                }
-            }
-            &[data-status="error"] .progress-status {
-                & #ok-icon {
-                    display: none;
-                }
-                & #circular-progress {
-                    display: none;
                 }
             }
         }
@@ -814,6 +583,31 @@ const headings = parseHeadings(article.body);
             & li:last-child {
                 margin-bottom: 8px;
             }
+        }
+    }
+</style>
+
+<!-- Page Footer -->
+<style>
+    .page-footer {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+</style>
+
+<!-- Image before article -->
+<style>
+    #image-before-article {
+        & > .image {
+            display: block;
+            height: 320px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            margin: auto;
         }
     }
 </style>
