@@ -11,6 +11,7 @@ import { PageHeaderLayout, PageRootHtmlLayout } from "@shared/layouts";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import { BlogCommentPanel, BlogReactionPanel } from "@modules/page-blog";
+import BlogOverview from "@modules/page-blog/overview/blog-overview.astro";
 
 export async function getStaticPaths() {
     /**
@@ -85,13 +86,16 @@ const headings = parseHeadings(article.body);
             </PageHeaderLayout>
         </span>
 
-        {
-            article.data.imageUrl.length !== 0 && (
-                <div aria-hidden="true" id="image-before-article">
-                    <div class="image" style={`background-image: url("https://media.glare-labs.uk/${article.data.imageUrl}")`} />
-                </div>
-            )
-        }
+        <div class="width-forced">
+            {
+                article.data.imageUrl.length !== 0 && (
+                    <div aria-hidden="true" id="image-before-article">
+                        <div class="image" style={`background-image: url("https://media.glare-labs.uk/${article.data.imageUrl}")`} />
+                    </div>
+                )
+            }
+            <BlogOverview context={article.body} />
+        </div>
 
         <article id="article">
             <section id="article-content" class="prose">
@@ -136,7 +140,7 @@ const headings = parseHeadings(article.body);
             </nav>
         </article>
 
-        <div class="page-footer">
+        <div class="width-forced">
             <BlogReactionPanel slug={article.slug} />
             <BlogCommentPanel slug={article.slug} />
             <PageFooter />
@@ -587,9 +591,8 @@ const headings = parseHeadings(article.body);
     }
 </style>
 
-<!-- Page Footer -->
 <style>
-    .page-footer {
+    .width-forced {
         max-width: 1200px;
         margin: 0 auto;
     }
@@ -605,9 +608,7 @@ const headings = parseHeadings(article.body);
             background-repeat: no-repeat;
             background-position: center;
             width: 100%;
-            max-width: 1200px;
             overflow: hidden;
-            margin: auto;
         }
     }
 </style>

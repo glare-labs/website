@@ -1,0 +1,115 @@
+---
+interface Props {
+    context: string;
+}
+
+const { context } = Astro.props;
+
+const overview = await fetch(`https://blog-overview.function.glare-labs.uk/api/overview`, {
+    body: JSON.stringify({ blogContext: context }),
+    method: "POST",
+});
+
+const { response } = await overview.json();
+// const response = `await overview.json()`;
+---
+
+<div class="blog-overview" data-show-full-content="false">
+    <h1 class="title md-typescale-title-medium">Overview</h1>
+    <p class="content md-typescale-body-medium">
+        {response}
+    </p>
+
+    <div class="expand">
+        <md-outlined-button class="expand-button">
+            Expand All
+            <md-icon slot="icon">expand_all</md-icon>
+        </md-outlined-button>
+    </div>
+
+    <div class="background" aria-hidden="true"></div>
+</div>
+
+<script>
+    import "@material/web/button/outlined-button";
+    import "@material/web/icon/icon";
+</script>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const overview = document.querySelector(".blog-overview");
+        const expandButton = overview.querySelector(".expand-button");
+
+        expandButton.addEventListener("click", () => {
+            overview.setAttribute("data-show-full-content", "true");
+        });
+    });
+</script>
+
+<style>
+    .blog-overview {
+        border-width: 1px;
+        border-color: var(--md-sys-color-primary-container);
+        border-radius: 28px;
+        margin: 16px;
+        z-index: 0;
+        overflow: hidden;
+        position: relative;
+
+        & > .background {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            z-index: 0;
+            background: linear-gradient(to bottom right, var(--md-sys-color-primary-container), transparent);
+            opacity: 0.24;
+        }
+
+        & > .title {
+            position: relative;
+            z-index: 1;
+            color: var(--md-sys-color-primary);
+            margin: 24px 24px 32px;
+        }
+
+        & > .content {
+            position: relative;
+            z-index: 1;
+            color: var(--md-sys-color-primary);
+            margin: 12px 24px 32px;
+        }
+
+        & > .expand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            position: relative;
+            padding: 48px 0 24px;
+
+            & > .expand-button {
+                z-index: 2;
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: 1;
+                margin-bottom: -1px;
+                background: linear-gradient(to bottom, transparent, var(--md-sys-color-surface) 50%);
+            }
+        }
+
+        &[data-show-full-content="false"] {
+            & > .content {
+                max-height: 0px;
+            }
+        }
+        &[data-show-full-content="true"] {
+            & > .expand {
+                display: none;
+            }
+        }
+    }
+</style>
