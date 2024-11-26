@@ -2,18 +2,10 @@
 import { routes } from "../../router/routes";
 ---
 
-<md-navigation-bar
-    transition:persist="bottom-app-bar"
-    class="bottom-app-bar"
-    id="bottom-app-bar-standalone-root"
->
+<md-navigation-bar transition:persist="bottom-app-bar" class="bottom-app-bar" id="bottom-app-bar-standalone-root">
     {
         routes.map((link) => (
-            <md-navigation-tab
-                data-href={`${link.url}`}
-                label={link.label}
-                class="bottom-app-tab"
-            >
+            <md-navigation-tab data-href={`${link.url}`} label={link.label} class="bottom-app-tab">
                 <md-icon class="inactive-icon" slot="inactive-icon">
                     {link.iconString}
                 </md-icon>
@@ -38,47 +30,52 @@ import { routes } from "../../router/routes";
     import { currentRouteUrl } from "@router/routes";
     import { navigate } from "astro:transitions/client";
 
-    const bar = () =>
-        document.querySelector<MdNavigationBar & HTMLElement>(
-            "#bottom-app-bar-standalone-root",
-        );
+    document.addEventListener("astro:page-load", () => {
+        const bar = document.querySelector<MdNavigationBar & HTMLElement>("#bottom-app-bar-standalone-root");
 
-    const initRipple = () => {
-        const ripplHosts = bar().querySelectorAll(".bottom-app-tab")!;
+        const unboundRipple = (navigationBar: MdNavigationBar) => {
+            const ripplHosts = navigationBar.querySelectorAll(".bottom-app-tab");
+            ripplHosts.forEach((host) => {
+                const ripple = host.shadowRoot!.querySelector<MdRipple & HTMLElement>(".md3-navigation-tab__ripple");
+                ripple.style.setProperty("inset", "unset");
+                ripple.style.setProperty("border-radius", "9999px");
+                ripple.style.setProperty("height", "128px");
+                ripple.style.setProperty("width", "128px");
+                ripple.attach(host as HTMLElement);
+            });
+            ripplHosts.forEach((host) => {
+                (host.shadowRoot!.querySelector(".md3-navigation-tab__active-indicator") as HTMLElement).style.setProperty("transition", `width 200ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 0.2, 1)`);
+            });
+        };
 
-        ripplHosts.forEach((host) => {
-            const ripple = host.shadowRoot!.querySelector<
-                MdRipple & HTMLElement
-            >(".md3-navigation-tab__ripple");
-            ripple.style.setProperty("inset", "unset");
-            ripple.style.setProperty("border-radius", "9999px");
-            ripple.style.setProperty("height", "128px");
-            ripple.style.setProperty("width", "128px");
-            ripple.attach(host as HTMLElement);
-        });
-    };
-    const createTabNavigateEvent = () => {
-        bar().tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
-            tab.addEventListener("click", (_) => {
-                navigate(tab.getAttribute("data-href")!);
-                currentRouteUrl.set(tab.getAttribute("data-href")!);
+        unboundRipple(bar);
+
+        bar.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
+            tab.addEventListener("click", async (_) => {
+                await new Promise<void>((resolve) => setTimeout(() => resolve(), 200));
+                navigate(tab.getAttribute("data-href")!, {
+                    history: "replace",
+                }).then(() => {
+                    currentRouteUrl.set(tab.getAttribute("data-href")!);
+                });
             });
         });
-    };
 
-    window.addEventListener("DOMContentLoaded", () => {
-        initRipple();
-        createTabNavigateEvent();
+        window.addEventListener("navigation-up", (e) => {
+            console.log(e);
+        });
     });
 
     currentRouteUrl.subscribe((value) => {
-        if (!bar().tabs) {
+        const bar = document.querySelector<MdNavigationBar & HTMLElement>("#bottom-app-bar-standalone-root");
+
+        if (!bar.tabs) {
             return;
         }
 
-        bar().tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
+        bar.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
             if (tab.getAttribute("data-href") === value) {
-                bar().activeIndex = bar().tabs.findIndex((e) => e === tab);
+                bar.activeIndex = bar.tabs.findIndex((e) => e === tab);
             }
         });
     });
@@ -96,6 +93,12 @@ import { routes } from "../../router/routes";
                 "wght" 400,
                 "GRAD" 0,
                 "opsz" 24;
+        }
+
+        .md3-navigation-tab__active-indicator {
+            transition:
+                width 200ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
     }
 </style>
