@@ -34,20 +34,13 @@ const { headline = "Bre97's Blog" } = Astro.props;
 
     .header-drop {
         --header-drop-height: 24px;
-        --var-background-color: var(
-            --header-drop-background-color,
-            var(--md-sys-color-surface)
-        );
+        --var-background-color: var(--header-drop-background-color, var(--md-sys-color-surface));
         position: absolute;
         left: 0px;
         bottom: calc(0px - var(--header-drop-height));
         width: 100%;
         height: var(--header-drop-height);
         z-index: 1;
-        background: linear-gradient(
-            180deg,
-            var(--var-background-color) 0%,
-            transparent var(--header-drop-height)
-        );
+        background: linear-gradient(180deg, var(--var-background-color) 0%, transparent var(--header-drop-height));
     }
 </style>

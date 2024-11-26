@@ -14,7 +14,7 @@ const { slug } = Astro.props;
 <Card>
     <CardTitle slot="title">Do you agree with this article?</CardTitle>
 
-    <div id="article-reaction" class="reaction">
+    <div id="article-reaction" class="reaction" role="toolbar">
         <RecommendButton slug={slug} />
         <DisagreeButton slug={slug} />
     </div>

@@ -35,9 +35,9 @@ const blogs = await getCollection("article");
     <ViewTransitions slot="head" />
 
     <PageBody>
-        <div class="sticky-header">
+        <header class="sticky-header">
             <PageHeader />
-        </div>
+        </header>
 
         <div class="search-blog-wrapper page-content">
             <SearchInput />
@@ -55,13 +55,17 @@ const blogs = await getCollection("article");
                             data-slug={blog.slug}
                             data-body={blog.body}
                             data-invisible="true"
+                            role="listitem"
+                            aria-hidden="true"
                             data-astro-reload
                         >
                             <section>
                                 <h1 class="headline md-typescale-title-medium">{blog.data.headline}</h1>
                                 <p class="description md-typescale-body-medium">{blog.data.description}</p>
                             </section>
-                            <p class="file-name md-typescale-label-small">{blog.slug}</p>
+                            <p aria-hidden="true" class="file-name md-typescale-label-small">
+                                {blog.slug}
+                            </p>
                             <md-ripple />
                         </a>
                     ))
@@ -102,8 +106,10 @@ const blogs = await getCollection("article");
                 ];
                 if (validates.includes(true)) {
                     blog.setAttribute("data-invisible", "false");
+                    blog.setAttribute("aria-hidden", "false");
                 } else {
                     blog.setAttribute("data-invisible", "true");
+                    blog.setAttribute("aria-hidden", "true");
                 }
             });
         };

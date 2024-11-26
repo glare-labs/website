@@ -3,12 +3,12 @@ import { routes } from "../../router/routes";
 import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-button.astro";
 ---
 
-<div transition:persist="navigation-rail-component" class="navigation-rail">
-    <div class="start"></div>
-    <div class="tabs">
+<nav transition:persist="navigation-rail-component" class="navigation-rail">
+    <div class="start" aria-hidden="true"></div>
+    <div class="tabs" role="list">
         {
             routes.map((link) => (
-                <span class="navigation-rail-tab" data-href={link.url}>
+                <span class="navigation-rail-tab" data-href={link.url} role="listitem">
                     <span aria-hidden="true" class="indicator" />
                     <span aria-hidden="true" class="ripple-indicator-helper">
                         <md-ripple class="ripple" />
@@ -22,7 +22,7 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
     <div class="end">
         <NavigationRailSwitchThemeButton />
     </div>
-</div>
+</nav>
 
 <script>
     import "@material/web/icon/icon";

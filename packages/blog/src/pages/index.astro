@@ -7,12 +7,7 @@
 import { GlobalStyles } from "@modules/global";
 import { PageFooter } from "@modules/page-footer";
 import { PageHeader } from "@modules/page-header";
-import {
-    ImportMaterialSymbols,
-    ImportRobotoStyle,
-    MaterialThemeScript,
-    PageMetaInfo,
-} from "@shared/components";
+import { ImportMaterialSymbols, ImportRobotoStyle, MaterialThemeScript, PageMetaInfo } from "@shared/components";
 import { PageRootHtmlLayout } from "@shared/layouts";
 
 import { PageBody } from "@modules/page-body";
@@ -38,13 +33,7 @@ const socialLinks = [
     },
 ];
 
-const latestBlogs = (await getCollection("article"))
-    .sort(
-        (x, y) =>
-            new Date(y.data.creationTime).getMilliseconds() -
-            new Date(x.data.creationTime).getMilliseconds(),
-    )
-    .slice(0, 4);
+const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.data.creationTime).getMilliseconds() - new Date(x.data.creationTime).getMilliseconds()).slice(0, 4);
 ---
 
 <PageRootHtmlLayout>
@@ -69,58 +58,39 @@ const latestBlogs = (await getCollection("article"))
     <ViewTransitions slot="head" />
 
     <PageBody>
-        <div class="sticky-header">
+        <header class="sticky-header">
             <PageHeader />
-        </div>
+        </header>
 
-        <div class="body-content hero-wrapper">
+        <div class="body-content hero-wrapper" role="banner">
             <section class="hero">
                 <h1 class="title md-typescale-headline-medium">Bre97's Blog</h1>
-                <p class="body md-typescale-body-large">
-                    Welcome to our Blog website, if you like this website, you
-                    can provide any constructive feedback.
-                </p>
+                <p class="body md-typescale-body-large">Welcome to our Blog website, if you like this website, you can provide any constructive feedback.</p>
             </section>
         </div>
 
-        <div class="body-content the-latest-blogs">
-            <h1 class="headline md-typescale-headline-medium">
-                The Latest Blogs
-            </h1>
+        <div class="body-content the-latest-blogs" role="list">
+            <h1 class="headline md-typescale-headline-medium">The Latest Blogs</h1>
 
             {
                 latestBlogs.map((blog) => (
-                    <a
-                        class="blog"
-                        href={`/article/${blog.slug}/`}
-                        target="_self"
-                    >
-                        <h1 class="headline md-typescale-title-medium">
-                            {blog.data.headline}
-                        </h1>
-                        <p class="description md-typescale-body-medium">
-                            {blog.data.description}
-                        </p>
+                    <a class="blog" href={`/article/${blog.slug}/`} target="_self" role="listitem">
+                        <h1 class="headline md-typescale-title-medium">{blog.data.headline}</h1>
+                        <p class="description md-typescale-body-medium">{blog.data.description}</p>
                         <md-ripple />
                     </a>
                 ))
             }
         </div>
 
-        <div class="body-content hero-social-link-list">
+        <div class="body-content hero-social-link-list" role="list">
             <h1 class="headline md-typescale-headline-medium">Activities</h1>
 
             {
                 socialLinks.map((link) => (
-                    <a
-                        class="social-link-list-item"
-                        href={link.url}
-                        target="_blank"
-                    >
-                        <span class="icon" set:html={link.svg} />
-                        <span class="label md-typescale-body-medium">
-                            {link.label}
-                        </span>
+                    <a class="social-link-list-item" href={link.url} target="_blank" role="listitem">
+                        <span aria-hidden="true" class="icon" set:html={link.svg} />
+                        <span class="label md-typescale-body-medium">{link.label}</span>
                         <md-icon class="alt-icon">open_in_new</md-icon>
                         <md-ripple />
                     </a>

@@ -68,7 +68,7 @@ const headings = parseHeadings(article.body);
     <ViewTransitions slot="head" />
 
     <PageBodyLayout>
-        <span id="page-header" data-show-title="false">
+        <header id="page-header" data-show-title="false">
             <PageHeaderLayout>
                 <a slot="start" class="back-to-all-post-page-button" target="_self" href={`/library/`} data-astro-reload>
                     <md-icon-button>
@@ -84,12 +84,12 @@ const headings = parseHeadings(article.body);
                     <md-icon>menu_open</md-icon>
                 </md-icon-button>
             </PageHeaderLayout>
-        </span>
+        </header>
 
-        <div class="width-forced">
+        <div class="width-forced" role="banner">
             {
                 article.data.imageUrl.length !== 0 && (
-                    <div aria-hidden="true" id="image-before-article">
+                    <div aria-hidden="true" id="image-before-article" role="img">
                         <div class="image" style={`background-image: url("https://media.glare-labs.uk/${article.data.imageUrl}")`} />
                     </div>
                 )
@@ -102,7 +102,7 @@ const headings = parseHeadings(article.body);
                 <Content />
             </section>
 
-            <section id="article-footer" class="content">
+            <section aria-hidden="true" id="article-footer" class="content">
                 <ul class="article-tags md-typescale-label-small">
                     {article.data.tags?.map((tag) => <li class="tag">{tag}</li>)}
                 </ul>
@@ -123,7 +123,7 @@ const headings = parseHeadings(article.body);
                 </div>
             </section>
 
-            <nav id="article-references"></nav>
+            <nav aria-hidden="true" id="article-references"></nav>
 
             <nav id="article-catalog" data-open="true">
                 <ul class="heading-list">

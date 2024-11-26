@@ -18,7 +18,7 @@ const { slug } = Astro.props;
         <form data-status="inactive" id="comment-form">
             <md-outlined-text-field type="textarea" minlength="2" label="Comment" name="content" required no-asterisk id="form-field-content" supporting-text="The website sends information anonymously and we do not collect private data."></md-outlined-text-field>
 
-            <div class="actions">
+            <div class="actions" role="toolbar">
                 <span class="progress-status">
                     <md-icon id="ok-icon">check</md-icon>
                     <md-icon id="error-icon">exclamation</md-icon>

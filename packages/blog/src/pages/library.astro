@@ -41,9 +41,9 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
     <ViewTransitions slot="head" />
 
     <PageBody>
-        <div class="sticky-header">
+        <header class="sticky-header">
             <PageHeader />
-        </div>
+        </header>
 
         <div class="page-content">
             <div class="filter-container">
@@ -56,8 +56,8 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
                         <NavigationDrawerHeader slot="headline">Filter</NavigationDrawerHeader>
                         <NavigationDrawerCloseButton slot="close-button" />
 
-                        <div class="filter-panel">
-                            <md-chip-set class="tag-filter chip-set" id="filter-chip-set">
+                        <div class="filter-panel" role="list">
+                            <md-chip-set class="tag-filter chip-set" id="filter-chip-set" role="listitem">
                                 {tags.map((tag) => <md-filter-chip class="filter-chip" label={tag} />)}
                             </md-chip-set>
                         </div>
@@ -65,16 +65,18 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
                 </NavigationDrawerOpenButton>
             </div>
 
-            <div class="collection-list">
+            <div class="collection-list" role="list">
                 <ul class="blog-list">
                     {
                         blogs.map((blog) => (
-                            <a href={`/article/${blog.slug}/`} class="blog-list-item" data-tags={blog.data.tags} data-astro-reload>
+                            <a href={`/article/${blog.slug}/`} class="blog-list-item" data-tags={blog.data.tags} role="listitem" data-astro-reload>
                                 <section>
                                     <h1 class="headline md-typescale-title-medium">{blog.data.headline}</h1>
                                     <p class="description md-typescale-body-medium">{blog.data.description}</p>
                                 </section>
-                                <p class="file-name md-typescale-label-small">{blog.slug}</p>
+                                <p aria-hidden="true" class="file-name md-typescale-label-small">
+                                    {blog.slug}
+                                </p>
                                 <md-ripple />
                             </a>
                         ))
