@@ -45,7 +45,7 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
             <PageHeader />
         </header>
 
-        <div class="page-content">
+        <div class="page page-content">
             <div class="filter-container">
                 <NavigationDrawerOpenButton>
                     <md-text-button id="open-filter-button">
@@ -85,7 +85,9 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
             </div>
         </div>
 
-        <PageFooter />
+        <footer class="width-forced">
+            <PageFooter />
+        </footer>
     </PageBody>
 </PageRootHtmlLayout>
 
@@ -152,6 +154,16 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
         });
     });
 </script>
+
+<style>
+    .width-forced {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page {
+        min-height: 100vh;
+    }
+</style>
 
 <style>
     .sticky-header {

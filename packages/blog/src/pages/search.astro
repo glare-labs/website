@@ -39,7 +39,7 @@ const blogs = await getCollection("article");
             <PageHeader />
         </header>
 
-        <div class="search-blog-wrapper page-content">
+        <div class="search-blog-wrapper page-content page">
             <SearchInput />
             <ul id="blog-list-result" class="blog-list">
                 {
@@ -73,7 +73,9 @@ const blogs = await getCollection("article");
             </ul>
         </div>
 
-        <PageFooter />
+        <footer class="width-forced">
+            <PageFooter />
+        </footer>
     </PageBody>
 </PageRootHtmlLayout>
 
@@ -117,6 +119,16 @@ const blogs = await getCollection("article");
         seachWrapper?.addEventListener("request-search", handleRequestSearch);
     });
 </script>
+
+<style>
+    .width-forced {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page {
+        min-height: 100vh;
+    }
+</style>
 
 <style>
     .sticky-header {

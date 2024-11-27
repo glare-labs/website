@@ -1,94 +1,70 @@
 <footer class="footer" transition:persist="footer">
-    <section class="head-part">
-        <h1 class="headline md-typescale-title-medium">Bre97's Blog</h1>
-        <p class="body md-typescale-body-medium">Welcome</p>
+    <section class="website-label">
+        <h1 class="headline md-typescale-label-medium">Bre97's Blog</h1>
     </section>
-    <section class="follow-us-part">
-        <h3 class="headline md-typescale-title-medium">Follow us</h3>
-        <div class="follow-us" role="list">
-            <a href="https://www.facebook.com/profile.php?id=100079648962937&mibextid=ZbWKwL" target="_blank" role="listitem" aria-label="Facebook link">
-                <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
-                    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"></path>
-                </svg>
-            </a>
 
-            <a href="https://github.com/bre97-web" target="_blank" role="listitem" aria-label="Github link">
-                <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm2.218 18.616c-.354.069-.468-.149-.468-.336v-1.921c0-.653-.229-1.079-.481-1.296 1.56-.173 3.198-.765 3.198-3.454 0-.765-.273-1.389-.721-1.879.072-.177.312-.889-.069-1.853 0 0-.587-.188-1.923.717-.561-.154-1.159-.231-1.754-.234-.595.003-1.193.08-1.753.235-1.337-.905-1.925-.717-1.925-.717-.379.964-.14 1.676-.067 1.852-.448.49-.722 1.114-.722 1.879 0 2.682 1.634 3.282 3.189 3.459-.2.175-.381.483-.444.936-.4.179-1.413.488-2.037-.582 0 0-.37-.672-1.073-.722 0 0-.683-.009-.048.426 0 0 .46.215.777 1.024 0 0 .405 1.25 2.353.826v1.303c0 .185-.113.402-.462.337-2.782-.925-4.788-3.549-4.788-6.641 0-3.867 3.135-7 7-7s7 3.133 7 7c0 3.091-2.003 5.715-4.782 6.641z"
-                    ></path>
-                </svg>
-            </a>
-        </div>
+    <section class="links">
+        <a class="link md-typescale-label-medium" href="https://feedback.glare-labs.uk/" target="_blank">Send Feedback</a>
+    </section>
+
+    <section class="follow-us-part">
+        <a href="https://www.facebook.com/profile.php?id=100079648962937&mibextid=ZbWKwL" target="_blank" aria-label="Facebook link">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.538 0-.65.221-.65.778v1.222h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-2.308c0-1.769.931-2.692 3.029-2.692h1.971v3z"></path>
+            </svg>
+        </a>
+
+        <a href="https://github.com/bre97-web" target="_blank" aria-label="Github link">
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+                <path
+                    d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm2.218 18.616c-.354.069-.468-.149-.468-.336v-1.921c0-.653-.229-1.079-.481-1.296 1.56-.173 3.198-.765 3.198-3.454 0-.765-.273-1.389-.721-1.879.072-.177.312-.889-.069-1.853 0 0-.587-.188-1.923.717-.561-.154-1.159-.231-1.754-.234-.595.003-1.193.08-1.753.235-1.337-.905-1.925-.717-1.925-.717-.379.964-.14 1.676-.067 1.852-.448.49-.722 1.114-.722 1.879 0 2.682 1.634 3.282 3.189 3.459-.2.175-.381.483-.444.936-.4.179-1.413.488-2.037-.582 0 0-.37-.672-1.073-.722 0 0-.683-.009-.048.426 0 0 .46.215.777 1.024 0 0 .405 1.25 2.353.826v1.303c0 .185-.113.402-.462.337-2.782-.925-4.788-3.549-4.788-6.641 0-3.867 3.135-7 7-7s7 3.133 7 7c0 3.091-2.003 5.715-4.782 6.641z"
+                ></path>
+            </svg>
+        </a>
     </section>
 </footer>
 
 <style>
     .footer {
-        color: var(--md-sys-color-on-surface);
+        padding: 28px;
+
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
-        gap: 12px;
-        margin-top: 48px;
-        margin-bottom: 48px;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr 1fr;
+        row-gap: 12px;
 
-        & > .head-part {
-            grid-column: 1 / 4;
-            grid-rows: 1 / 2;
-            @media (min-width: 600px) {
-                grid-column: 1/3;
-            }
+        & > .links {
+            grid-column: 2/3;
+            grid-row: 1/2;
+            display: flex;
+            gap: 12px;
+            justify-self: end;
 
-            display: grid;
-            grid-template-columns: calc(24px + 4px + 4px) 1fr;
-            grid-template-rows: 32px 1fr;
+            & .link {
+                color: var(--md-sys-color-on-surface);
+                transition-property: text-underline-offset;
+                transition-duration: 200ms;
+                text-underline-offset: 2px;
+                cursor: pointer;
 
-            & > .icon {
-                grid-row: 1/2;
-                grid-column: 1/2;
-            }
-            & > h1.headline {
-                grid-row: 1/2;
-                grid-column: 2/3;
-            }
-            & > p.body {
-                grid-row: 2/3;
-                grid-column: 2/3;
+                &:hover {
+                    text-decoration-line: underline;
+                    text-underline-offset: 4px;
+                }
             }
         }
 
+        & > .website-label {
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
+
         & > .follow-us-part {
-            grid-column: 1 / 4;
-            grid-rows: 2 / 4;
-            row-gap: 12px;
-            @media (max-width: 600px) {
-                margin-left: calc(24px + 4px + 4px);
-            }
-            @media (min-width: 600px) {
-                grid-column: 3/4;
-            }
-
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-template-rows: 32px 1fr;
-
-            & > .headline {
-                grid-row: 1/2;
-                grid-column: 1/2;
-            }
-            & > .follow-us {
-                grid-row: 2/3;
-                grid-column: 1/2;
-                display: flex;
-                gap: 4px;
-                & > a > svg {
-                    --svg-size: 32px;
-                    width: var(--svg-size);
-                    height: var(--svg-size);
-                    fill: var(--md-sys-color-on-surface);
-                }
-            }
+            grid-column: 1/3;
+            grid-row: 2/3;
+            display: flex;
+            justify-self: end;
+            gap: 12px;
         }
     }
 </style>
