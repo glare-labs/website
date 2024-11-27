@@ -45,6 +45,23 @@ const { slug } = Astro.props;
         const progress = reactionResult.querySelector(`&>#reaction-percentage`);
         const slug = reactionResult.getAttribute("data-for-slug");
 
+        fetch(`https://blog-database.function.glare-labs.uk/api/getCommends/${slug}`)
+            .then((res) => res.json())
+            .then((json) => {
+                const { positive, negative } = json;
+                const percentage = (positive * 100) / (positive + negative);
+
+                progress.setAttribute("value", `${percentage}`);
+                reactionResult.querySelector("&>.result-detail>.detail-positive>.number").textContent = positive;
+                reactionResult.querySelector("&>.result-detail>.detail-negative>.number").textContent = negative;
+                reactionResult.setAttribute("data-open", "true");
+            })
+            .catch((error) => {
+                console.log(error);
+                reactionResult.setAttribute("data-open", "false");
+                reaction.setAttribute("open", "true");
+            });
+
         reaction.addEventListener("commend-reaction", () => {
             reaction.setAttribute("open", "false");
 

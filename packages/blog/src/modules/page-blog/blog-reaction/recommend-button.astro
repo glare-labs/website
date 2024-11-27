@@ -19,15 +19,12 @@ const { slug } = Astro.props;
             button.addEventListener("click", () => {
                 button.setAttribute("soft-disabled", "");
                 const slug = button.getAttribute("data-for-slug");
-                console.log(slug);
 
                 fetch(`https://blog-database.function.glare-labs.uk/api/recommendCommend/${slug}`, { method: "PUT", signal: AbortSignal.timeout(5000) })
                     .catch((error) => {
                         console.log(error);
                     })
                     .finally(() => {
-                        console.log("d");
-
                         button.dispatchEvent(new Event("commend-reaction", { bubbles: true }));
                     });
             });

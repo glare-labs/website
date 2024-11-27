@@ -19,7 +19,6 @@ const { slug } = Astro.props;
             button.addEventListener("click", () => {
                 button.setAttribute("soft-disabled", "");
                 const slug = button.getAttribute("data-for-slug");
-                console.log(slug);
 
                 fetch(`https://blog-database.function.glare-labs.uk/api/disagreeCommend/${slug}`, { method: "PUT", signal: AbortSignal.timeout(5000) })
                     .catch((error) => {
