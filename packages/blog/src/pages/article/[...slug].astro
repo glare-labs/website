@@ -55,7 +55,7 @@ const headings = parseHeadings(article.body);
         keywords={article.data.tags.join()}
         language="en-US"
         url={`https://blog.glare-labs.uk/article/${article.slug}/`}
-        imageUrl="https://media.glare-labs.uk/blog-logo.png"
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
         imageAlt="Bre97's Blog"
         robots="index, follow"
         ogType="website"
@@ -90,7 +90,7 @@ const headings = parseHeadings(article.body);
             {
                 article.data.imageUrl.length !== 0 && (
                     <div aria-hidden="true" id="image-before-article" role="img">
-                        <div class="image" style={`background-image: url("https://media.glare-labs.uk/${article.data.imageUrl}")`} />
+                        <div class="image" style={`background-image: url("https://media-r2.glare-labs.uk/${article.data.imageUrl}")`} />
                     </div>
                 )
             }

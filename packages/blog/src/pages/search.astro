@@ -22,9 +22,9 @@ const blogs = await getCollection("article");
         keywords="blog, bre97, keynote, search"
         language="en-US"
         url="https://blog.glare-labs.uk/search/"
-        imageUrl="https://media.glare-labs.uk/blog-logo.png"
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
         imageAlt="Bre97's Blog"
-        robots="index, nofollow"
+        robots="index, follow"
         ogType="website"
     />
 
@@ -41,7 +41,7 @@ const blogs = await getCollection("article");
 
         <div class="search-blog-wrapper page-content page">
             <SearchInput />
-            <ul id="blog-list-result" class="blog-list">
+            <ul id="blog-list-result" class="blog-list" aria-hidden="true">
                 {
                     blogs.map((blog) => (
                         <a
