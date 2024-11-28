@@ -4,18 +4,21 @@
   "version": "0.0.0",
   "workspaces": [
     "packages/blog",
+    "packages/blog-overview",
+    "packages/database-function",
+    "packages/feedback",
     "packages/glare-labs",
-    "packages/vue-mdc",
-    "packages/blog-database-worker"
+    "packages/vue-mdc"
   ],
   "scripts": {
     "dev:blog": "npm run dev -w blog",
+    "dev:feedback": "npm run dev -w feedback",
     "dev:glare-labs": "npm run dev -w glare-labs",
     "dev:vue-mdc": "npm run dev -w vue-mdc",
     "build:blog": "npm run build -w blog",
+    "build:feedback": "npm run build -w feedback",
     "build:glare-labs": "npm run build -w glare-labs",
     "build:vue-mdc": "npm run build -w vue-mdc",
-    "astro": "astro",
     "sync": "node ./scripts/download-bucket.js"
   },
   "dependencies": {},
