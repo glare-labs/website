@@ -37,13 +37,13 @@ for (const item of bucketMaps) {
 }
 
 for (const item of bucketMaps) {
-    const list = await fetch(`https://function.glare-labs.uk/api/GetObjectsByBucket?bucket=${item.bucket}`)
+    const list = await fetch(`https://function.glare-labs.uk/api/r2/blog/getObjects/${item.bucket}`)
     const keys = (await list.json()).Contents.map(obj => obj.Key)
 
     console.log(keys)
 
     for (const key of keys) {
-        fetch(`https://function.glare-labs.uk/api/FindContent?bucket=${item.bucket}&key=${key}`)
+        fetch(`https://${item.bucket}-r2.glare-labs.uk/${key}`)
             .then(res => res.text())
             .then(text => {
                 try {
