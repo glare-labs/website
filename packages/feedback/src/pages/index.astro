@@ -1,0 +1,201 @@
+---
+import { ImportMaterialSymbols, ImportRobotoStyle, MaterialThemeScript, PageMetaInfo } from "@shared/components";
+import { PageRootHtmlLayout } from "@shared/layouts";
+import { ImportGlobalStyle } from "@shared/global-style";
+---
+
+<PageRootHtmlLayout>
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description="Feedback any questions and comments about products and solutions to Glare-Labs and Bre97."
+        title="Feedback"
+        iconHref="/favicon.svg"
+        keywords="feedback, glare-labs, bre97"
+        language="en-US"
+        url="https://feedback.glare-labs.uk/"
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt="Feedback"
+        robots="index, follow"
+        ogType="website"
+    />
+    <ImportGlobalStyle slot="head" />
+    <ImportRobotoStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ImportMaterialSymbols slot="head" />
+
+    <header class="width-forced mx-auto toolbar">
+        <section class="headline">
+            <a class="link md-typescale-label-medium" href="https://glare-labs.uk/" target="_blank">Glare Labs</a>
+        </section>
+
+        <md-icon-button id="change-theme-icon-button" mode="light">
+            <md-icon class="dark-icon">dark_mode</md-icon>
+            <md-icon class="light-icon">light_mode</md-icon>
+        </md-icon-button>
+    </header>
+
+    <div class="width-forced mx-auto form-wrapper">
+        <h1 class="title md-typescale-headline-medium">Send Feedback</h1>
+        <p class="description md-typescale-body-small">We do not collect any user's private information and all information is transmitted anonymously.</p>
+
+        <form class="feedback-form" id="send-feedback-form" method="dialog">
+            <md-outlined-text-field required no-asterisk minlength="6" label="Title" name="title" supporting-text={`The title should be simple and clear. For example, "Document spelling error", "No response when pressing button".`}></md-outlined-text-field>
+            <md-outlined-text-field required no-asterisk minlength="6" label="Content" type="textarea" name="content" supporting-text={`The content should provide your opinions or ideas in detail.`}></md-outlined-text-field>
+
+            <div class="actions">
+                <md-filled-button type="submit">
+                    Send
+                    <md-icon slot="icon">send</md-icon>
+                </md-filled-button>
+            </div>
+        </form>
+
+        <div class="request-result" data-status="inactive">
+            <span class="success md-typescale-label-medium">Success</span>
+            <span class="failed md-typescale-label-medium">Failed</span>
+        </div>
+    </div>
+</PageRootHtmlLayout>
+
+<script>
+    import "@material/web/button/filled-button";
+    import "@material/web/icon/icon";
+    import "@material/web/iconbutton/icon-button";
+    import "@material/web/textfield/outlined-text-field";
+</script>
+
+<script>
+    import { getMaterialThemeConfiguration } from "@shared/utils";
+    import { MdIconButton } from "@material/web/iconbutton/icon-button";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("#send-feedback-form") as HTMLFormElement;
+        const result = document.querySelector(".request-result");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const data = new FormData(form);
+
+            fetch(`https://function.glare-labs.uk/api/db/feedback/createFeedback`, {
+                signal: AbortSignal.timeout(10000),
+                method: "PUT",
+                body: JSON.stringify({
+                    title: data.get("title"),
+                    content: data.get("content"),
+                }),
+            })
+                .then(() => {
+                    result.setAttribute("data-status", "success");
+                })
+                .catch(() => {
+                    result.setAttribute("data-status", "failed");
+                });
+        });
+
+        const changeThemeIconButton = document.querySelector("#change-theme-icon-button") as MdIconButton;
+        const updateChangeThemeIconButtonAttribute = () => {
+            changeThemeIconButton.setAttribute("mode", getMaterialThemeConfiguration().getIsDark() ? "dark" : "light");
+        };
+        changeThemeIconButton.addEventListener("click", () => {
+            getMaterialThemeConfiguration().getAtom().setKey("isDark", !getMaterialThemeConfiguration().getIsDark());
+            updateChangeThemeIconButtonAttribute();
+        });
+
+        updateChangeThemeIconButtonAttribute();
+    });
+</script>
+
+<style is:global>
+    body {
+        background-color: var(--md-sys-color-surface);
+        min-height: 100vh;
+    }
+
+    .width-forced {
+        max-width: 840px;
+    }
+    .mx-auto {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    body:not([dark="false"]) .form-wrapper {
+        border: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .form-wrapper {
+        border-radius: 28px;
+        padding: 28px;
+        background-color: var(--md-sys-color-surface-container-lowest);
+
+        & > .title {
+            display: block;
+            margin: 0;
+            color: var(--md-sys-color-on-surface);
+        }
+        & > .description {
+            display: block;
+            margin-bottom: 48px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        & .feedback-form {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+
+            & > .actions {
+                display: flex;
+                gap: 4px;
+                margin: calc(48px - 28px) 0 0;
+            }
+        }
+    }
+
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 28px;
+
+        & .headline {
+            color: var(--md-sys-color-on-surface);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+
+            & .link {
+                color: var(--md-sys-color-on-surface);
+                text-underline-offset: 2px;
+                transition-property: text-underline-offset;
+                transition-duration: 200ms;
+                &:hover {
+                    text-decoration-line: underline;
+                    text-underline-offset: 4px;
+                }
+            }
+        }
+
+        & #change-theme-icon-button {
+            &[mode="light"] > .light-icon {
+                display: none;
+            }
+            &[mode="dark"] > .dark-icon {
+                display: none;
+            }
+        }
+    }
+
+    .request-result {
+        margin: 12px 0;
+        &[data-status="inactive"] {
+            display: none;
+        }
+        &[data-status="success"] > .failed {
+            display: none;
+        }
+        &[data-status="failed"] > .success {
+            display: none;
+        }
+    }
+</style>
