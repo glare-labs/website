@@ -9,15 +9,15 @@ export const headerTabs: Array<IRootPageHeaderTabs> = [
         label: 'Glare Labs'
     },
     {
-        url: '/feature/glare-labs/solutions',
+        url: '/solutions/',
         label: 'Solutions'
     },
     {
-        url: '/feature/vue-mdc',
+        url: 'https://glare-labs.uk/feature/vue-mdc',
         label: 'Vue-MDC'
     },
     {
-        url: '/feature/blog',
+        url: 'https://blog.glare-labs.uk/',
         label: 'Blog'
     },
 ] as const

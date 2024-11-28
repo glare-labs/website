@@ -1,0 +1,17 @@
+<svg id="eodhZJMucgf1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 128 128" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"
+    project-id="21694ce1003c4232aba5a7e59d922d37" export-id="fb64d5622c88420e8589a239571d9678"
+    cached="false" width="128" height="128">
+    <g transform="matrix(2.168349 0 0 2.168347-59.754033-44.462199)">
+        <line x1="50" y1="22.61" x2="50" y2="28.035657"
+            transform="matrix(.75 0 0 0.85 19.572931 3.893338)" fill="none" stroke="#161d16"
+            stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" />
+        <line x1="22.61" y1="50" x2="28.061234" y2="50"
+            transform="matrix(.846011 0 0 0.846011 11.30973 7.720133)" fill="none" stroke="#161d16"
+            stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" />
+        <line x1="50" y1="77.43866" x2="50" y2="72.013003"
+            transform="matrix(.75 0 0 0.85 19.572931 11.106658)" fill="none" stroke="#161d16"
+            stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" />
+    </g>
+    <circle r="33.594375" transform="translate(64 64)" fill="#161d16" />
+</svg>

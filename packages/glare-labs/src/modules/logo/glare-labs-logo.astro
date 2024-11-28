@@ -2,7 +2,7 @@
 
 ---
 
-<div class="glare-labs-logo">
+<div class="glare-labs-logo" aria-hidden="true">
     <div aria-hidden="true" class="round"></div>
     <div aria-hidden="true" class="top block"></div>
     <div aria-hidden="true" class="left block"></div>
@@ -23,24 +23,8 @@
         --_col-gap: var(--col-gap, 16px);
 
         display: grid;
-        grid-template-columns: repeat(
-            3,
-            max(
-                var(--_top-block-height),
-                var(--_left-block-height),
-                var(--_bottom-block-height),
-                var(--_round-size)
-            )
-        );
-        grid-template-rows: repeat(
-            3,
-            max(
-                var(--_top-block-width),
-                var(--_left-block-width),
-                var(--_bottom-block-width),
-                var(--_round-size)
-            )
-        );
+        grid-template-columns: repeat(3, max(var(--_top-block-height), var(--_left-block-height), var(--_bottom-block-height), var(--_round-size)));
+        grid-template-rows: repeat(3, max(var(--_top-block-width), var(--_left-block-width), var(--_bottom-block-width), var(--_round-size)));
         column-gap: var(--_col-gap);
         row-gap: var(--_row-gap);
 

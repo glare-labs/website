@@ -1,0 +1,30 @@
+---
+import { ProductHeader } from "@modules/page-header";
+import { ImportJetbrainsMonoStyle, ImportMaterialSymbols, MaterialThemeScript, PageMetaInfo } from "@shared/components";
+import { ImportBaseStyle } from "@shared/global-style";
+import { PageRootHtmlLayout } from "@shared/layouts";
+---
+
+<PageRootHtmlLayout>
+    <PageMetaInfo
+        slot="head"
+        author="bre97"
+        description="Check out Glare Labs' solutions and other products."
+        title="Solutions - Glare Labs"
+        iconHref="/glare-labs-page-icon.svg"
+        keywords="material design, vue-mdc, bre97, solution, glare-labs"
+        language="en-US"
+        url="https://glare-labs.uk/solutions/"
+        imageUrl="https://media-r2.glare-labs.uk/glare-labs-logo.png"
+        imageAlt="Glare Labs"
+        robots="index, follow"
+        ogType="website"
+    />
+
+    <ImportJetbrainsMonoStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ImportBaseStyle slot="head" />
+    <ImportMaterialSymbols slot="head" />
+
+    <ProductHeader />
+</PageRootHtmlLayout>

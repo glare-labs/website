@@ -1,13 +1,13 @@
 ---
-import { headerTabs } from "../internals/tabs";
-import HeaderLayout from "../layouts/header-layout.astro";
+import { headerTabs } from "@modules/router";
+import HeaderLayout from "./header-layout.astro";
 
 const glareLabsTab = headerTabs[0];
 const tabs = headerTabs.slice(1);
 ---
 
 <HeaderLayout>
-    <div class="tabs">
+    <div class="tabs" role="navigation">
         <a target="_self" href={glareLabsTab.url} class="tab always-show">
             {glareLabsTab.label}
         </a>
@@ -21,14 +21,10 @@ const tabs = headerTabs.slice(1);
     </div>
 
     <!-- Show: Compact -->
-    <div
-        id="glare-labs-page-product-header-compact-tabs"
-        class="compact-tabs"
-        data-active="false"
-    >
+    <div id="glare-labs-page-product-header-compact-tabs" class="compact-tabs" data-active="false" role="list">
         {
             tabs.map((tab) => (
-                <a target="_self" href={tab.url} class="tab">
+                <a target="_self" href={tab.url} class="tab" role="listitem">
                     {tab.label}
                 </a>
             ))
@@ -37,21 +33,13 @@ const tabs = headerTabs.slice(1);
 
     <!-- Show: Compact -->
     <div class="actions" slot="end">
-        <button
-            id="glare-labs-page-product-header-open-compact-tabs-button"
-            class="open-tabs-panel-button material-symbols-outlined"
-            >menu</button
-        >
+        <button id="glare-labs-page-product-header-open-compact-tabs-button" class="open-tabs-panel-button material-symbols-outlined">menu</button>
     </div>
 </HeaderLayout>
 
 <script>
-    const header = document.querySelector(
-        "#glare-labs-page-product-header-open-compact-tabs-button",
-    )!;
-    const compactTabs = document.querySelector(
-        "#glare-labs-page-product-header-compact-tabs",
-    )!;
+    const header = document.querySelector("#glare-labs-page-product-header-open-compact-tabs-button")!;
+    const compactTabs = document.querySelector("#glare-labs-page-product-header-compact-tabs")!;
 
     const handleClick = (e: Event) => {
         e.preventDefault();
