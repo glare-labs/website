@@ -1,9 +1,9 @@
 ---
-
+import SearchSvg from "@material-design-icons/svg/round/search.svg?raw";
 ---
 
 <div class="search-blog-text-field" transition:persist="search-blog-input">
-    <md-icon class="search-icon">search</md-icon>
+    <md-icon class="search-icon" set:html={SearchSvg} />
     <input class="search-text-field md-typescale-body-medium" placeholder="Type here to search" />
     <md-elevation></md-elevation>
 </div>

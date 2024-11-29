@@ -3,7 +3,7 @@ import LightModeSvg from "@material-design-icons/svg/round/light_mode.svg?raw";
 import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
 ---
 
-<md-icon-button id="header-switch-theme-button" aria-label="Swicth theme" transition:persist="header-switch-theme-button-component">
+<md-icon-button id="navigation-rail-switch-theme-button" aria-label="Swicth theme" transition:persist="navigation-rail-switch-theme-button-component">
     <md-icon class="icon light" set:html={LightModeSvg} />
     <md-icon class="icon dark" set:html={DarkModeSvg} />
 </md-icon-button>
@@ -18,8 +18,8 @@ import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
     import { getMaterialThemeConfiguration } from "@shared/utils";
 
     const handleIconUpdate = (isDark: boolean) => {
-        const iconLight = document.querySelector("#header-switch-theme-button .icon.light") as MdIconButton;
-        const iconDark = document.querySelector("#header-switch-theme-button .icon.dark") as MdIconButton;
+        const iconLight = document.querySelector("#navigation-rail-switch-theme-button .icon.light") as MdIconButton;
+        const iconDark = document.querySelector("#navigation-rail-switch-theme-button .icon.dark") as MdIconButton;
         if (isDark) {
             iconLight.style.setProperty("display", "block");
             iconDark.style.setProperty("display", "none");
@@ -34,7 +34,7 @@ import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
     };
 
     document.addEventListener("astro:page-load", (_) => {
-        const darkButtonRef = document.querySelector("#header-switch-theme-button") as MdIconButton;
+        const darkButtonRef = document.querySelector("#navigation-rail-switch-theme-button") as MdIconButton;
         darkButtonRef.addEventListener("click", handleClick);
     });
 

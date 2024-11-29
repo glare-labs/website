@@ -1,12 +1,16 @@
 ---
 import { ProductHeader } from "@modules/page-header";
-import { ImportJetbrainsMonoStyle, ImportMaterialSymbols, MaterialThemeScript, PageMetaInfo } from "@shared/components";
-import { ImportBaseStyle } from "@shared/global-style";
 import { PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description="Check out Glare Labs' solutions and other products."
@@ -21,10 +25,11 @@ import { PageRootHtmlLayout } from "@shared/layouts";
         ogType="website"
     />
 
-    <ImportJetbrainsMonoStyle slot="head" />
-    <MaterialThemeScript slot="head" />
     <ImportBaseStyle slot="head" />
-    <ImportMaterialSymbols slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <MaterialThemeScript slot="head" />
 
     <ProductHeader />
 </PageRootHtmlLayout>

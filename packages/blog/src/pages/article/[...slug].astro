@@ -1,17 +1,23 @@
 ---
 import "@fontsource/jetbrains-mono";
-import { GlobalStyles } from "@modules/global";
 import { PageBodyLayout } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
 import { parseHeadings } from "@shared/utils";
 import HeaderMaterialHctPicker from "@modules/page-header/header-material-hct-picker.astro";
 import HeaderSwitchThemeButton from "@modules/page-header/header-switch-theme-button.astro";
-import { ImportJetbrainsMonoStyle, ImportMaterialSymbols, MaterialThemeScript, PageMetaInfo } from "@shared/components";
 import { PageHeaderLayout, PageRootHtmlLayout } from "@shared/layouts";
 import { getCollection, type CollectionEntry } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import { BlogCommentPanel, BlogReactionPanel } from "@modules/page-blog";
 import BlogOverview from "@modules/page-blog/overview/blog-overview.astro";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import MenuOpenSvg from "@material-design-icons/svg/round/menu_open.svg?raw";
+import ArrowBackSvg from "@material-design-icons/svg/round/arrow_back.svg?raw";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 
 export async function getStaticPaths() {
     /**
@@ -46,7 +52,7 @@ const headings = parseHeadings(article.body);
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description={article.data.description}
@@ -63,8 +69,9 @@ const headings = parseHeadings(article.body);
 
     <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
-    <GlobalStyles slot="head" />
-    <ImportMaterialSymbols slot="head" />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
     <ViewTransitions slot="head" />
 
     <PageBodyLayout>
@@ -72,7 +79,7 @@ const headings = parseHeadings(article.body);
             <PageHeaderLayout>
                 <a slot="start" class="back-to-all-post-page-button" target="_self" href={`/library/`} data-astro-reload>
                     <md-icon-button>
-                        <md-icon>arrow_back</md-icon>
+                        <md-icon set:html={ArrowBackSvg} />
                     </md-icon-button>
                 </a>
                 <span id="page-header-title" class="md-typescale-title-medium">
@@ -81,7 +88,7 @@ const headings = parseHeadings(article.body);
                 <HeaderSwitchThemeButton slot="actions" />
                 <HeaderMaterialHctPicker slot="actions" />
                 <md-icon-button id="catalog-controller" slot="actions">
-                    <md-icon>menu_open</md-icon>
+                    <md-icon set:html={MenuOpenSvg} />
                 </md-icon-button>
             </PageHeaderLayout>
         </header>
@@ -301,7 +308,23 @@ const headings = parseHeadings(article.body);
 
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: auto;
+        grid-template-rows: 1fr auto;
+
+        & #article-content {
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
+        & #article-footer {
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+        & #article-references {
+            display: none;
+        }
+        & #article-catalog {
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
 
         @media (min-width: 840px) and (max-width: 1200px) {
             grid-template-columns: 1fr auto;
@@ -354,8 +377,7 @@ const headings = parseHeadings(article.body);
         }
 
         @media (min-width: 1200px) {
-            grid-template-columns: auto max(1200px) auto;
-            grid-template-rows: 1fr auto;
+            grid-template-columns: auto min(calc(100vw - 280px - 280px - 32px), 1200px) auto;
 
             & #article-content {
                 grid-column: 2/3;
@@ -370,6 +392,19 @@ const headings = parseHeadings(article.body);
             }
             & #article-catalog {
                 grid-column: 3/4;
+            }
+
+            & #article-content {
+                grid-row: 1/2;
+            }
+            & #article-footer {
+                grid-row: 2/3;
+            }
+            & #article-references {
+                grid-row: 1/2;
+            }
+            & #article-catalog {
+                grid-row: 1/2;
             }
         }
     }

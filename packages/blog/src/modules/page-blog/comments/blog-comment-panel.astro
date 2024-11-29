@@ -1,6 +1,7 @@
 ---
 import CardTitle from "../card/card-title.astro";
 import Card from "../card/card.astro";
+import SendSvg from "@material-design-icons/svg/round/send.svg?raw";
 
 interface Props {
     slug: string;
@@ -26,7 +27,7 @@ const { slug } = Astro.props;
                 </span>
                 <md-filled-button id="send-button" type="submit">
                     Send
-                    <md-icon slot="icon">send</md-icon>
+                    <md-icon slot="icon" set:html={SendSvg} />
                 </md-filled-button>
             </div>
         </form>

@@ -1,39 +1,25 @@
 ---
-
+import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
 ---
 
 <div class="hct-picker">
-    <md-icon-button
-        id="hct-picker-window-toggle-button"
-        aria-labelledby="#hct-picker-window-wrapper"
-        aria-label="Open HCT theme picker"
-    >
-        <md-icon>palette</md-icon>
+    <md-icon-button id="hct-picker-window-toggle-button" aria-labelledby="#hct-picker-window-wrapper" aria-label="Open HCT theme picker">
+        <md-icon set:html={PaletteSvg} />
     </md-icon-button>
-    <md-menu
-        id="hct-picker-window"
-        anchor="hct-picker-window-toggle-button"
-        ref="menuRef"
-    >
+    <md-menu id="hct-picker-window" anchor="hct-picker-window-toggle-button" ref="menuRef">
         <div class="sliders">
             <label class="field">
                 <span class="label md-typescale-label-large">Hue</span>
-                <md-slider id="hue-picker-slider" max="360" min="0" step="1"
-                ></md-slider>
+                <md-slider id="hue-picker-slider" max="360" min="0" step="1"></md-slider>
                 <div class="preview" id="hue-picker-slider-preview"></div>
             </label>
             <label class="field">
                 <span class="label md-typescale-label-large">Chroma</span>
-                <md-slider id="chroma-picker-slider" max="150" min="0" step="1"
-                ></md-slider>
+                <md-slider id="chroma-picker-slider" max="150" min="0" step="1"></md-slider>
                 <div class="preview" id="chroma-picker-slider-preview"></div>
                 <label class="field">
                     <span class="label md-typescale-label-large">Tone</span>
-                    <md-slider
-                        id="tone-picker-slider"
-                        max="100"
-                        min="0"
-                        step="1"></md-slider>
+                    <md-slider id="tone-picker-slider" max="100" min="0" step="1"></md-slider>
                     <div class="preview" id="tone-picker-slider-preview"></div>
                 </label>
             </label>
@@ -49,40 +35,20 @@
 </script>
 
 <script>
-    import {
-        Hct,
-        hexFromArgb,
-        SchemeFidelity,
-    } from "@material/material-color-utilities";
+    import { Hct, hexFromArgb, SchemeFidelity } from "@material/material-color-utilities";
     import type { MdIconButton, MdMenu, MdSlider } from "@material/web/all";
     import { getMaterialThemeConfiguration } from "@shared/utils";
 
     const getElements = () => {
-        const pickerWindow = document.querySelector(
-            "#hct-picker-window",
-        ) as MdMenu;
-        const toggleButton = document.querySelector(
-            "#hct-picker-window-toggle-button",
-        ) as MdIconButton;
-        const hue = pickerWindow.querySelector(
-            "#hue-picker-slider",
-        ) as MdSlider;
-        const chroma = pickerWindow.querySelector(
-            "#chroma-picker-slider",
-        ) as MdSlider;
-        const tone = pickerWindow.querySelector(
-            "#tone-picker-slider",
-        ) as MdSlider;
+        const pickerWindow = document.querySelector("#hct-picker-window") as MdMenu;
+        const toggleButton = document.querySelector("#hct-picker-window-toggle-button") as MdIconButton;
+        const hue = pickerWindow.querySelector("#hue-picker-slider") as MdSlider;
+        const chroma = pickerWindow.querySelector("#chroma-picker-slider") as MdSlider;
+        const tone = pickerWindow.querySelector("#tone-picker-slider") as MdSlider;
 
-        const huePreview = pickerWindow.querySelector(
-            "#hue-picker-slider-preview",
-        ) as HTMLElement;
-        const chromaPreview = pickerWindow.querySelector(
-            "#chroma-picker-slider-preview",
-        ) as HTMLElement;
-        const tonePreview = pickerWindow.querySelector(
-            "#tone-picker-slider-preview",
-        ) as HTMLElement;
+        const huePreview = pickerWindow.querySelector("#hue-picker-slider-preview") as HTMLElement;
+        const chromaPreview = pickerWindow.querySelector("#chroma-picker-slider-preview") as HTMLElement;
+        const tonePreview = pickerWindow.querySelector("#tone-picker-slider-preview") as HTMLElement;
 
         return {
             pickerWindow,
@@ -155,39 +121,22 @@
     const generateTone = (hue: number, chroma: number) => {
         const colorArray = [];
         for (let i = 0; i <= 5; i++) {
-            const md = new SchemeFidelity(
-                Hct.from(hue, chroma, i * 20),
-                false,
-                0,
-            );
+            const md = new SchemeFidelity(Hct.from(hue, chroma, i * 20), false, 0);
             colorArray.push(hexFromArgb(md.primaryPaletteKeyColor));
         }
         return `${colorArray}`;
     };
     const updateHuePewviewBackgroundProperty = () => {
-        getElements().huePreview.style.setProperty(
-            "background",
-            `linear-gradient(to right, ${generateHue()})`,
-        );
+        getElements().huePreview.style.setProperty("background", `linear-gradient(to right, ${generateHue()})`);
     };
     const updateChromaPewviewBackgroundProperty = () => {
-        getElements().chromaPreview.style.setProperty(
-            "background",
-            `linear-gradient(to right, ${generateChroma(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue)})`,
-        );
+        getElements().chromaPreview.style.setProperty("background", `linear-gradient(to right, ${generateChroma(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue)})`);
     };
     const updateTonePewviewBackgroundProperty = () => {
-        getElements().tonePreview.style.setProperty(
-            "background",
-            `linear-gradient(to right, ${generateTone(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue, getMaterialThemeConfiguration().getSourceColorHctRawObject().chroma)})`,
-        );
+        getElements().tonePreview.style.setProperty("background", `linear-gradient(to right, ${generateTone(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue, getMaterialThemeConfiguration().getSourceColorHctRawObject().chroma)})`);
     };
     const initSliderValue = () => {
-        const {
-            chroma: c,
-            hue: h,
-            tone: t,
-        } = getMaterialThemeConfiguration().getSourceColorHctRawObject();
+        const { chroma: c, hue: h, tone: t } = getMaterialThemeConfiguration().getSourceColorHctRawObject();
         getElements().hue.value = h;
         getElements().chroma.value = c;
         getElements().tone.value = t;

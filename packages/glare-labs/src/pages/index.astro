@@ -1,14 +1,19 @@
 ---
+import OpenInNewSvg from "@material-design-icons/svg/round/open_in_new.svg?raw";
 import { GlareLabsLogo } from "@modules/logo";
 import { ProductFooter } from "@modules/page-footer";
 import { ProductHeader } from "@modules/page-header";
-import { ImportJetbrainsMonoStyle, ImportMaterialSymbols, MaterialThemeScript, PageMetaInfo } from "@shared/components";
-import { ImportBaseStyle } from "@shared/global-style";
 import { PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description="Glare Labs is a front-end open source development team focusing on Material Design. Provides front-end tools such as Vue-MDC."
@@ -23,63 +28,49 @@ import { PageRootHtmlLayout } from "@shared/layouts";
         ogType="website"
     />
 
-    <MaterialThemeScript slot="head" />
-    <ImportMaterialSymbols slot="head" />
     <ImportBaseStyle slot="head" />
     <ImportJetbrainsMonoStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <MaterialThemeScript slot="head" />
 
-    <ProductHeader>
-        <h1 slot="headline">Glare Labs</h1>
-    </ProductHeader>
+    <ProductHeader />
 
     <main class="content">
         <div class="hero area">
             <span class="wrapper">
                 <GlareLabsLogo />
-                <h1 class="headline">Glare Labs</h1>
+                <h1 class="headline md-typescale-display-medium">Glare Labs</h1>
             </span>
         </div>
 
         <section class="solutions area part">
-            <h1 class="headline">Solutions</h1>
+            <h1 class="headline md-typescale-headline-medium">Solutions</h1>
             <div class="solution">
-                <h2 class="title">Vue-MDC</h2>
-                <p class="description">Material Design 3 styled components for Vue3js.</p>
-                <a target="_blank" href="https://github.com/glare-labs/vue-mdc" role="button">
+                <h2 class="title md-typescale-title-medium">Vue-MDC</h2>
+                <p class="description md-typescale-body-medium">Material Design 3 styled components for Vue3js.</p>
+                <a class="md-typescale-label-medium" target="_blank" href="https://github.com/glare-labs/vue-mdc" role="button">
                     <span class="label">Visit</span>
-                    <span aria-hidden="true" class="material-symbols-outlined icon">open_in_new</span>
+                    <span aria-hidden="true" class="icon svg" set:html={OpenInNewSvg} />
                 </a>
             </div>
             <div class="solution">
-                <h2 class="title">TailwindCSS Material Tokens</h2>
-                <p class="description">Insert tokens in material design into tailwindcss as utils.</p>
-                <a target="_blank" href="https://github.com/glare-labs/tailwindcss-material-tokens">
+                <h2 class="title md-typescale-title-medium">TailwindCSS Material Tokens</h2>
+                <p class="description md-typescale-body-medium">Insert tokens in material design into tailwindcss as utils.</p>
+                <a class="md-typescale-label-medium" target="_blank" href="https://github.com/glare-labs/tailwindcss-material-tokens">
                     <span class="label">Visit</span>
-                    <span aria-hidden="true" class="material-symbols-outlined icon">open_in_new</span>
+                    <span aria-hidden="true" class="icon svg" set:html={OpenInNewSvg} />
                 </a>
             </div>
         </section>
 
         <section class="area part">
-            <h1 class="headline">Blog</h1>
-
-            <p class="description">Browse the blog and get the latest information from the site and team author.</p>
-
-            <a class="port-to-blog-button" target="_blank" href="https://blog.glare-labs.uk/">
+            <h1 class="headline md-typescale-headline-medium">Blog</h1>
+            <p class="description md-typescale-body-medium">Browse the blog and get the latest information from the site and team author.</p>
+            <a class="port-to-blog-button md-typescale-label-medium" target="_blank" href="https://blog.glare-labs.uk/">
                 <span class="label">Visit</span>
-                <span aria-hidden="true" class="material-symbols-outlined icon">open_in_new</span>
+                <span aria-hidden="true" class="icon svg" set:html={OpenInNewSvg} />
             </a>
-        </section>
-
-        <section class="roadmap area part">
-            <h1 class="headline">Our Next</h1>
-
-            <p class="description">Browse the blog and get the latest information from the site and team author.</p>
-
-            <div class="image">
-                <span aria-hidden="true" class="line top-left"></span>
-                <span aria-hidden="true" class="line bottom-right"></span>
-            </div>
         </section>
 
         <ProductFooter />
@@ -115,7 +106,6 @@ import { PageRootHtmlLayout } from "@shared/layouts";
         & > .headline {
             grid-column: 1/3;
             grid-row: 1/2;
-            font-size: 32px;
             margin: 0 0 16px;
             color: var(--md-sys-color-on-surface);
         }
@@ -127,11 +117,18 @@ import { PageRootHtmlLayout } from "@shared/layouts";
 </style>
 
 <!-- Content -->
-<style>
-    .icon {
+<style is:global>
+    .icon.svg {
+        & > svg {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+        }
         color: var(--md-sys-color-on-surface);
     }
+</style>
 
+<style>
     .content {
         height: 100%;
         min-height: calc(100vh - 56px);
@@ -145,10 +142,6 @@ import { PageRootHtmlLayout } from "@shared/layouts";
             border-right: 1px solid var(--md-sys-color-outline-variant);
         }
     }
-</style>
-
-<!-- Hero -->
-<style>
     .hero {
         border-bottom: 1px solid var(--md-sys-color-outline-variant);
         position: relative;
@@ -170,14 +163,13 @@ import { PageRootHtmlLayout } from "@shared/layouts";
             position: relative;
             background-clip: text;
             color: var(--md-sys-color-on-surface);
-            font-size: 56px;
-            font-weight: 700;
+            margin-top: 24px;
         }
     }
 </style>
 
 <!-- Solutions -->
-<style>
+<style is:global>
     .solutions {
         display: grid;
         grid-auto-rows: auto;
@@ -195,12 +187,10 @@ import { PageRootHtmlLayout } from "@shared/layouts";
 
             & > .title {
                 color: var(--md-sys-color-on-surface);
-                font-size: 18px;
             }
 
             & > p {
                 color: var(--md-sys-color-on-surface-variant);
-                font-size: 14px;
                 flex-grow: 1;
             }
 
@@ -211,7 +201,6 @@ import { PageRootHtmlLayout } from "@shared/layouts";
 
                 & > .label {
                     color: var(--md-sys-color-primary);
-                    font-size: 14px;
                     text-decoration-line: underline;
                     text-underline-offset: 2px;
 
@@ -223,7 +212,7 @@ import { PageRootHtmlLayout } from "@shared/layouts";
                     }
                 }
 
-                & > .icon {
+                & > .icon svg {
                     font-size: 14px;
                 }
             }
@@ -246,7 +235,6 @@ import { PageRootHtmlLayout } from "@shared/layouts";
         justify-content: center;
         min-height: 40px;
         min-width: 72px;
-        font-size: 14px;
         padding: 0 24px;
         margin: 16px 0 0;
         gap: 8px;
@@ -268,70 +256,6 @@ import { PageRootHtmlLayout } from "@shared/layouts";
         }
         & > .icon {
             font-size: 14px;
-        }
-    }
-</style>
-
-<!-- Roadmap -->
-<style>
-    .roadmap {
-        display: grid;
-        grid-template-rows: 1fr auto;
-        grid-template-columns: 1fr 1fr;
-
-        & > .headline {
-            grid-column: 1/2;
-            grid-row: 1/2;
-        }
-        & > .body {
-            grid-column: 1/2;
-            grid-row: 2/3;
-        }
-        & > .image {
-            grid-column: 2/3;
-            grid-row: 1/3;
-            position: relative;
-            border: 1px solid var(--md-sys-color-outline-variant);
-            background-color: var(--md-sys-color-surface-container-lowest);
-
-            --line-thick: 1px;
-            --line-length: 48px;
-
-            & > :is(.top-left, .bottom-right) {
-                &::before,
-                &::after {
-                    content: "";
-                    display: block;
-                    position: absolute;
-                    background-color: var(--md-sys-color-outline-variant);
-                    opacity: 0.75;
-                }
-            }
-
-            & > .bottom-right::before {
-                height: var(--line-thick);
-                width: var(--line-length);
-                right: calc(-1 * var(--line-length) / 2);
-                bottom: calc(-1 * var(--line-thick) / 2);
-            }
-            & > .bottom-right::after {
-                height: var(--line-length);
-                width: var(--line-thick);
-                right: calc(-1 * var(--line-thick) / 2);
-                bottom: calc(-1 * var(--line-length) / 2);
-            }
-            & > .top-left::before {
-                height: var(--line-thick);
-                width: var(--line-length);
-                left: calc(-1 * var(--line-length) / 2);
-                top: calc(-1 * var(--line-thick) / 2);
-            }
-            & > .top-left::after {
-                height: var(--line-length);
-                width: var(--line-thick);
-                left: calc(-1 * var(--line-thick) / 2);
-                top: calc(-1 * var(--line-length) / 2);
-            }
         }
     }
 </style>

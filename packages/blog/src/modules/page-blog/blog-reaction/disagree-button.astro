@@ -1,4 +1,6 @@
 ---
+import ThumbDownSvg from "@material-design-icons/svg/round/thumb_down.svg?raw";
+
 interface Props {
     slug: string;
 }
@@ -8,7 +10,7 @@ const { slug } = Astro.props;
 
 <md-text-button class="negative-button" data-for-slug={slug}>
     Disagree
-    <md-icon slot="icon">thumb_down</md-icon>
+    <md-icon slot="icon" set:html={ThumbDownSvg} />
 </md-text-button>
 
 <script>

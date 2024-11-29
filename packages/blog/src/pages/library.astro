@@ -8,18 +8,23 @@ import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import { PageHeader } from "@modules/page-header";
 import { PageFooter } from "@modules/page-footer";
-import { GlobalStyles } from "@modules/global";
 import { PageRootHtmlLayout } from "@shared/layouts";
-import { ImportMaterialSymbols, ImportRobotoStyle, MaterialThemeScript, PageMetaInfo } from "@shared/components";
 import { NavigationDrawerOpenButton, NavigationDrawer, NavigationDrawerHeader, NavigationDrawerCloseButton } from "@shared/navigation-drawer";
 import { PageBody } from "@modules/page-body";
+import TuneSvg from "@material-design-icons/svg/round/tune.svg?raw";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 
 const blogs = await getCollection("article");
 const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce((pre, cur) => [...pre, ...cur], [])));
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description="Retrieve all blog posts on bre97'blog."
@@ -33,11 +38,11 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
         robots="index, follow"
         ogType="website"
     />
-
-    <ImportRobotoStyle slot="head" />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
-    <GlobalStyles slot="head" />
-    <ImportMaterialSymbols slot="head" />
     <ViewTransitions slot="head" />
 
     <PageBody>
@@ -50,7 +55,7 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
                 <NavigationDrawerOpenButton>
                     <md-text-button id="open-filter-button">
                         Filter
-                        <md-icon slot="icon">tune</md-icon>
+                        <md-icon slot="icon" set:html={TuneSvg} />
                     </md-text-button>
                     <NavigationDrawer slot="navigation-drawer">
                         <NavigationDrawerHeader slot="headline">Filter</NavigationDrawerHeader>

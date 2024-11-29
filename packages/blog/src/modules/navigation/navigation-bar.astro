@@ -6,12 +6,8 @@ import { routes } from "../../router/routes";
     {
         routes.map((link) => (
             <md-navigation-tab data-href={`${link.url}`} label={link.label} class="bottom-app-tab">
-                <md-icon class="inactive-icon" slot="inactive-icon">
-                    {link.iconString}
-                </md-icon>
-                <md-icon class="active-icon" slot="active-icon">
-                    {link.iconString}
-                </md-icon>
+                <md-icon class="inactive-icon" slot="inactive-icon" set:html={link.iconString} />
+                <md-icon class="active-icon" slot="active-icon" set:html={link.iconString} />
             </md-navigation-tab>
         ))
     }
@@ -86,19 +82,5 @@ import { routes } from "../../router/routes";
         --md-navigation-bar-container-elevation: 0;
 
         overflow: hidden;
-
-        & .active-icon {
-            font-variation-settings:
-                "FILL" 1,
-                "wght" 400,
-                "GRAD" 0,
-                "opsz" 24;
-        }
-
-        .md3-navigation-tab__active-indicator {
-            transition:
-                width 200ms cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
     }
 </style>

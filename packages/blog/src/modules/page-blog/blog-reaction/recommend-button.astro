@@ -1,4 +1,6 @@
 ---
+import ThumbUpSvg from "@material-design-icons/svg/round/thumb_up.svg?raw";
+
 interface Props {
     slug: string;
 }
@@ -8,7 +10,7 @@ const { slug } = Astro.props;
 
 <md-text-button class="positive-button" data-for-slug={slug}>
     Recommend
-    <md-icon slot="icon">thumb_up</md-icon>
+    <md-icon slot="icon" set:html={ThumbUpSvg} />
 </md-text-button>
 
 <script>

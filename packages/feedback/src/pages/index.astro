@@ -1,11 +1,18 @@
 ---
-import { ImportMaterialSymbols, ImportRobotoStyle, MaterialThemeScript, PageMetaInfo } from "@shared/components";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
 import { PageRootHtmlLayout } from "@shared/layouts";
-import { ImportGlobalStyle } from "@shared/global-style";
+import SendSvg from "@material-design-icons/svg/round/send.svg?raw";
+import LightModeSvg from "@material-design-icons/svg/round/light_mode.svg?raw";
+import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportRobotoStyle from "@shared/styles/impo-roboto-style.module.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description="Feedback any questions and comments about products and solutions to Glare-Labs and Bre97."
@@ -19,10 +26,11 @@ import { ImportGlobalStyle } from "@shared/global-style";
         robots="index, follow"
         ogType="website"
     />
-    <ImportGlobalStyle slot="head" />
+    <ImportBaseStyle slot="head" />
     <ImportRobotoStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
     <MaterialThemeScript slot="head" />
-    <ImportMaterialSymbols slot="head" />
 
     <header class="width-forced mx-auto toolbar">
         <section class="headline">
@@ -30,8 +38,8 @@ import { ImportGlobalStyle } from "@shared/global-style";
         </section>
 
         <md-icon-button id="change-theme-icon-button" mode="light">
-            <md-icon class="dark-icon">dark_mode</md-icon>
-            <md-icon class="light-icon">light_mode</md-icon>
+            <md-icon class="dark-icon" set:html={DarkModeSvg} />
+            <md-icon class="light-icon" set:html={LightModeSvg} />
         </md-icon-button>
     </header>
 
@@ -46,7 +54,7 @@ import { ImportGlobalStyle } from "@shared/global-style";
             <div class="actions">
                 <md-filled-button type="submit">
                     Send
-                    <md-icon slot="icon">send</md-icon>
+                    <md-icon slot="icon" set:html={SendSvg} />
                 </md-filled-button>
             </div>
         </form>

@@ -13,7 +13,7 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
                     <span aria-hidden="true" class="ripple-indicator-helper">
                         <md-ripple class="ripple" />
                     </span>
-                    <md-icon class="icon">{link.iconString}</md-icon>
+                    <md-icon class="icon" set:html={link.iconString} />
                     <span class="label md-typescale-label-medium">{link.label}</span>
                 </span>
             ))
@@ -203,7 +203,7 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
                 & > .icon {
                     place-self: center;
                     z-index: 1;
-                    color: var(--md-sys-color-on-surface);
+                    color: var(--md-sys-color-on-surface-variant);
                     transition-property: background-color, color, font-variation-settings, width;
                     transition-duration: 100ms;
                 }

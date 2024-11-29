@@ -1,4 +1,7 @@
 ---
+import UnfoldMoreSvg from "@material-design-icons/svg/round/unfold_more.svg?raw";
+import UnfoldLessSvg from "@material-design-icons/svg/round/unfold_less.svg?raw";
+
 interface Props {
     context: string;
 }
@@ -26,11 +29,11 @@ The article is about the author finally acquiring and officially launching their
     <div class="expand" role="button">
         <md-outlined-button class="expand-button">
             Expand All
-            <md-icon slot="icon">expand_all</md-icon>
+            <md-icon slot="icon" set:html={UnfoldMoreSvg} />
         </md-outlined-button>
         <md-outlined-button class="fold-button">
             Fold All
-            <md-icon slot="icon">unfold_less</md-icon>
+            <md-icon slot="icon" set:html={UnfoldLessSvg} />
         </md-outlined-button>
     </div>
 

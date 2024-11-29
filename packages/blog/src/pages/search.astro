@@ -1,19 +1,23 @@
 ---
-import { GlobalStyles } from "@modules/global";
 import { PageBody } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
 import { PageHeader } from "@modules/page-header";
-import { ImportMaterialSymbols, ImportRobotoStyle, MaterialThemeScript, PageMetaInfo } from "@shared/components";
 import { PageRootHtmlLayout } from "@shared/layouts";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
-import SearchInput from "src/components/search-blog/search-input.astro";
+import { SearchInput } from "@modules/search-blog";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 
 const blogs = await getCollection("article");
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description="Search blogs."
@@ -27,11 +31,11 @@ const blogs = await getCollection("article");
         robots="index, follow"
         ogType="website"
     />
-
-    <ImportRobotoStyle slot="head" />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
-    <GlobalStyles slot="head" />
-    <ImportMaterialSymbols slot="head" />
     <ViewTransitions slot="head" />
 
     <PageBody>

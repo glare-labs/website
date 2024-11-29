@@ -1,4 +1,5 @@
 ---
+import MenuSvg from "@material-design-icons/svg/round/menu.svg?raw";
 import { headerTabs } from "@modules/router";
 import HeaderLayout from "./header-layout.astro";
 
@@ -8,12 +9,12 @@ const tabs = headerTabs.slice(1);
 
 <HeaderLayout>
     <div class="tabs" role="navigation">
-        <a target="_self" href={glareLabsTab.url} class="tab always-show">
+        <a target="_self" href={glareLabsTab.url} class="tab md-typescale-label-medium always-show">
             {glareLabsTab.label}
         </a>
         {
             tabs.map((tab) => (
-                <a target="_self" href={tab.url} class="tab">
+                <a target="_self" href={tab.url} class="tab md-typescale-label-medium">
                     {tab.label}
                 </a>
             ))
@@ -24,7 +25,7 @@ const tabs = headerTabs.slice(1);
     <div id="glare-labs-page-product-header-compact-tabs" class="compact-tabs" data-active="false" role="list">
         {
             tabs.map((tab) => (
-                <a target="_self" href={tab.url} class="tab" role="listitem">
+                <a target="_self" href={tab.url} class="tab md-typescale-label-medium" role="listitem">
                     {tab.label}
                 </a>
             ))
@@ -33,7 +34,7 @@ const tabs = headerTabs.slice(1);
 
     <!-- Show: Compact -->
     <div class="actions" slot="end">
-        <button id="glare-labs-page-product-header-open-compact-tabs-button" class="open-tabs-panel-button material-symbols-outlined">menu</button>
+        <button id="glare-labs-page-product-header-open-compact-tabs-button" class="open-tabs-panel-button material-symbols-outlined" set:html={MenuSvg} />
     </div>
 </HeaderLayout>
 
@@ -63,8 +64,10 @@ const tabs = headerTabs.slice(1);
 
     .tabs > .tab,
     .compact-tabs > .tab {
-        font-size: 14px;
         color: var(--md-sys-color-on-surface-variant);
+        text-underline-offset: 2px;
+        transition-property: text-underline-offset;
+        transition-duration: 150ms;
 
         &:hover {
             text-decoration-line: underline;

@@ -4,13 +4,17 @@
  * @url /
  */
 
-import { GlobalStyles } from "@modules/global";
+import OpenInNewSvg from "@material-design-icons/svg/round/open_in_new.svg?raw";
+import { PageBody } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
 import { PageHeader } from "@modules/page-header";
-import { ImportMaterialSymbols, ImportRobotoStyle, MaterialThemeScript, PageMetaInfo } from "@shared/components";
 import { PageRootHtmlLayout } from "@shared/layouts";
-
-import { PageBody } from "@modules/page-body";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 
@@ -37,7 +41,7 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
 ---
 
 <PageRootHtmlLayout>
-    <PageMetaInfo
+    <PageMeta
         slot="head"
         author="bre97"
         description="Bre97' Blog is the blog website of the author of Glare Labs. Explore the behind-the-scenes story of Glare Labs and bre97."
@@ -51,10 +55,11 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
         robots="index, follow"
         ogType="website"
     />
-    <GlobalStyles slot="head" />
-    <ImportRobotoStyle slot="head" />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
     <MaterialThemeScript slot="head" />
-    <ImportMaterialSymbols slot="head" />
     <ViewTransitions slot="head" />
 
     <PageBody>
@@ -95,7 +100,7 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
                             <a class="social-link-list-item" href={link.url} target="_blank" role="listitem">
                                 <span aria-hidden="true" class="icon" set:html={link.svg} />
                                 <h2 class="label md-typescale-body-medium">{link.label}</h2>
-                                <md-icon class="alt-icon">open_in_new</md-icon>
+                                <md-icon class="alt-icon" set:html={OpenInNewSvg} />
                                 <md-ripple />
                             </a>
                         ))

@@ -15,12 +15,12 @@
         "@astrojs/sitemap": "^3.2.1",
         "@fontsource/jetbrains-mono": "^5.1.1",
         "@glare-labs/material-tokens-generator": "^0.2.1",
+        "@material-design-icons/svg": "^0.14.13",
         "@material/material-color-utilities": "^0.3.0",
         "@material/web": "^2.2.0",
         "@nanostores/persistent": "^0.10.2",
         "@webcomponents/template-shadowroot": "^0.2.1",
         "astro": "^4.16.7",
-        "material-symbols": "^0.25.1",
         "nanostores": "^0.11.3"
     },
     "devDependencies": {
