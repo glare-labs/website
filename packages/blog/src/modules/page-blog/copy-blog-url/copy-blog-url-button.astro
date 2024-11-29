@@ -1,0 +1,58 @@
+---
+import ShareSvg from "@material-design-icons/svg/round/share.svg?raw";
+import CheckSvg from "@material-design-icons/svg/round/check.svg?raw";
+---
+
+<md-text-button class="copy-blog-url-button" data-status="active">
+    <span class="label">Copy Link</span>
+    <md-icon slot="icon" class="icon share" set:html={ShareSvg} />
+    <md-icon slot="icon" class="icon check" set:html={CheckSvg} />
+</md-text-button>
+
+<script>
+    import "@material/web/button/text-button";
+    import "@material/web/icon/icon";
+</script>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const buttons = document.querySelectorAll(".copy-blog-url-button");
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                navigator.clipboard
+                    .writeText(document.location.href)
+                    .then(() => {
+                        button.setAttribute("data-status", "copied");
+                        button.querySelector(".label").textContent = "Copied";
+                        return new Promise<void>((res) => setTimeout(() => res(), 5000));
+                    })
+                    .then(() => {
+                        button.setAttribute("data-status", "active");
+                        button.querySelector(".label").textContent = "Copy Link";
+                    });
+            });
+        });
+    });
+</script>
+
+<style>
+    .copy-blog-url-button {
+        &[data-status="active"] {
+            & .icon.share {
+                display: block;
+            }
+            & .icon.check {
+                display: none;
+            }
+        }
+        &[data-status="copied"] {
+            & .icon.share {
+                display: none;
+            }
+            & .icon.check {
+                display: block;
+            }
+        }
+    }
+</style>
