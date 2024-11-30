@@ -36,6 +36,10 @@ import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
     document.addEventListener("astro:page-load", (_) => {
         const darkButtonRef = document.querySelector("#navigation-rail-switch-theme-button") as MdIconButton | null;
         darkButtonRef?.addEventListener("click", handleClick);
+
+        if (darkButtonRef) {
+            handleIconUpdate(getMaterialThemeConfiguration().getIsDark());
+        }
     });
 
     /**
