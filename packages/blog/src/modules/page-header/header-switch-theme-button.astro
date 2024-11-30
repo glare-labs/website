@@ -18,14 +18,14 @@ import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
     import { getMaterialThemeConfiguration } from "@shared/utils";
 
     const handleIconUpdate = (isDark: boolean) => {
-        const iconLight = document.querySelector("#header-switch-theme-button .icon.light") as MdIconButton;
-        const iconDark = document.querySelector("#header-switch-theme-button .icon.dark") as MdIconButton;
+        const iconLight = document.querySelector("#header-switch-theme-button .icon.light") as MdIconButton | null;
+        const iconDark = document.querySelector("#header-switch-theme-button .icon.dark") as MdIconButton | null;
         if (isDark) {
-            iconLight.style.setProperty("display", "block");
-            iconDark.style.setProperty("display", "none");
+            iconLight?.style.setProperty("display", "block");
+            iconDark?.style.setProperty("display", "none");
         } else {
-            iconLight.style.setProperty("display", "none");
-            iconDark.style.setProperty("display", "block");
+            iconLight?.style.setProperty("display", "none");
+            iconDark?.style.setProperty("display", "block");
         }
     };
 
@@ -34,8 +34,8 @@ import DarkModeSvg from "@material-design-icons/svg/round/dark_mode.svg?raw";
     };
 
     document.addEventListener("astro:page-load", (_) => {
-        const darkButtonRef = document.querySelector("#header-switch-theme-button") as MdIconButton;
-        darkButtonRef.addEventListener("click", handleClick);
+        const darkButtonRef = document.querySelector("#header-switch-theme-button") as MdIconButton | null;
+        darkButtonRef?.addEventListener("click", handleClick);
     });
 
     /**

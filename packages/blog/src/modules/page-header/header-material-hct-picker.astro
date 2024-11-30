@@ -40,15 +40,15 @@ import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
     import { getMaterialThemeConfiguration } from "@shared/utils";
 
     const getElements = () => {
-        const pickerWindow = document.querySelector("#hct-picker-window") as MdMenu;
-        const toggleButton = document.querySelector("#hct-picker-window-toggle-button") as MdIconButton;
-        const hue = pickerWindow.querySelector("#hue-picker-slider") as MdSlider;
-        const chroma = pickerWindow.querySelector("#chroma-picker-slider") as MdSlider;
-        const tone = pickerWindow.querySelector("#tone-picker-slider") as MdSlider;
+        const pickerWindow = document.querySelector("#hct-picker-window") as MdMenu | null;
+        const toggleButton = document.querySelector("#hct-picker-window-toggle-button") as MdIconButton | null;
+        const hue = document.querySelector("#hue-picker-slider") as MdSlider | null;
+        const chroma = document.querySelector("#chroma-picker-slider") as MdSlider | null;
+        const tone = document.querySelector("#tone-picker-slider") as MdSlider | null;
 
-        const huePreview = pickerWindow.querySelector("#hue-picker-slider-preview") as HTMLElement;
-        const chromaPreview = pickerWindow.querySelector("#chroma-picker-slider-preview") as HTMLElement;
-        const tonePreview = pickerWindow.querySelector("#tone-picker-slider-preview") as HTMLElement;
+        const huePreview = document.querySelector("#hue-picker-slider-preview") as HTMLElement | null;
+        const chromaPreview = document.querySelector("#chroma-picker-slider-preview") as HTMLElement | null;
+        const tonePreview = document.querySelector("#tone-picker-slider-preview") as HTMLElement | null;
 
         return {
             pickerWindow,
@@ -64,7 +64,9 @@ import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
     let updateSliderTimeout = null;
 
     const handleClick = () => {
-        getElements().pickerWindow.open = !getElements().pickerWindow.open;
+        if (getElements().pickerWindow) {
+            getElements().pickerWindow.open = !getElements().pickerWindow.open;
+        }
     };
 
     const handleHueInput = (e: Event) => {
@@ -127,15 +129,25 @@ import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
         return `${colorArray}`;
     };
     const updateHuePewviewBackgroundProperty = () => {
-        getElements().huePreview.style.setProperty("background", `linear-gradient(to right, ${generateHue()})`);
+        if (getElements().huePreview) {
+            getElements().huePreview.style.setProperty("background", `linear-gradient(to right, ${generateHue()})`);
+        }
     };
     const updateChromaPewviewBackgroundProperty = () => {
-        getElements().chromaPreview.style.setProperty("background", `linear-gradient(to right, ${generateChroma(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue)})`);
+        if (getElements().chromaPreview) {
+            getElements().chromaPreview.style.setProperty("background", `linear-gradient(to right, ${generateChroma(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue)})`);
+        }
     };
     const updateTonePewviewBackgroundProperty = () => {
-        getElements().tonePreview.style.setProperty("background", `linear-gradient(to right, ${generateTone(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue, getMaterialThemeConfiguration().getSourceColorHctRawObject().chroma)})`);
+        if (getElements().tonePreview) {
+            getElements().tonePreview.style.setProperty("background", `linear-gradient(to right, ${generateTone(getMaterialThemeConfiguration().getSourceColorHctRawObject().hue, getMaterialThemeConfiguration().getSourceColorHctRawObject().chroma)})`);
+        }
     };
     const initSliderValue = () => {
+        const required = [getElements().hue, getElements().chroma, getElements().tone];
+        if (required.includes(null)) {
+            return;
+        }
         const { chroma: c, hue: h, tone: t } = getMaterialThemeConfiguration().getSourceColorHctRawObject();
         getElements().hue.value = h;
         getElements().chroma.value = c;
@@ -147,10 +159,10 @@ import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
         updateChromaPewviewBackgroundProperty();
         updateTonePewviewBackgroundProperty();
 
-        getElements().toggleButton.addEventListener("click", handleClick);
-        getElements().hue.addEventListener("input", handleHueInput);
-        getElements().chroma.addEventListener("input", handleChromaInput);
-        getElements().tone.addEventListener("input", handleToneInput);
+        getElements().toggleButton?.addEventListener("click", handleClick);
+        getElements().hue?.addEventListener("input", handleHueInput);
+        getElements().chroma?.addEventListener("input", handleChromaInput);
+        getElements().tone?.addEventListener("input", handleToneInput);
     });
 </script>
 

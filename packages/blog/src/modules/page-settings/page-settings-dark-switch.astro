@@ -1,0 +1,38 @@
+---
+
+---
+
+<md-switch id="settings-page-dark-switch" transition:persist="page-settings-dark-switch"></md-switch>
+
+<script>
+    import "@material/web/switch/switch";
+</script>
+
+<script>
+    import type { MdSwitch } from "@material/web/all";
+    import { getMaterialThemeConfiguration } from "@shared/utils";
+
+    document.addEventListener("astro:page-load", () => {
+        const switchElement = document.querySelector("#settings-page-dark-switch") as MdSwitch;
+
+        const handleSwitchChange = () => {
+            const isDark = getMaterialThemeConfiguration().getIsDark();
+            getMaterialThemeConfiguration().setIsDark(!isDark);
+        };
+
+        switchElement?.addEventListener("change", handleSwitchChange);
+
+        if (switchElement) {
+            switchElement.selected = getMaterialThemeConfiguration().getIsDark();
+        }
+    });
+
+    getMaterialThemeConfiguration()
+        .getAtom()
+        .subscribe((value) => {
+            const switchElement = document.querySelector("#settings-page-dark-switch") as MdSwitch | null;
+            if (switchElement) {
+                switchElement.selected = value.isDark;
+            }
+        });
+</script>
