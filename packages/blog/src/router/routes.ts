@@ -1,6 +1,7 @@
 import BookSvg from '@material-design-icons/svg/round/book.svg?raw'
+import CodeSvg from '@material-design-icons/svg/round/code.svg?raw'
 import HomeSvg from '@material-design-icons/svg/round/home.svg?raw'
-import SearchSvg from '@material-design-icons/svg/round/search.svg?raw'
+import SettingsSvg from '@material-design-icons/svg/round/settings.svg?raw'
 import { atom } from 'nanostores'
 
 export const routes = [
@@ -18,9 +19,15 @@ export const routes = [
     },
     {
         id: 2,
-        label: 'Search',
-        iconString: SearchSvg,
-        url: `/search/`,
+        label: 'Toys',
+        iconString: CodeSvg,
+        url: `/toys/`,
+    },
+    {
+        id: 3,
+        label: 'Settings',
+        iconString: SettingsSvg,
+        url: `/settings/`,
     },
 ]
 

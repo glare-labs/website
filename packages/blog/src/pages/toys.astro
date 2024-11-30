@@ -1,0 +1,79 @@
+---
+import { PageBody } from "@modules/page-body";
+import { PageHeader } from "@modules/page-header";
+import { PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
+import { ViewTransitions } from "astro:transitions";
+import ConstructionSvg from "@material-design-icons/svg/round/construction.svg?raw";
+---
+
+<PageRootHtmlLayout>
+    <PageMeta
+        slot="head"
+        author="bre97"
+        description="Retrieve all blog posts on bre97'blog."
+        title="Library - Bre97's Blog"
+        iconHref="/glare-labs-page-icon.svg"
+        keywords="blog, bre97, keynote"
+        language="en-US"
+        url="https://blog.glare-labs.uk/library/"
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt="Bre97's Blog"
+        robots="index, follow"
+        ogType="website"
+    />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ViewTransitions slot="head" />
+
+    <PageBody>
+        <header class="sticky-header">
+            <PageHeader />
+        </header>
+
+        <md-icon id="null-icon" set:html={ConstructionSvg} />
+
+        <p class="md-typescale-body-medium" style="text-align: center; color: var(--md-sys-color-primary);">Something is coming...</p>
+    </PageBody>
+</PageRootHtmlLayout>
+
+<script>
+    import "@material/web/icon/icon";
+</script>
+
+<style>
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: none;
+
+        @media (max-width: 600px) {
+            display: block;
+        }
+    }
+</style>
+
+<style is:global>
+    #null-icon {
+        & > svg {
+            width: 1em;
+            height: 1em;
+            fill: currentColor;
+            scale: 4;
+        }
+        color: var(--md-sys-color-primary);
+        display: grid;
+        place-content: center;
+        height: 256px;
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,36 @@
+---
+
+---
+
+<md-slider id="page-settings-contrast-level-slider" step="0.5" min="-1" max="1"></md-slider>
+
+<script>
+    import "@material/web/slider/slider";
+</script>
+
+<script>
+    import type { MdSlider } from "@material/web/all";
+    import { getMaterialThemeConfiguration, type TContrastLevel } from "@shared/utils";
+
+    document.addEventListener("astro:page-load", () => {
+        const slider = document.querySelector("#page-settings-contrast-level-slider") as MdSlider | null;
+
+        slider?.addEventListener("input", () => {
+            getMaterialThemeConfiguration().setContrastLevel((slider.value ?? 0) as TContrastLevel);
+        });
+
+        if (slider) {
+            slider.value = getMaterialThemeConfiguration().getContrastLevel();
+        }
+    });
+
+    getMaterialThemeConfiguration()
+        .getAtom()
+        .subscribe((value) => {
+            const slider = document.querySelector("#page-settings-contrast-level-slider") as MdSlider;
+
+            if (slider) {
+                slider.value = value.contrastLevel;
+            }
+        });
+</script>
