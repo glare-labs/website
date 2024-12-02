@@ -121,6 +121,7 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
     .navigation-rail {
         width: 84px;
         height: 100%;
+        max-height: 100vh;
         background-color: var(--md-sys-color-surface-container);
         display: flex;
         flex-direction: column;
@@ -128,6 +129,7 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
         padding: 24px 0px;
         overflow: hidden;
         row-gap: 24px;
+        overflow: auto;
 
         @media (min-width: 600px) and (max-width: 840px) {
             & > .tabs {
@@ -152,7 +154,6 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
             flex-direction: column;
             gap: 8px;
             flex-grow: 1;
-            overflow: auto;
             user-select: none;
 
             & > .navigation-rail-tab {
@@ -166,6 +167,7 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
                 height: var(--container-height);
                 position: relative;
                 cursor: pointer;
+                outline: none;
 
                 & > * {
                     pointer-events: none;

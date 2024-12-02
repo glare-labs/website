@@ -1,4 +1,7 @@
 ---
+/**
+ * @url https://world.glare-labs.uk/article/:slug
+ */
 import "@fontsource/jetbrains-mono";
 import { PageBodyLayout } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
@@ -475,6 +478,10 @@ const headings = parseHeadings(article.body);
                 transform: translateX(100%);
             }
 
+            transition-property: transform, opacity;
+            transition-duration: 200ms;
+            transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+
             & .heading-list {
                 background-color: var(--md-sys-color-surface-container);
                 border-radius: 28px;
@@ -485,6 +492,7 @@ const headings = parseHeadings(article.body);
                 z-index: 2;
                 position: relative;
                 padding: 18px;
+                overflow: auto;
 
                 & .heading {
                     display: flex;

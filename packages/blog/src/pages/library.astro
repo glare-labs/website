@@ -1,7 +1,6 @@
 ---
 /**
- * This page will show all mdx files.
- * @url /blog
+ * @url https://world.glare-labs.uk/library/
  */
 
 import { getCollection } from "astro:content";
@@ -27,14 +26,14 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
     <PageMeta
         slot="head"
         author="bre97"
-        description="Retrieve all blog posts on bre97'blog."
-        title="Library - Bre97's Blog"
+        description="Retrieve all blog posts on bre97 blog."
+        title="Library - Bre97 World"
         iconHref="/glare-labs-page-icon.svg"
-        keywords="blog, bre97, keynote"
+        keywords="blog, bre97, keynote, post, glare-labs, story"
         language="en-US"
-        url="https://blog.glare-labs.uk/library/"
+        url="https://world.glare-labs.uk/library/"
         imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
-        imageAlt="Bre97's Blog"
+        imageAlt="Bre97 World Library"
         robots="index, follow"
         ogType="website"
     />
@@ -327,6 +326,8 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
 
 <style>
     .filter-panel {
+        height: 100%;
+        overflow: auto;
         &[data-open="false"] {
             display: none;
         }

@@ -1,4 +1,7 @@
 ---
+/**
+ * @url https://world.glare-labs.uk/search/
+ */
 import { PageBody } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
 import { PageHeader } from "@modules/page-header";
@@ -21,14 +24,14 @@ const blogs = await getCollection("article");
         slot="head"
         author="bre97"
         description="Search blogs."
-        title="Search - Bre97's Blog"
+        title="Search - Bre97 World"
         iconHref="/glare-labs-page-icon.svg"
-        keywords="blog, bre97, keynote, search"
+        keywords="blog, bre97, keynote, search, post, story"
         language="en-US"
-        url="https://blog.glare-labs.uk/search/"
+        url="https://world.glare-labs.uk/search/"
         imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
-        imageAlt="Bre97's Blog"
-        robots="index, follow"
+        imageAlt="Bre97 World Settings"
+        robots="index, nofollow"
         ogType="website"
     />
     <ImportBaseStyle slot="head" />

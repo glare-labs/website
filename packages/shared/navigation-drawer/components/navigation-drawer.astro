@@ -85,7 +85,8 @@
             border-top-right-radius: 28px;
             border-bottom-right-radius: 28px;
             background-color: var(--md-sys-color-surface);
-            display: block;
+            display: flex;
+            flex-direction: column;
             z-index: 2;
             &::backdrop {
                 pointer-events: none;
@@ -94,13 +95,15 @@
             & > .headline {
                 display: flex;
                 justify-content: space-between;
-                padding: 24px;
+                padding: 24px 24px 0;
                 color: var(--md-sys-color-on-surface);
             }
 
             & > .content {
                 display: block;
-                padding: 24px;
+                flex-grow: 1;
+                padding: 24px 24px 0;
+                overflow: auto;
             }
         }
 
