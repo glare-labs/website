@@ -57,7 +57,7 @@ const blogs = await getCollection("article");
                             data-tags={blog.data.tags}
                             data-headline={blog.data.headline}
                             data-description={blog.data.description}
-                            data-creationTime={blog.data.creationTime}
+                            data-created={blog.data.created}
                             data-collection={blog.data.collection}
                             data-slug={blog.slug}
                             data-body={blog.body}
@@ -108,7 +108,7 @@ const blogs = await getCollection("article");
                     blog.getAttribute("data-headline").includes(input),
                     blog.getAttribute("data-tags").includes(input),
                     blog.getAttribute("data-description").includes(input),
-                    blog.getAttribute("data-creationTime").includes(input),
+                    blog.getAttribute("data-created").includes(input),
                     blog.getAttribute("data-collection").includes(input),
                     blog.getAttribute("data-slug").includes(input),
                     blog.getAttribute("data-body").includes(input),

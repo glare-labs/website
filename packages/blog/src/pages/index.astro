@@ -37,7 +37,7 @@ const socialLinks = [
     },
 ];
 
-const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.data.creationTime).getMilliseconds() - new Date(x.data.creationTime).getMilliseconds());
+const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.data.created).getMilliseconds() - new Date(x.data.created).getMilliseconds());
 ---
 
 <PageRootHtmlLayout>
