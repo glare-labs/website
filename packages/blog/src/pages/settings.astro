@@ -39,7 +39,7 @@ import { ViewTransitions } from "astro:transitions";
     <ViewTransitions slot="head" />
 
     <PageBody>
-        <article class="width-forced container">
+        <article class="container body-content">
             <section>
                 <h1 class="headline md-typescale-headline-medium">Theme</h1>
 
@@ -75,21 +75,25 @@ import { ViewTransitions } from "astro:transitions";
 </script>
 
 <style>
-    .width-forced {
-        --rail-width: 80px;
+    .body-content {
+        --navigation-rail-width-computed: 80px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
 
-        max-width: min(calc(100vw - var(--rail-width)), 1200px);
-        margin-left: auto;
-        margin-right: auto;
-        padding: 28px 0;
+        /* width 1200px + rail-width 80px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
+        }
     }
 
     .container {
         background-color: var(--md-sys-color-surface-container-lowest);
         border-radius: 28px;
+        padding-bottom: 28px;
     }
     .headline {
-        padding: 0 28px 28px;
+        padding: 28px;
+        color: var(--md-sys-color-on-surface);
     }
     .field {
         display: flex;

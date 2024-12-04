@@ -49,7 +49,7 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
             <PageHeader />
         </header>
 
-        <div class="page page-content">
+        <div class="page body-content">
             <div class="filter-container">
                 <NavigationDrawerOpenButton>
                     <md-text-button id="open-filter-button">
@@ -180,25 +180,14 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
             display: block;
         }
     }
-    .page-content {
-        --navigation-rail-width-computed: 84px;
+    .body-content {
+        --navigation-rail-width-computed: 80px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
 
-        padding: 24px;
-        @media (min-width: 840px) {
-            padding-left: 60px;
-            padding-right: 60px;
-        }
-        @media (min-width: 1600px) {
-            max-width: calc(1600px - var(--navigation-rail-width-computed));
-        }
-        @media (min-width: 1600px) {
-            margin: auto;
-        }
-
-        & > :not([hidden]) ~ :not([hidden]) {
-            --space-y-reverse: 0;
-            margin-top: calc(32px * calc(1 - var(--space-y-reverse)));
-            margin-bottom: calc(32px * var(--space-y-reverse));
+        /* width 1200px + rail-width 80px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
         }
     }
     .collection-list {
@@ -325,6 +314,9 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
 </style>
 
 <style>
+    .filter-container {
+        margin-bottom: 16px;
+    }
     .filter-panel {
         height: 100%;
         overflow: auto;

@@ -37,7 +37,7 @@ const socialLinks = [
     },
 ];
 
-const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.data.creationTime).getMilliseconds() - new Date(x.data.creationTime).getMilliseconds()).slice(0, 4);
+const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.data.creationTime).getMilliseconds() - new Date(x.data.creationTime).getMilliseconds());
 ---
 
 <PageRootHtmlLayout>
@@ -75,20 +75,36 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
                 </section>
             </article>
 
-            <article class="body-content the-latest-blogs">
-                <h1 class="headline md-typescale-headline-medium">The Latest Blogs</h1>
+            <article class="body-content latest-blogs">
+                <section class="first">
+                    <a class="blog" href={`/article/${latestBlogs[0].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={latestBlogs[0].data.imageUrl} />
+                        <h2 class="headline md-typescale-title-medium">{latestBlogs[0].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[0].data.description}</p>
+                    </a>
+                </section>
 
-                <ul>
-                    {
-                        latestBlogs.map((blog) => (
-                            <a class="blog" href={`/article/${blog.slug}/`} target="_self" role="listitem">
-                                <h2 class="headline md-typescale-title-medium">{blog.data.headline}</h2>
-                                <p class="description md-typescale-body-medium">{blog.data.description}</p>
-                                <md-ripple />
-                            </a>
-                        ))
-                    }
-                </ul>
+                <section class="second">
+                    <a class="blog" href={`/article/${latestBlogs[1].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={latestBlogs[1].data.imageUrl} />
+                        <h2 class="headline md-typescale-title-small">{latestBlogs[1].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[1].data.description}</p>
+                    </a>
+                </section>
+                <section class="third">
+                    <a class="blog" href={`/article/${latestBlogs[2].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={latestBlogs[2].data.imageUrl} />
+                        <h2 class="headline md-typescale-title-small">{latestBlogs[2].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[2].data.description}</p>
+                    </a>
+                </section>
+                <section class="forth">
+                    <a class="blog" href={`/article/${latestBlogs[3].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={latestBlogs[3].data.imageUrl} />
+                        <h2 class="headline md-typescale-title-small">{latestBlogs[3].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[3].data.description}</p>
+                    </a>
+                </section>
             </article>
 
             <article class="body-content hero-social-link-list" role="list">
@@ -115,6 +131,10 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
     </PageBody>
 </PageRootHtmlLayout>
 
+<script>
+    import "@material/web/divider/divider";
+</script>
+
 <style>
     .width-forced {
         max-width: 1200px;
@@ -138,12 +158,10 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
     .body-content {
         --navigation-rail-width-computed: 80px;
         margin: 24px;
-        @media (min-width: 840px) {
-            margin-left: 60px;
-            margin-right: 60px;
-        }
-        @media (min-width: 1600px) {
-            max-width: calc(1600px - var(--navigation-rail-width-computed));
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+        /* width 1200px + rail-width 80px */
+        @media (min-width: 1280px) {
             margin: 24px auto;
         }
     }
@@ -234,59 +252,145 @@ const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.d
 
 <!-- The Latest Blogs -->
 <style>
-    .the-latest-blogs {
-        display: grid;
-        overflow: hidden;
+    .latest-blogs {
+        background-color: var(--md-sys-color-surface-container-lowest);
         border-radius: 28px;
         padding: 28px;
-        background-color: var(--md-sys-color-surface-container-lowest);
+        gap: 16px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
 
-        & > .headline {
-            margin-bottom: 24px;
-            color: var(--md-sys-color-on-surface);
+        & > .first {
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
+        & > .second {
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+        & > .third {
+            grid-column: 1/2;
+            grid-row: 3/4;
+        }
+        & > .forth {
+            grid-column: 1/2;
+            grid-row: 4/5;
         }
 
-        & > ul {
-            display: grid;
-            gap: 16px;
+        @media (min-width: 840px) {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            & > .first {
+                grid-column: 1/2;
+                grid-row: 1/4;
+            }
+            & > .second {
+                grid-column: 2/3;
+                grid-row: 1/2;
+            }
+            & > .third {
+                grid-column: 2/3;
+                grid-row: 2/3;
+            }
+            & > .forth {
+                grid-column: 2/3;
+                grid-row: 3/4;
+            }
+        }
 
-            @media (max-width: 600px) {
-                grid-template-rows: repeat(4, auto);
-                grid-template-columns: 1fr;
-            }
-            @media (min-width: 600px) and (max-width: 840px) {
-                grid-template-rows: repeat(2, 1fr);
-                grid-template-columns: repeat(2, 1fr);
-            }
-            @media (min-width: 840px) {
-                grid-template-rows: 1fr;
-                grid-template-columns: repeat(4, 1fr);
-            }
-
+        & > .first {
             & > .blog {
-                position: relative;
-                border-radius: 16px;
-                border: 1px solid var(--md-sys-color-outline-variant);
-                padding: 16px;
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto auto;
+
+                & > :is(.headline, .description) {
+                    padding: 0 16px;
+                }
 
                 & > .headline {
-                    color: var(--md-sys-color-on-surface);
+                    grid-column: 1/2;
+                    grid-row: 2/3;
+                    margin-top: 24px;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                }
+                & > .description {
+                    grid-column: 1/2;
+                    grid-row: 3/4;
+                    margin-top: 12px;
                     overflow: hidden;
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 3;
                 }
-                & > .description {
-                    color: var(--md-sys-color-on-surface-variant);
+                & > .image {
+                    grid-column: 1/2;
+                    grid-row: 1/2;
+                    width: 100%;
+                    border-radius: 28px;
+                }
+            }
+        }
+
+        & > :is(.second, .third, .forth) {
+            & > .blog {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                grid-template-rows: auto auto;
+
+                & > :is(.headline, .description) {
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }
+
+                & > .headline {
+                    padding-top: 16px;
+                    grid-column: 1/2;
+                    grid-row: 1/2;
                     overflow: hidden;
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 4;
-                    margin-top: 8px;
+                    -webkit-line-clamp: 1;
                 }
+                & > .description {
+                    grid-column: 1/2;
+                    grid-row: 2/3;
+                    overflow: hidden;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    display: none;
+                    @media (min-width: 1200px) {
+                        display: -webkit-box;
+                    }
+                }
+                & > .image {
+                    grid-column: 2/3;
+                    grid-row: 1/3;
+                    width: 96px;
+                    align-self: center;
+                    border-radius: 12px;
+                }
+            }
+        }
 
-                --md-ripple-hover-color: var(--md-sys-color-primary);
-                --md-ripple-pressed-color: var(--md-sys-color-primary);
+        & .blog {
+            height: 100%;
+            &:hover,
+            &:focus-within {
+                & > :is(.headline, .description) {
+                    text-decoration-line: underline;
+                    text-underline-offset: 2px;
+                }
+            }
+            & > .headline {
+                color: var(--md-sys-color-on-surface);
+            }
+            & > .description {
+                color: var(--md-sys-color-on-surface-variant);
             }
         }
     }
