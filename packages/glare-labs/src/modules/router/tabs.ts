@@ -17,7 +17,7 @@ export const headerTabs: Array<IRootPageHeaderTabs> = [
         label: 'Vue-MDC'
     },
     {
-        url: 'https://blog.glare-labs.uk/',
-        label: 'Blog'
+        url: 'https://world.glare-labs.uk/',
+        label: 'Bre97 World (Blog)'
     },
 ] as const
