@@ -1,3 +1,4 @@
+import { slug } from 'github-slugger'
 
 interface Heading {
     level: number
@@ -14,7 +15,7 @@ export function parseHeadings(markdownText: string): Heading[] {
         if (line.startsWith('#')) {
             const level = getLevel(line)
             const headline = line.replace(/^#+\s*/, '')
-            const href = `#${headline.toLowerCase().replaceAll(' ', '-')}`
+            const href = `#${slug(headline)}`
             const heading: Heading = { level, headline, children: [], href }
 
             headings.push(heading)

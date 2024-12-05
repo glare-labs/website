@@ -52,6 +52,8 @@ interface Props {
 const { article } = Astro.props;
 const { Content } = await article.render();
 
+console.log(article);
+
 const headings = parseHeadings(article.body);
 ---
 
@@ -110,7 +112,7 @@ const headings = parseHeadings(article.body);
                 <CopyBlogUrlButton />
             </div>
 
-            <BlogOverview context={article.body} />
+            <BlogOverview overview={article.data.overview} />
         </div>
 
         <article id="article">
@@ -197,6 +199,23 @@ const headings = parseHeadings(article.body);
     document.addEventListener("astro:page-load", () => {
         onWindowScroll();
         window.addEventListener("scroll", onWindowScroll, { passive: true, capture: true });
+    });
+</script>
+
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+        /**
+         * @type {NodeListOf<HTMLTableElement>}
+         */
+        const tables = document.querySelectorAll("#article-content>table");
+
+        tables.forEach((table) => {
+            const div = document.createElement("div");
+            div.classList.add("table-wrapper");
+            div.appendChild(table.cloneNode(true));
+            table.after(div);
+            table.remove();
+        });
     });
 </script>
 
@@ -602,48 +621,69 @@ const headings = parseHeadings(article.body);
             line-height: 24px;
         }
 
-        & table {
-            font-size: 14px;
-            border-radius: 18px;
+        & .table-wrapper {
             overflow: auto;
-            outline-style: solid;
+            width: fit-content;
             margin-left: auto;
             margin-right: auto;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
+            margin-top: 24px;
+            margin-bottom: 24px;
+            border-radius: 18px;
+            outline-style: solid;
+            max-width: calc(100vw - var(--space-x) - var(--space-x) - 40px);
 
-            & tr,
-            & td {
-                text-wrap: wrap;
-                text-overflow: ellipsis;
-                white-space: wrap;
-                word-wrap: break-word;
+            @media (min-width: 840px) and (max-width: 1200px) {
+                max-width: calc(100vw - var(--space-x) - var(--space-x) - 280px);
             }
 
-            & :is(thead, tbody) > tr > :is(th, td) {
-                padding-left: 1rem;
-                padding-right: 1rem;
-                padding-top: 0.5rem;
-                padding-bottom: 0.5rem;
-                min-width: 1.5rem;
-                text-align: start;
-                overflow: auto;
+            @media (min-width: 1200px) {
+                max-width: var(--content-max-width);
             }
 
-            & :is(thead, tbody) {
-                overflow: auto;
-                color: var(--md-sys-color-on-surface);
-            }
+            & table {
+                font-size: 14px;
+                & tr,
+                & td {
+                    text-wrap: wrap;
+                    text-overflow: ellipsis;
+                    white-space: wrap;
+                    word-wrap: break-word;
+                }
 
-            & thead {
-                font-weight: 700;
-                background-color: var(--md-sys-color-secondary-container);
-                color: var(--md-sys-color-on-secondary-container);
-            }
+                & :is(thead, tbody) > tr > :is(th, td) {
+                    padding-left: 1rem;
+                    padding-right: 1rem;
+                    padding-top: 0.5rem;
+                    padding-bottom: 0.5rem;
+                    min-width: 1.5rem;
+                    text-align: start;
+                    overflow: auto;
+                }
 
-            & tbody tr:nth-of-type(2n) {
-                background-color: var(--md-sys-color-surface-container);
+                & :is(thead, tbody) {
+                    color: var(--md-sys-color-on-surface);
+                }
+
+                & thead {
+                    font-weight: 700;
+                    background-color: var(--md-sys-color-secondary-container);
+                    color: var(--md-sys-color-on-secondary-container);
+                }
+
+                & tbody tr:nth-of-type(2n) {
+                    background-color: var(--md-sys-color-surface-container);
+                }
             }
+        }
+
+        & video,
+        & p > img,
+        & img {
+            max-height: 320px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 12px;
+            margin-bottom: 12px;
         }
 
         & ul {
