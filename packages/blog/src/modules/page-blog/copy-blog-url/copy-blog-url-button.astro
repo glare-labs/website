@@ -1,10 +1,14 @@
 ---
 import ShareSvg from "@material-design-icons/svg/round/share.svg?raw";
 import CheckSvg from "@material-design-icons/svg/round/check.svg?raw";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <md-text-button class="copy-blog-url-button" data-status="active">
-    <span class="label">Copy Link</span>
+    <span class="label">{t("article-page.toolbar.copy-link")}</span>
     <md-icon slot="icon" class="icon share" set:html={ShareSvg} />
     <md-icon slot="icon" class="icon check" set:html={CheckSvg} />
 </md-text-button>

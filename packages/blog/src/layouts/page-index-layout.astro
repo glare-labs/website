@@ -1,0 +1,402 @@
+---
+/**
+ * root page
+ * @url https://world.glare-labs.uk/{lang}/
+ */
+
+import OpenInNewSvg from "@material-design-icons/svg/round/open_in_new.svg?raw";
+import { PageBody } from "@modules/page-body";
+import { PageFooter } from "@modules/page-footer";
+import { PageHeader } from "@modules/page-header";
+import { PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
+import { getCollection } from "astro:content";
+import { ViewTransitions } from "astro:transitions";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const socialLinks = [
+    {
+        label: "Github",
+        url: "https://github.com/bre97-web",
+        svg: `
+            <svg
+                class="logo"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                aria-label="Github icon"
+                aria-hidden="true"
+            >
+                <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm2.218 18.616c-.354.069-.468-.149-.468-.336v-1.921c0-.653-.229-1.079-.481-1.296 1.56-.173 3.198-.765 3.198-3.454 0-.765-.273-1.389-.721-1.879.072-.177.312-.889-.069-1.853 0 0-.587-.188-1.923.717-.561-.154-1.159-.231-1.754-.234-.595.003-1.193.08-1.753.235-1.337-.905-1.925-.717-1.925-.717-.379.964-.14 1.676-.067 1.852-.448.49-.722 1.114-.722 1.879 0 2.682 1.634 3.282 3.189 3.459-.2.175-.381.483-.444.936-.4.179-1.413.488-2.037-.582 0 0-.37-.672-1.073-.722 0 0-.683-.009-.048.426 0 0 .46.215.777 1.024 0 0 .405 1.25 2.353.826v1.303c0 .185-.113.402-.462.337-2.782-.925-4.788-3.549-4.788-6.641 0-3.867 3.135-7 7-7s7 3.133 7 7c0 3.091-2.003 5.715-4.782 6.641z"></path>
+            </svg>
+        `,
+    },
+];
+
+const latestBlogs = (await getCollection("article")).sort((x, y) => new Date(y.data.created).getMilliseconds() - new Date(x.data.created).getMilliseconds());
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<PageRootHtmlLayout lang={lang}>
+    <PageMeta
+        slot="head"
+        author="bre97"
+        title={t("index-page.meta.title")}
+        description={t("index-page.meta.description")}
+        keywords={t("index-page.meta.keywords")}
+        iconHref="/glare-labs-page-icon.svg"
+        language={lang}
+        url={`https://world.glare-labs.uk/${lang}/`}
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt={t("index-page.meta.title")}
+        robots="index, follow"
+        ogType="website"
+    />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ViewTransitions slot="head" />
+
+    <PageBody>
+        <header class="sticky-header">
+            <PageHeader headline={t("page-header.title")} />
+        </header>
+
+        <div class="page">
+            <article class="body-content hero-wrapper">
+                <section class="hero">
+                    <h1 class="title md-typescale-headline-medium">{t("index-page-hero.title")}</h1>
+                    <p class="body md-typescale-body-large">{t("index-page-hero.body")}</p>
+                </section>
+            </article>
+
+            <article class="body-content latest-blogs">
+                <section class="first">
+                    <a class="blog" href={`/${lang}/article/${latestBlogs[3].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[3].data.imageUrl}`} />
+                        <h2 class="headline md-typescale-title-medium">{latestBlogs[3].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[3].data.description}</p>
+                    </a>
+                </section>
+
+                <section class="second">
+                    <a class="blog" href={`/${lang}/article/${latestBlogs[0].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[0].data.imageUrl}`} />
+                        <h2 class="headline md-typescale-title-small">{latestBlogs[0].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[0].data.description}</p>
+                    </a>
+                </section>
+                <section class="third">
+                    <a class="blog" href={`/${lang}/article/${latestBlogs[1].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[1].data.imageUrl}`} />
+                        <h2 class="headline md-typescale-title-small">{latestBlogs[1].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[1].data.description}</p>
+                    </a>
+                </section>
+                <section class="forth">
+                    <a class="blog" href={`/${lang}/article/${latestBlogs[2].slug}/`} target="_self" role="listitem">
+                        <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[2].data.imageUrl}`} />
+                        <h2 class="headline md-typescale-title-small">{latestBlogs[2].data.headline}</h2>
+                        <p class="description md-typescale-body-medium">{latestBlogs[2].data.description}</p>
+                    </a>
+                </section>
+            </article>
+
+            <article class="body-content hero-social-link-list" role="list">
+                <h1 class="headline md-typescale-headline-medium">{t("index-page-social-links-title")}</h1>
+
+                <ul>
+                    {
+                        socialLinks.map((link) => (
+                            <a class="social-link-list-item" href={link.url} target="_blank" role="listitem">
+                                <span aria-hidden="true" class="icon" set:html={link.svg} />
+                                <h2 class="label md-typescale-body-medium">{link.label}</h2>
+                                <md-icon class="alt-icon" set:html={OpenInNewSvg} />
+                                <md-ripple />
+                            </a>
+                        ))
+                    }
+                </ul>
+            </article>
+        </div>
+
+        <footer class="width-forced">
+            <PageFooter />
+        </footer>
+    </PageBody>
+</PageRootHtmlLayout>
+
+<script>
+    import "@material/web/divider/divider";
+</script>
+
+<style>
+    .width-forced {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page {
+        min-height: 100vh;
+    }
+</style>
+
+<style>
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: block;
+        @media (min-width: 600px) {
+            display: none;
+        }
+    }
+    .body-content {
+        --navigation-rail-width-computed: 80px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+        /* width 1200px + rail-width 80px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
+        }
+    }
+</style>
+
+<!-- Hero & Video -->
+<style>
+    body[dark="true"] {
+        .hero-wrapper {
+            background: url("/public/knowledge-overview-bg-dark.jpg");
+        }
+    }
+    body[dark="false"],
+    body:not([dark="true"]) {
+        .hero-wrapper {
+            background: url("/public/knowledge-overview-bg-light.jpg");
+        }
+    }
+
+    .hero-wrapper {
+        background-position: center;
+        background-size: cover;
+        height: fit-content;
+        background-color: var(--md-sys-color-surface-container-lowest);
+        border-radius: 28px;
+        padding: 28px;
+
+        & > .hero {
+            pointer-events: none;
+            color: var(--md-sys-color-on-surface);
+
+            & > .body {
+                margin-top: 8px;
+            }
+        }
+    }
+</style>
+
+<!-- Social Link List -->
+<style>
+    .hero-social-link-list {
+        position: relative;
+        border-radius: 28px;
+        padding: 28px;
+        background-color: var(--md-sys-color-surface-container-lowest);
+
+        & > .headline {
+            margin-bottom: 24px;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        & > ul {
+            & > .social-link-list-item {
+                border: 1px solid var(--md-sys-color-outline-variant);
+                position: relative;
+                display: grid;
+                align-items: center;
+                grid-template-columns: 40px 1fr 24px;
+                grid-template-rows: 1fr;
+                min-height: 40px;
+                padding: 18px 24px;
+                border-radius: 18px;
+                position: relative;
+
+                & > .label {
+                    color: var(--md-sys-color-on-surface);
+                    margin-left: 16px;
+                }
+
+                & > :is(.icon, .alt-icon) {
+                    place-self: center;
+                }
+
+                & > .icon {
+                    fill: var(--md-sys-color-on-surface);
+                }
+
+                & > .alt-icon {
+                    color: var(--md-sys-color-on-surface-variant);
+                }
+
+                --md-ripple-hover-color: var(--md-sys-color-primary);
+                --md-ripple-pressed-color: var(--md-sys-color-primary);
+            }
+        }
+    }
+</style>
+
+<!-- The Latest Blogs -->
+<style>
+    .latest-blogs {
+        background-color: var(--md-sys-color-surface-container-lowest);
+        border-radius: 28px;
+        padding: 28px;
+        gap: 16px;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+
+        & > .first {
+            grid-column: 1/2;
+            grid-row: 1/2;
+        }
+        & > .second {
+            grid-column: 1/2;
+            grid-row: 2/3;
+        }
+        & > .third {
+            grid-column: 1/2;
+            grid-row: 3/4;
+        }
+        & > .forth {
+            grid-column: 1/2;
+            grid-row: 4/5;
+        }
+
+        @media (min-width: 840px) {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            & > .first {
+                grid-column: 1/2;
+                grid-row: 1/4;
+            }
+            & > .second {
+                grid-column: 2/3;
+                grid-row: 1/2;
+            }
+            & > .third {
+                grid-column: 2/3;
+                grid-row: 2/3;
+            }
+            & > .forth {
+                grid-column: 2/3;
+                grid-row: 3/4;
+            }
+        }
+
+        & > .first {
+            & > .blog {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto auto;
+
+                & > :is(.headline, .description) {
+                    padding: 0 16px;
+                }
+
+                & > .headline {
+                    grid-column: 1/2;
+                    grid-row: 2/3;
+                    margin-top: 24px;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                }
+                & > .description {
+                    grid-column: 1/2;
+                    grid-row: 3/4;
+                    margin-top: 12px;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                }
+                & > .image {
+                    grid-column: 1/2;
+                    grid-row: 1/2;
+                    width: 100%;
+                    border-radius: 28px;
+                }
+            }
+        }
+
+        & > :is(.second, .third, .forth) {
+            & > .blog {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                grid-template-rows: auto auto;
+
+                & > :is(.headline, .description) {
+                    padding-left: 16px;
+                    padding-right: 16px;
+                }
+
+                & > .headline {
+                    padding-top: 16px;
+                    grid-column: 1/2;
+                    grid-row: 1/2;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                }
+                & > .description {
+                    grid-column: 1/2;
+                    grid-row: 2/3;
+                    overflow: hidden;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                    display: none;
+                    @media (min-width: 1200px) {
+                        display: -webkit-box;
+                    }
+                }
+                & > .image {
+                    grid-column: 2/3;
+                    grid-row: 1/3;
+                    width: 96px;
+                    align-self: center;
+                    border-radius: 12px;
+                }
+            }
+        }
+
+        & .blog {
+            height: 100%;
+            &:hover,
+            &:focus-within {
+                & > :is(.headline, .description) {
+                    text-decoration-line: underline;
+                    text-underline-offset: 2px;
+                }
+            }
+            & > .headline {
+                color: var(--md-sys-color-on-surface);
+            }
+            & > .description {
+                color: var(--md-sys-color-on-surface-variant);
+                height: fit-content;
+            }
+        }
+    }
+</style>

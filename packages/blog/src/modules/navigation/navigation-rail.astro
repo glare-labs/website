@@ -1,23 +1,29 @@
 ---
+import { getLangFromUrl } from "@/i18n/utils";
 import { routes } from "../../router/routes";
 import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-button.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const links = routes(Astro.url);
 ---
 
 <nav transition:persist="navigation-rail-component" class="navigation-rail">
     <div class="start" aria-hidden="true"></div>
     <div class="tabs" role="list">
         {
-            routes.map((link) => (
-                <span class="navigation-rail-tab" data-href={link.url} role="listitem" tabindex="0">
-                    <span aria-hidden="true" class="indicator" />
-                    <span aria-hidden="true" class="ripple-indicator-helper">
-                        <md-ripple class="ripple" />
+            links
+                .filter((link) => link.navigable)
+                .map((link) => (
+                    <span class="navigation-rail-tab" data-lang-href={lang} data-href={link.url} role="listitem" tabindex="0">
+                        <span aria-hidden="true" class="indicator" />
+                        <span aria-hidden="true" class="ripple-indicator-helper">
+                            <md-ripple class="ripple" />
+                        </span>
+                        <md-icon class="icon" set:html={link.iconSvg} />
+                        <md-focus-ring inward />
+                        <span class="label md-typescale-label-medium">{link.label}</span>
                     </span>
-                    <md-icon class="icon" set:html={link.iconString} />
-                    <md-focus-ring inward />
-                    <span class="label md-typescale-label-medium">{link.label}</span>
-                </span>
-            ))
+                ))
         }
     </div>
     <div class="end">
@@ -60,18 +66,21 @@ import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-butt
                 });
                 (e.target as HTMLElement).classList.add("active");
 
+                const href = (e.target as HTMLElement).getAttribute("data-href")!;
+                const langHref = (e.target as HTMLElement).getAttribute("data-lang-href")!;
+
                 new Promise<void>((resolve) => {
                     setTimeout(() => {
                         resolve();
                     }, 200);
                 })
                     .then(() => {
-                        return navigate((e.target as HTMLElement).getAttribute("data-href")!, {
+                        return navigate(`/${langHref}${href}`, {
                             history: "replace",
                         });
                     })
                     .then(() => {
-                        currentRouteUrl.set((e.target as HTMLElement).getAttribute("data-href")!);
+                        currentRouteUrl.set(href);
                     })
                     .then(() => {
                         abort = new AbortController();

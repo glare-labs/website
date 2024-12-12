@@ -1,20 +1,23 @@
 ---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div class="sliders">
     <label class="field">
-        <span class="label md-typescale-label-large">Hue</span>
+        <span class="label md-typescale-label-large">{t("chore.hue")}</span>
         <md-slider id="page-settings-hct-slider-hue" step="1" min="0" max="360"></md-slider>
         <div class="preview" id="picker-slider-preview-hue"></div>
     </label>
     <label class="field">
-        <span class="label md-typescale-label-large">Chroma</span>
+        <span class="label md-typescale-label-large">{t("chore.chroma")}</span>
         <md-slider id="page-settings-hct-slider-chroma" step="1" min="0" max="150"></md-slider>
         <div class="preview" id="picker-slider-preview-chroma"></div>
     </label>
     <label class="field">
-        <span class="label md-typescale-label-large">Tone</span>
+        <span class="label md-typescale-label-large">{t("chore.tone")}</span>
         <md-slider id="page-settings-hct-slider-tone" step="1" min="0" max="90"></md-slider>
         <div class="preview" id="picker-slider-preview-tone"></div>
     </label>

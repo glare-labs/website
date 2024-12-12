@@ -1,33 +1,43 @@
 ---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import CardTitle from "../card/card-title.astro";
 import Card from "../card/card.astro";
-import DisagreeButton from "./disagree-button.astro";
-import RecommendButton from "./recommend-button.astro";
+import ThumbUpSvg from "@material-design-icons/svg/round/thumb_up.svg?raw";
+import ThumbDownSvg from "@material-design-icons/svg/round/thumb_down.svg?raw";
 
 interface Props {
     slug: string;
 }
 
 const { slug } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <Card>
-    <CardTitle slot="title">Do you agree with this article?</CardTitle>
+    <CardTitle slot="title">{t("article-page.reaction.title")}</CardTitle>
 
     <div id="article-reaction" class="reaction" role="toolbar">
-        <RecommendButton slug={slug} />
-        <DisagreeButton slug={slug} />
+        <md-text-button class="positive-button" data-for-slug={slug}>
+            {t("article-page.reaction.agree")}
+            <md-icon slot="icon" set:html={ThumbUpSvg} />
+        </md-text-button>
+        <md-text-button class="negative-button" data-for-slug={slug}>
+            {t("article-page.reaction.disagree")}
+            <md-icon slot="icon" set:html={ThumbDownSvg} />
+        </md-text-button>
     </div>
 
     <div id="article-reaction-result" class="reaction-result" data-for-slug={slug} data-open="false">
         <md-linear-progress id="reaction-percentage" min="0" max="100"></md-linear-progress>
         <div class="result-detail">
             <span class="detail-positive md-typescale-label-medium">
-                Positive
+                {t("article-page.reaction.positive")}
                 <span class="number"></span>
             </span>
             <span class="detail-negative md-typescale-label-medium">
-                Negative
+                {t("article-page.reaction.negative")}
                 <span class="number"></span>
             </span>
         </div>
@@ -81,6 +91,50 @@ const { slug } = Astro.props;
                     reactionResult.setAttribute("data-open", "false");
                     reaction.setAttribute("open", "true");
                 });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const buttons = document.querySelectorAll(".positive-button");
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                button.setAttribute("soft-disabled", "");
+                const reactionResult = document.querySelector("#article-reaction-result");
+                const slug = reactionResult.getAttribute("data-for-slug");
+
+                fetch(`https://blog-database.function.glare-labs.uk/api/recommendCommend/${slug}`, { method: "PUT", signal: AbortSignal.timeout(5000) })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        button.dispatchEvent(new Event("commend-reaction", { bubbles: true }));
+                    });
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const buttons = document.querySelectorAll(".negative-button");
+
+        buttons.forEach((button) => {
+            button.addEventListener("click", () => {
+                button.setAttribute("soft-disabled", "");
+                const reactionResult = document.querySelector("#article-reaction-result");
+                const slug = reactionResult.getAttribute("data-for-slug");
+
+                fetch(`https://blog-database.function.glare-labs.uk/api/disagreeCommend/${slug}`, { method: "PUT", signal: AbortSignal.timeout(5000) })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                    .finally(() => {
+                        button.dispatchEvent(new Event("commend-reaction", { bubbles: true }));
+                    });
+            });
         });
     });
 </script>

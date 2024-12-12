@@ -1,4 +1,5 @@
 ---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import CardTitle from "../card/card-title.astro";
 import Card from "../card/card.astro";
 import SendSvg from "@material-design-icons/svg/round/send.svg?raw";
@@ -8,16 +9,19 @@ interface Props {
 }
 
 const { slug } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <Card>
-    <CardTitle>Comments</CardTitle>
+    <CardTitle>{t("article-page.comments.title")}</CardTitle>
 
     <div id="article-comments" data-for-slug={slug}>
         <section id="comments"></section>
 
         <form data-status="inactive" id="comment-form">
-            <md-outlined-text-field type="textarea" minlength="2" label="Comment" name="content" required no-asterisk id="form-field-content" supporting-text="The website sends information anonymously and we do not collect private data."></md-outlined-text-field>
+            <md-outlined-text-field type="textarea" minlength="2" label="Comment" name="content" required no-asterisk id="form-field-content" supporting-text={t("article-page.comments.textinput-supporting-text")}></md-outlined-text-field>
 
             <div class="actions" role="toolbar">
                 <span class="progress-status">
@@ -26,7 +30,7 @@ const { slug } = Astro.props;
                     <md-circular-progress indeterminate id="circular-progress"></md-circular-progress>
                 </span>
                 <md-filled-button id="send-button" type="submit">
-                    Send
+                    {t("article-page.comments.send")}
                     <md-icon slot="icon" set:html={SendSvg} />
                 </md-filled-button>
             </div>
@@ -184,6 +188,15 @@ const { slug } = Astro.props;
                     color: var(--md-sys-color-on-surface-variant);
                 }
                 /* &>.user-name {} */
+            }
+
+            &:empty {
+                &::after {
+                    content: "No commments.";
+                    color: var(--md-sys-color-on-surface-variant);
+                    text-align: center;
+                    font: var(--md-sys-typescale-label-medium-weight, var(--md-ref-typeface-weight-medium, 500)) var(--md-sys-typescale-label-medium-size, 0.75rem) / var(--md-sys-typescale-label-medium-line-height, 1rem) var(--md-sys-typescale-label-medium-font, var(--md-ref-typeface-plain, Roboto));
+                }
             }
         }
 

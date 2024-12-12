@@ -1,6 +1,6 @@
 ---
 /**
- * @url https://world.glare-labs.uk/article/:slug
+ * @url https://world.glare-labs.uk/{lang}/article/:slug
  */
 import "@fontsource/jetbrains-mono";
 import { PageBodyLayout } from "@modules/page-body";
@@ -9,7 +9,7 @@ import { parseHeadings } from "@shared/utils";
 import HeaderMaterialHctPicker from "@modules/page-header/header-material-hct-picker.astro";
 import HeaderSwitchThemeButton from "@modules/page-header/header-switch-theme-button.astro";
 import { PageHeaderLayout, PageRootHtmlLayout } from "@shared/layouts";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import { BlogCommentPanel, BlogReactionPanel } from "@modules/page-blog";
 import BlogOverview from "@modules/page-blog/overview/blog-overview.astro";
@@ -22,29 +22,8 @@ import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style
 import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
 import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import CopyBlogUrlButton from "@modules/page-blog/copy-blog-url/copy-blog-url-button.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
-export async function getStaticPaths() {
-    /**
-     * Please complete the code here.
-     * Please confirm that there is an mdx file in the src/content/blogs/* folder.
-     *
-     * This project provides `blog` folder by default.
-     */
-    const posts = await getCollection("article");
-
-    /**
-     * Copied.
-     * @link https://docs.astro.build/en/guides/markdown-content/#example-dynamic-page-routing
-     */
-    return posts.map((post) => ({
-        params: {
-            slug: post.slug,
-        },
-        props: {
-            article: post,
-        },
-    }));
-}
 interface Props {
     article: CollectionEntry<"article">;
 }
@@ -52,23 +31,24 @@ interface Props {
 const { article } = Astro.props;
 const { Content } = await article.render();
 
-console.log(article);
-
 const headings = parseHeadings(article.body);
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<PageRootHtmlLayout>
+<PageRootHtmlLayout lang={lang}>
     <PageMeta
         slot="head"
         author="bre97"
         description={article.data.description}
-        title={`${article.data.headline} - Bre97's Blog`}
+        title={`${article.data.headline} - Bre97 World`}
         iconHref="/glare-labs-page-icon.svg"
         keywords={article.data.tags.join()}
-        language="en-US"
-        url={`https://blog.glare-labs.uk/article/${article.slug}/`}
+        language={lang}
+        url={`https://world.glare-labs.uk/${lang}/article/${article.slug}/`}
         imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
-        imageAlt="Bre97's Blog"
+        imageAlt={`Bre97 World - ${article.data.headline}`}
         robots="index, follow"
         ogType="website"
     />
@@ -83,7 +63,7 @@ const headings = parseHeadings(article.body);
     <PageBodyLayout>
         <header id="page-header" data-show-title="false">
             <PageHeaderLayout>
-                <a slot="start" class="back-to-all-post-page-button" target="_self" href={`/library/`} data-astro-reload>
+                <a slot="start" class="back-to-all-post-page-button" target="_self" href={`/${lang}/library/`} data-astro-reload>
                     <md-icon-button>
                         <md-icon set:html={ArrowBackSvg} />
                     </md-icon-button>
@@ -108,11 +88,11 @@ const headings = parseHeadings(article.body);
                 )
             }
 
+            <BlogOverview overview={article.data.overview} />
+
             <div class="toolbar" role="toolbar">
                 <CopyBlogUrlButton />
             </div>
-
-            <BlogOverview overview={article.data.overview} />
         </div>
 
         <article id="article">
@@ -405,7 +385,7 @@ const headings = parseHeadings(article.body);
         }
 
         @media (min-width: 1200px) {
-            grid-template-columns: auto min(calc(100vw - 280px - 280px - 32px), 1200px) auto;
+            grid-template-columns: auto min(calc(100vw - 280px - 280px - 32px - 32px), 1200px) auto;
 
             & #article-content {
                 grid-column: 2/3;
@@ -745,12 +725,16 @@ const headings = parseHeadings(article.body);
     #image-before-article {
         & > .image {
             display: block;
+            width: 100%;
             height: 320px;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            width: 100%;
             overflow: hidden;
+            aspect-ratio: 1280 / 640;
+        }
+        @media (min-width: 840px) {
+            margin: 0 16px 16px;
         }
     }
 </style>

@@ -1,10 +1,17 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
 <footer class="footer" transition:persist="footer">
     <section class="website-label">
-        <h1 class="headline md-typescale-label-medium">Bre97's Blog</h1>
+        <h1 class="headline md-typescale-label-medium">{t("page-footer.title")}</h1>
     </section>
 
     <section class="links">
-        <a class="link md-typescale-label-medium" href="https://feedback.glare-labs.uk/" target="_blank">Send Feedback</a>
+        <a class="link md-typescale-label-medium" href="https://feedback.glare-labs.uk/" target="_blank">{t("page-footer.send-feedback")}</a>
     </section>
 
     <section class="follow-us-part">

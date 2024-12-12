@@ -1,5 +1,9 @@
 ---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <div class="hct-picker">
@@ -9,17 +13,17 @@ import PaletteSvg from "@material-design-icons/svg/round/palette.svg?raw";
     <md-menu id="hct-picker-window" anchor="hct-picker-window-toggle-button" ref="menuRef">
         <div class="sliders">
             <label class="field">
-                <span class="label md-typescale-label-large">Hue</span>
+                <span class="label md-typescale-label-large">{t("chore.hue")}</span>
                 <md-slider id="hue-picker-slider" max="360" min="0" step="1"></md-slider>
                 <div class="preview" id="hue-picker-slider-preview"></div>
             </label>
             <label class="field">
-                <span class="label md-typescale-label-large">Chroma</span>
+                <span class="label md-typescale-label-large">{t("chore.chroma")}</span>
                 <md-slider id="chroma-picker-slider" max="150" min="0" step="1"></md-slider>
                 <div class="preview" id="chroma-picker-slider-preview"></div>
             </label>
             <label class="field">
-                <span class="label md-typescale-label-large">Tone</span>
+                <span class="label md-typescale-label-large">{t("chore.tone")}</span>
                 <md-slider id="tone-picker-slider" max="100" min="0" step="1"></md-slider>
                 <div class="preview" id="tone-picker-slider-preview"></div>
             </label>

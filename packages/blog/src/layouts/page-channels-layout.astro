@@ -1,0 +1,119 @@
+---
+/**
+ * @url https://world.glare-labs.uk/{lang}/channels/
+ */
+import { PageBody } from "@modules/page-body";
+import { PageHeader } from "@modules/page-header";
+import { PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
+import { ViewTransitions } from "astro:transitions";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getCollection } from "astro:content";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const articles = await getCollection("article");
+const channels = articles.map((article) => article.data.collection).filter((value, index, array) => array.indexOf(value) === index);
+---
+
+<PageRootHtmlLayout lang={lang}>
+    <PageMeta
+        slot="head"
+        author="bre97"
+        title={t("channels-page.meta.title")}
+        description={t("channels-page.meta.description")}
+        keywords={t("channels-page.meta.keywords")}
+        iconHref="/glare-labs-page-icon.svg"
+        language={lang}
+        url={`https://world.glare-labs.uk/${lang}/channels/`}
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt={t("channels-page.meta.title")}
+        robots="noindex, nofollow"
+        ogType="website"
+    />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ViewTransitions slot="head" />
+
+    <PageBody>
+        <header class="sticky-header">
+            <PageHeader />
+        </header>
+
+        <nav class="channel-navigator">
+            {
+                channels.map((link) => (
+                    <button class="navigator-button">
+                        <span class="md-typescale-label-medium link">{link}</span>
+                    </button>
+                ))
+            }
+        </nav>
+        <md-divider></md-divider>
+        <div class="body-content"></div>
+    </PageBody>
+</PageRootHtmlLayout>
+
+<script>
+    import "@material/web/divider/divider";
+    import "@material/web/icon/icon";
+</script>
+
+<style>
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: none;
+
+        @media (max-width: 600px) {
+            display: block;
+        }
+    }
+
+    .body-content {
+        --navigation-rail-width-computed: 80px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+        /* width 1200px + rail-width 80px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
+        }
+    }
+</style>
+
+<style>
+    .channel-navigator {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+        margin: 12px 24px;
+
+        & > .navigator-button {
+            display: block;
+            height: 32px;
+            vertical-align: middle;
+            border-radius: 8px;
+            background-color: var(--md-sys-color-inverse-surface);
+            padding: 0 12px;
+            cursor: pointer;
+            & > .link {
+                color: var(--md-sys-color-inverse-on-surface);
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+            }
+        }
+    }
+</style>

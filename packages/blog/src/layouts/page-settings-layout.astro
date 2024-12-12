@@ -1,0 +1,170 @@
+---
+/**
+ * @url https://world.glare-labs.uk/{lang}/settings/
+ */
+import { PageBody } from "@modules/page-body";
+import PageSettingsContrastLevelSlider from "@modules/page-settings/page-settings-contrast-level-slider.astro";
+import PageSettingsDarkSwitch from "@modules/page-settings/page-settings-dark-switch.astro";
+import PageSettingsHctSlider from "@modules/page-settings/page-settings-hct-slider.astro";
+import { PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
+import { ViewTransitions } from "astro:transitions";
+import { languages } from "@/i18n/ui";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { PageFooter } from "@modules/page-footer";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<PageRootHtmlLayout lang={lang}>
+    <PageMeta
+        slot="head"
+        author="bre97"
+        title={t("settings-page.meta.title")}
+        description={t("settings-page.meta.description")}
+        keywords={t("settings-page.meta.keywords")}
+        iconHref="/glare-labs-page-icon.svg"
+        language={lang}
+        url={`https://world.glare-labs.uk/${lang}/settings/`}
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt={t("settings-page.meta.title")}
+        robots="noindex, nofollow"
+        ogType="website"
+    />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ViewTransitions slot="head" />
+
+    <PageBody>
+        <article class="container body-content">
+            <section>
+                <h1 class="headline md-typescale-headline-medium">{t("settings-page.theme.title")}</h1>
+
+                <md-divider></md-divider>
+
+                <label class="field">
+                    <span class="md-typescale-title-medium">{t("settings-page.theme.dark")}</span>
+                    <PageSettingsDarkSwitch />
+                </label>
+
+                <md-divider></md-divider>
+
+                <label class="field col">
+                    <span class="md-typescale-title-medium">{t("settings-page.theme.contrast-level")}</span>
+                    <PageSettingsContrastLevelSlider />
+                </label>
+
+                <md-divider></md-divider>
+
+                <label class="field col">
+                    <span class="md-typescale-title-medium">{t("settings-page.theme.source-hct")}</span>
+                    <PageSettingsHctSlider />
+                </label>
+
+                <md-divider></md-divider>
+            </section>
+        </article>
+
+        <article class="container body-content">
+            <section>
+                <h1 class="headline md-typescale-headline-medium">{t("settings-page.language.title")}</h1>
+
+                <md-divider></md-divider>
+
+                <label class="field col gap">
+                    <span class="md-typescale-title-medium">{t("settings-page.language.title")}</span>
+                    <md-outlined-select id="language-select">
+                        {
+                            Object.entries(languages).map(([language, label]) => (
+                                <md-select-option value={language} selected={lang === language}>
+                                    {label}
+                                </md-select-option>
+                            ))
+                        }
+                    </md-outlined-select>
+
+                    <md-filled-button id="reload-language-option">{t("settings-page.language.reload")}</md-filled-button>
+                </label>
+
+                <md-divider></md-divider>
+            </section>
+        </article>
+
+        <footer class="width-forced">
+            <PageFooter />
+        </footer>
+    </PageBody>
+
+    <script>
+        import "@material/web/button/filled-button";
+        import "@material/web/divider/divider";
+        import "@material/web/select/outlined-select";
+        import "@material/web/select/select-option";
+    </script>
+
+    <script>
+        import type { MdFilledButton, MdOutlinedSelect } from "@material/web/all";
+
+        document.addEventListener("astro:page-load", () => {
+            const relaodLanguageOption = document.querySelector(`#reload-language-option`) as MdFilledButton | null;
+
+            relaodLanguageOption?.addEventListener("click", () => {
+                const select = document.querySelector(`#language-select`) as MdOutlinedSelect;
+                const language = select.options[select.selectedIndex].value;
+                window.location.replace(`/${language}/settings/`);
+            });
+        });
+    </script>
+
+    <style>
+        .body-content {
+            --navigation-rail-width-computed: 80px;
+            margin: 24px;
+            max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+            /* width 1200px + rail-width 80px */
+            @media (min-width: 1280px) {
+                margin: 24px auto;
+            }
+        }
+        .width-forced {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .container {
+            background-color: var(--md-sys-color-surface-container-lowest);
+            border-radius: 28px;
+            padding-bottom: 28px;
+        }
+        .headline {
+            padding: 28px;
+            color: var(--md-sys-color-on-surface);
+        }
+        .field {
+            display: flex;
+            color: var(--md-sys-color-on-surface);
+            padding: 12px 28px;
+            justify-content: space-between;
+            align-items: center;
+
+            &.col {
+                align-items: start;
+                justify-content: stretch;
+                flex-direction: column;
+            }
+            &.col.gap {
+                gap: 12px;
+            }
+        }
+    </style>
+</PageRootHtmlLayout>

@@ -1,0 +1,12 @@
+---
+/**
+ * @url https://world.glare-labs.uk/zh-TW/settings/
+ */
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import PageSettingsLayout from "@layouts/page-settings-layout.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<PageSettingsLayout />

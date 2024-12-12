@@ -22,9 +22,6 @@
       "@content/*": [
         "src/content/*"
       ],
-      "@styles/*": [
-        "src/styles/*"
-      ],
       "@router/*": [
         "src/router/*"
       ],
@@ -36,6 +33,9 @@
       ],
       "@shared/*": [
         "../shared/*"
+      ],
+      "@/*": [
+        "src/*"
       ]
     },
   },

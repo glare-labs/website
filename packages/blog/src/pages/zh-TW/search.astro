@@ -1,0 +1,278 @@
+---
+/**
+ * @url https://world.glare-labs.uk/search/
+ */
+import { PageBody } from "@modules/page-body";
+import { PageFooter } from "@modules/page-footer";
+import { PageHeader } from "@modules/page-header";
+import { PageRootHtmlLayout } from "@shared/layouts";
+import { getCollection } from "astro:content";
+import { ViewTransitions } from "astro:transitions";
+import { SearchInput } from "@modules/search-blog";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import ImportBaseStyle from "@shared/styles/import-base-style.astro";
+import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
+import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
+import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
+
+const blogs = await getCollection("article");
+---
+
+<PageRootHtmlLayout>
+    <PageMeta
+        slot="head"
+        author="bre97"
+        description="Search blogs."
+        title="Search - Bre97 World"
+        iconHref="/glare-labs-page-icon.svg"
+        keywords="blog, bre97, keynote, search, post, story"
+        language="en-US"
+        url="https://world.glare-labs.uk/search/"
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt="Bre97 World Settings"
+        robots="index, nofollow"
+        ogType="website"
+    />
+    <ImportBaseStyle slot="head" />
+    <ImportMdTypescaleStyle slot="head" />
+    <ImportScrollBarStyle slot="head" />
+    <ImportJetbrainsMonoStyle slot="head" />
+    <MaterialThemeScript slot="head" />
+    <ViewTransitions slot="head" />
+
+    <PageBody>
+        <header class="sticky-header">
+            <PageHeader />
+        </header>
+
+        <div class="search-blog-wrapper page-content page">
+            <SearchInput />
+            <ul id="blog-list-result" class="blog-list" aria-hidden="true">
+                {
+                    blogs.map((blog) => (
+                        <a
+                            href={`/article/${blog.slug}/`}
+                            class="blog-list-item"
+                            data-tags={blog.data.tags}
+                            data-headline={blog.data.headline}
+                            data-description={blog.data.description}
+                            data-created={blog.data.created}
+                            data-collection={blog.data.collection}
+                            data-slug={blog.slug}
+                            data-body={blog.body}
+                            data-invisible="true"
+                            role="listitem"
+                            aria-hidden="true"
+                            data-astro-reload
+                        >
+                            <section>
+                                <h1 class="headline md-typescale-title-medium">{blog.data.headline}</h1>
+                                <p class="description md-typescale-body-medium">{blog.data.description}</p>
+                            </section>
+                            <p aria-hidden="true" class="file-name md-typescale-label-small">
+                                {blog.slug}
+                            </p>
+                            <md-ripple />
+                        </a>
+                    ))
+                }
+            </ul>
+        </div>
+
+        <footer class="width-forced">
+            <PageFooter />
+        </footer>
+    </PageBody>
+</PageRootHtmlLayout>
+
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const seachWrapper = document.querySelector(".search-blog-wrapper");
+
+        const blogs = document.querySelectorAll("#blog-list-result>.blog-list-item");
+
+        const handleRequestSearch = (e: Event) => {
+            const event = e as CustomEvent<{ value: string }>;
+            const input = event.detail.value;
+
+            if (input.length === 0 || input.replaceAll(" ", "").length === 0) {
+                blogs.forEach((blog) => {
+                    blog.setAttribute("data-invisible", "true");
+                });
+                return;
+            }
+
+            blogs.forEach((blog) => {
+                const validates = [
+                    blog.getAttribute("data-headline").includes(input),
+                    blog.getAttribute("data-tags").includes(input),
+                    blog.getAttribute("data-description").includes(input),
+                    blog.getAttribute("data-created").includes(input),
+                    blog.getAttribute("data-collection").includes(input),
+                    blog.getAttribute("data-slug").includes(input),
+                    blog.getAttribute("data-body").includes(input),
+                ];
+                if (validates.includes(true)) {
+                    blog.setAttribute("data-invisible", "false");
+                    blog.setAttribute("aria-hidden", "false");
+                } else {
+                    blog.setAttribute("data-invisible", "true");
+                    blog.setAttribute("aria-hidden", "true");
+                }
+            });
+        };
+
+        seachWrapper?.addEventListener("request-search", handleRequestSearch);
+    });
+</script>
+
+<style>
+    .width-forced {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page {
+        min-height: 100vh;
+    }
+</style>
+
+<style>
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        display: none;
+
+        @media (max-width: 600px) {
+            display: block;
+        }
+    }
+    .page-content {
+        --navigation-rail-width-computed: 84px;
+
+        padding: 24px;
+        @media (min-width: 840px) {
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        @media (min-width: 1600px) {
+            max-width: calc(1600px - var(--navigation-rail-width-computed));
+        }
+        @media (min-width: 1600px) {
+            margin: auto;
+        }
+
+        & > * {
+            --space-y-reverse: 0;
+            margin-top: calc(32px * calc(1 - var(--space-y-reverse)));
+            margin-bottom: calc(32px * var(--space-y-reverse));
+        }
+    }
+</style>
+
+<style>
+    .blog-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        @media (min-width: 600px) and (max-width: 840px) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @media (min-width: 840px) and (max-width: 1200px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        @media (min-width: 1200px) and (max-width: 1600px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        @media (min-width: 1600px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+    }
+</style>
+
+<style>
+    .blog-list-item {
+        position: relative;
+        border-radius: 16px;
+        background-color: var(--md-sys-color-surface);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        z-index: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: clip;
+        width: 100%;
+        --md-ripple-hover-color: var(--md-sys-color-primary-container);
+        transition-duration: 200ms;
+
+        & > section {
+            display: flex;
+            flex-direction: column;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+
+            & > .headline {
+                color: var(--md-sys-color-on-surface);
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+            & > .description {
+                color: var(--md-sys-color-on-surface-variant);
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+            }
+        }
+        & > .file-name {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+        & > ul.tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            user-select: none;
+            padding-bottom: 1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+
+            & > li.tag {
+                background-color: var(--md-sys-color-surface-container);
+                color: var(--md-sys-color-on-surface-variant);
+                position: relative;
+                border-radius: 0.375rem;
+                px: 2px;
+                padding-top: 0.25rem;
+                padding-bottom: 0.25rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                pointer-events: none;
+            }
+        }
+
+        &[data-invisible="true"] {
+            display: none;
+        }
+    }
+    .blog-list-item:hover {
+        border-radius: 28px;
+    }
+    .blog-list-item:active,
+    .blog-list-item:hover:active,
+    .blog-list-item:focus,
+    .blog-list-item:focus-within {
+    }
+</style>

@@ -1,6 +1,6 @@
 ---
 /**
- * @url https://world.glare-labs.uk/library/
+ * @url https://world.glare-labs.uk/{lang}/library/
  */
 
 import { getCollection } from "astro:content";
@@ -17,23 +17,27 @@ import ImportBaseStyle from "@shared/styles/import-base-style.astro";
 import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
 import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
 import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
 const blogs = await getCollection("article");
 const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce((pre, cur) => [...pre, ...cur], [])));
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<PageRootHtmlLayout>
+<PageRootHtmlLayout lang={lang}>
     <PageMeta
         slot="head"
         author="bre97"
-        description="Retrieve all blog posts on bre97 blog."
-        title="Library - Bre97 World"
+        title={t("library-page.meta.title")}
+        description={t("library-page.meta.description")}
+        keywords={t("library-page.meta.keywords")}
         iconHref="/glare-labs-page-icon.svg"
-        keywords="blog, bre97, keynote, post, glare-labs, story"
-        language="en-US"
-        url="https://world.glare-labs.uk/library/"
+        language={lang}
+        url={`https://world.glare-labs.uk/${lang}/library/`}
         imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
-        imageAlt="Bre97 World Library"
+        imageAlt={t("library-page.meta.title")}
         robots="index, follow"
         ogType="website"
     />
@@ -53,7 +57,7 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
             <div class="filter-container">
                 <NavigationDrawerOpenButton>
                     <md-text-button id="open-filter-button">
-                        Filter
+                        {t("library-page.filter")}
                         <md-icon slot="icon" set:html={TuneSvg} />
                     </md-text-button>
                     <NavigationDrawer slot="navigation-drawer">
@@ -73,7 +77,7 @@ const tags = Array.from(new Set(blogs.map((blog) => blog.data.tags ?? []).reduce
                 <ul class="blog-list">
                     {
                         blogs.map((blog) => (
-                            <a href={`/article/${blog.slug}/`} class="blog-list-item" data-tags={blog.data.tags} role="listitem" data-astro-reload>
+                            <a href={`/${lang}/article/${blog.slug}/`} class="blog-list-item" data-tags={blog.data.tags} role="listitem" data-astro-reload>
                                 <section>
                                     <h1 class="headline md-typescale-title-medium">{blog.data.headline}</h1>
                                     <p class="description md-typescale-body-medium">{blog.data.description}</p>

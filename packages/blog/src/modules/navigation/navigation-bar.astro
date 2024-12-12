@@ -1,15 +1,20 @@
 ---
+import { getLangFromUrl } from "@/i18n/utils";
 import { routes } from "../../router/routes";
+const lang = getLangFromUrl(Astro.url);
+const links = routes(Astro.url);
 ---
 
 <md-navigation-bar transition:persist="bottom-app-bar" class="bottom-app-bar" id="bottom-app-bar-standalone-root">
     {
-        routes.map((link) => (
-            <md-navigation-tab data-href={`${link.url}`} label={link.label} class="bottom-app-tab">
-                <md-icon class="inactive-icon" slot="inactive-icon" set:html={link.iconString} />
-                <md-icon class="active-icon" slot="active-icon" set:html={link.iconString} />
-            </md-navigation-tab>
-        ))
+        links
+            .filter((link) => link.navigable)
+            .map((link) => (
+                <md-navigation-tab data-lang-href={lang} data-href={`${link.url}`} label={link.label} class="bottom-app-tab">
+                    <md-icon class="inactive-icon" slot="inactive-icon" set:html={link.iconSvg} />
+                    <md-icon class="active-icon" slot="active-icon" set:html={link.iconSvg} />
+                </md-navigation-tab>
+            ))
     }
 </md-navigation-bar>
 
@@ -49,16 +54,12 @@ import { routes } from "../../router/routes";
         bar.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
             tab.addEventListener("click", async (_) => {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 200));
-                navigate(tab.getAttribute("data-href")!, {
+                navigate(`/${tab.getAttribute("data-lang-href")!}${tab.getAttribute("data-href")!}`, {
                     history: "replace",
                 }).then(() => {
                     currentRouteUrl.set(tab.getAttribute("data-href")!);
                 });
             });
-        });
-
-        window.addEventListener("navigation-up", (e) => {
-            console.log(e);
         });
     });
 

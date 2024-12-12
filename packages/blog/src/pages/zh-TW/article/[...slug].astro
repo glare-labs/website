@@ -1,0 +1,38 @@
+---
+/**
+ * @url https://world.glare-labs.uk/tc/article/:slug
+ */
+import "@fontsource/jetbrains-mono";
+import PageArticleLayout from "@layouts/page-article-layout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+    /**
+     * Please complete the code here.
+     * Please confirm that there is an mdx file in the src/content/blogs/* folder.
+     *
+     * This project provides `blog` folder by default.
+     */
+    const posts = await getCollection("article");
+
+    /**
+     * Copied.
+     * @link https://docs.astro.build/en/guides/markdown-content/#example-dynamic-page-routing
+     */
+    return posts.map((post) => ({
+        params: {
+            slug: post.slug,
+        },
+        props: {
+            article: post,
+        },
+    }));
+}
+interface Props {
+    article: CollectionEntry<"article">;
+}
+
+const { article } = Astro.props;
+---
+
+<PageArticleLayout article={article} />
