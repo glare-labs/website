@@ -173,6 +173,9 @@ const t = useTranslations(lang);
 <style>
     .hct-picker {
         position: relative;
+
+        --md-menu-container-shape: 28px;
+        --md-menu-container-elevation: 2;
     }
 
     .sliders {
@@ -183,6 +186,7 @@ const t = useTranslations(lang);
 
         .field {
             & > .label {
+                color: var(--md-sys-color-on-surface);
                 display: block;
                 margin-top: 4px;
             }

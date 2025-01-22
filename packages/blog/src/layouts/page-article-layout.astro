@@ -445,6 +445,7 @@ const t = useTranslations(lang);
 
             & > .article-tags {
                 display: flex;
+                flex-wrap: wrap;
                 gap: 4px;
                 margin-bottom: 16px;
 
@@ -575,6 +576,18 @@ const t = useTranslations(lang);
             font: var(--md-sys-typescale-body-large-weight, var(--md-ref-typeface-weight-regular, 400)) var(--md-sys-typescale-body-large-size, 1rem) / var(--md-sys-typescale-body-large-line-height, 1.75rem) var(--md-sys-typescale-body-large-font, var(--md-ref-typeface-plain, Roboto));
         }
 
+        & a {
+            text-decoration-line: underline;
+            text-underline-offset: 2px;
+
+            transition-property: text-underline-offset;
+            transition-duration: 200ms;
+
+            &:hover {
+                text-underline-offset: 4px;
+            }
+        }
+
         & :is(h2, h3, h4, h5, h6) {
             color: var(--md-sys-color-on-surface);
         }
@@ -599,6 +612,20 @@ const t = useTranslations(lang);
             margin-bottom: 24px;
             font-size: 14px;
             line-height: 24px;
+            & code {
+                background-color: transparent;
+                padding: unset;
+                margin: unset;
+            }
+        }
+
+        & code {
+            background-color: var(--md-sys-color-surface-variant);
+            border-radius: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            margin-left: 4px;
+            margin-right: 4px;
         }
 
         & .table-wrapper {
@@ -609,6 +636,7 @@ const t = useTranslations(lang);
             margin-top: 24px;
             margin-bottom: 24px;
             border-radius: 18px;
+            border-width: 1px;
             outline-style: solid;
             max-width: calc(100vw - var(--space-x) - var(--space-x) - 40px);
 
