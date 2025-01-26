@@ -103,68 +103,71 @@ const t = useTranslations(lang);
             <PageFooter />
         </footer>
     </PageBody>
-
-    <script>
-        import "@material/web/button/filled-button";
-        import "@material/web/divider/divider";
-        import "@material/web/select/outlined-select";
-        import "@material/web/select/select-option";
-    </script>
-
-    <script>
-        import type { MdFilledButton, MdOutlinedSelect } from "@material/web/all";
-
-        document.addEventListener("astro:page-load", () => {
-            const relaodLanguageOption = document.querySelector(`#reload-language-option`) as MdFilledButton | null;
-
-            relaodLanguageOption?.addEventListener("click", () => {
-                const select = document.querySelector(`#language-select`) as MdOutlinedSelect;
-                const language = select.options[select.selectedIndex].value;
-                window.location.replace(`/${language}/settings/`);
-            });
-        });
-    </script>
-
-    <style>
-        .body-content {
-            --navigation-rail-width-computed: 80px;
-            margin: 24px;
-            max-width: calc(1200px - var(--navigation-rail-width-computed));
-
-            /* width 1200px + rail-width 80px */
-            @media (min-width: 1280px) {
-                margin: 24px auto;
-            }
-        }
-        .width-forced {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .container {
-            background-color: var(--md-sys-color-surface-container-lowest);
-            border-radius: 28px;
-            padding-bottom: 28px;
-        }
-        .headline {
-            padding: 28px;
-            color: var(--md-sys-color-on-surface);
-        }
-        .field {
-            display: flex;
-            color: var(--md-sys-color-on-surface);
-            padding: 12px 28px;
-            justify-content: space-between;
-            align-items: center;
-
-            &.col {
-                align-items: start;
-                justify-content: stretch;
-                flex-direction: column;
-            }
-            &.col.gap {
-                gap: 12px;
-            }
-        }
-    </style>
 </PageRootHtmlLayout>
+
+<script>
+    import "@material/web/button/filled-button";
+    import "@material/web/divider/divider";
+    import "@material/web/select/outlined-select";
+    import "@material/web/select/select-option";
+</script>
+
+<script>
+    import type { MdFilledButton, MdOutlinedSelect } from "@material/web/all";
+
+    document.addEventListener("astro:page-load", () => {
+        const relaodLanguageOption = document.querySelector(`#reload-language-option`) as MdFilledButton | null;
+
+        relaodLanguageOption?.addEventListener("click", () => {
+            const select = document.querySelector(`#language-select`) as MdOutlinedSelect;
+            const language = select.options[select.selectedIndex].value;
+            window.location.replace(`/${language}/settings/`);
+        });
+    });
+</script>
+
+<style>
+    .body-content {
+        --navigation-rail-width-computed: 80px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+        /* width 1200px + rail-width 80px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
+        }
+    }
+    body[dark="true"] .body-content {
+        outline-width: 1px;
+    }
+    .width-forced {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .container {
+        background-color: var(--md-sys-color-surface-container-lowest);
+        border-radius: 28px;
+        padding-bottom: 28px;
+    }
+    .headline {
+        padding: 28px;
+        color: var(--md-sys-color-on-surface);
+    }
+    .field {
+        display: flex;
+        color: var(--md-sys-color-on-surface);
+        padding: 12px 28px;
+        justify-content: space-between;
+        align-items: center;
+
+        &.col {
+            align-items: start;
+            justify-content: stretch;
+            flex-direction: column;
+        }
+        &.col.gap {
+            gap: 12px;
+        }
+    }
+</style>
