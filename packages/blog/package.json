@@ -16,6 +16,8 @@
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
     "@fontsource/jetbrains-mono": "^5.1.1",
+    "@fontsource/noto-sans": "^5.2.6",
+    "@fontsource/noto-sans-tc": "^5.2.5",
     "@fontsource/roboto": "^5.1.0",
     "@glare-labs/material-tokens-generator": "^0.2.1",
     "@material-design-icons/svg": "^0.14.13",
