@@ -3,7 +3,12 @@
  * root page
  * @url https://world.glare-labs.uk/{lang}/
  */
-
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
 import OpenInNewSvg from "@material-design-icons/svg/round/open_in_new.svg?raw";
 import { PageBody } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
@@ -11,10 +16,6 @@ import { PageHeader } from "@modules/page-header";
 import { PageRootHtmlLayout } from "@shared/layouts";
 import { MaterialThemeScript } from "@shared/material-design";
 import { PageMeta } from "@shared/page-meta";
-import ImportBaseStyle from "@shared/styles/import-base-style.astro";
-import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
-import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
-import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
@@ -59,10 +60,6 @@ const t = useTranslations(lang);
         robots="index, follow"
         ogType="website"
     />
-    <ImportBaseStyle slot="head" />
-    <ImportMdTypescaleStyle slot="head" />
-    <ImportJetbrainsMonoStyle slot="head" />
-    <ImportScrollBarStyle slot="head" />
     <MaterialThemeScript slot="head" />
     <ViewTransitions slot="head" />
 
@@ -81,32 +78,36 @@ const t = useTranslations(lang);
 
             <article class="body-content latest-blogs">
                 <section class="first">
-                    <a class="blog" href={`/${lang}/article/${latestBlogs[3].slug}/`} target="_self" role="listitem">
+                    <a tabindex="0" class="blog" href={`/${lang}/article/${latestBlogs[3].slug}/`} target="_self" role="listitem">
                         <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[3].data.imageUrl}`} />
                         <h2 class="headline md-typescale-title-medium">{latestBlogs[3].data.headline}</h2>
                         <p class="description md-typescale-body-medium">{latestBlogs[3].data.description}</p>
+                        <md-focus-ring></md-focus-ring>
                     </a>
                 </section>
 
                 <section class="second">
-                    <a class="blog" href={`/${lang}/article/${latestBlogs[0].slug}/`} target="_self" role="listitem">
+                    <a tabindex="0" class="blog" href={`/${lang}/article/${latestBlogs[0].slug}/`} target="_self" role="listitem">
                         <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[0].data.imageUrl}`} />
                         <h2 class="headline md-typescale-title-small">{latestBlogs[0].data.headline}</h2>
                         <p class="description md-typescale-body-medium">{latestBlogs[0].data.description}</p>
+                        <md-focus-ring></md-focus-ring>
                     </a>
                 </section>
                 <section class="third">
-                    <a class="blog" href={`/${lang}/article/${latestBlogs[1].slug}/`} target="_self" role="listitem">
+                    <a tabindex="0" class="blog" href={`/${lang}/article/${latestBlogs[1].slug}/`} target="_self" role="listitem">
                         <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[1].data.imageUrl}`} />
                         <h2 class="headline md-typescale-title-small">{latestBlogs[1].data.headline}</h2>
                         <p class="description md-typescale-body-medium">{latestBlogs[1].data.description}</p>
+                        <md-focus-ring></md-focus-ring>
                     </a>
                 </section>
                 <section class="forth">
-                    <a class="blog" href={`/${lang}/article/${latestBlogs[2].slug}/`} target="_self" role="listitem">
+                    <a tabindex="0" class="blog" href={`/${lang}/article/${latestBlogs[2].slug}/`} target="_self" role="listitem">
                         <img class="image" src={`https://media-r2.glare-labs.uk/${latestBlogs[2].data.imageUrl}`} />
                         <h2 class="headline md-typescale-title-small">{latestBlogs[2].data.headline}</h2>
                         <p class="description md-typescale-body-medium">{latestBlogs[2].data.description}</p>
+                        <md-focus-ring></md-focus-ring>
                     </a>
                 </section>
             </article>
@@ -117,10 +118,11 @@ const t = useTranslations(lang);
                 <ul>
                     {
                         socialLinks.map((link) => (
-                            <a class="social-link-list-item" href={link.url} target="_blank" role="listitem">
+                            <a tabindex="0" class="social-link-list-item" href={link.url} target="_blank" role="listitem">
                                 <span aria-hidden="true" class="icon" set:html={link.svg} />
                                 <h2 class="label md-typescale-body-medium">{link.label}</h2>
                                 <md-icon class="alt-icon" set:html={OpenInNewSvg} />
+                                <md-focus-ring />
                                 <md-ripple />
                             </a>
                         ))
@@ -135,8 +137,26 @@ const t = useTranslations(lang);
     </PageBody>
 </PageRootHtmlLayout>
 
+<!-- Import MD-Components -->
 <script>
     import "@material/web/divider/divider";
+    import "@material/web/focus/md-focus-ring";
+</script>
+
+<!-- List handlekeydown event -->
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const list = [document.querySelector(`.latest-blogs`), document.querySelector(`.hero-social-link-list`)];
+
+        list?.map((e) =>
+            e.addEventListener("keydown", (e: KeyboardEvent) => {
+                if (e.key === " " || e.code === "Space") {
+                    e.preventDefault();
+                    (e.target as HTMLElement).click();
+                }
+            })
+        );
+    });
 </script>
 
 <style>
@@ -222,15 +242,15 @@ const t = useTranslations(lang);
 
         & > ul {
             & > .social-link-list-item {
+                --md-focus-ring-shape: 28px;
                 border: 1px solid var(--md-sys-color-outline-variant);
-                position: relative;
                 display: grid;
                 align-items: center;
                 grid-template-columns: 40px 1fr 24px;
                 grid-template-rows: 1fr;
                 min-height: 40px;
                 padding: 18px 24px;
-                border-radius: 18px;
+                border-radius: 28px;
                 position: relative;
 
                 & > .label {
@@ -260,6 +280,7 @@ const t = useTranslations(lang);
 <!-- The Latest Blogs -->
 <style>
     .latest-blogs {
+        position: relative;
         background-color: var(--md-sys-color-surface-container-lowest);
         border-radius: 28px;
         padding: 28px;
@@ -385,6 +406,8 @@ const t = useTranslations(lang);
         }
 
         & .blog {
+            --md-focus-ring-shape: 28px;
+            position: relative;
             height: 100%;
             &:hover,
             &:focus-within {

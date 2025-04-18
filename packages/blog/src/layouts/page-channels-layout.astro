@@ -2,18 +2,22 @@
 /**
  * @url https://world.glare-labs.uk/{lang}/channels/
  */
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
 import { PageBody } from "@modules/page-body";
 import { PageHeader } from "@modules/page-header";
 import { PageRootHtmlLayout } from "@shared/layouts";
 import { MaterialThemeScript } from "@shared/material-design";
 import { PageMeta } from "@shared/page-meta";
-import ImportBaseStyle from "@shared/styles/import-base-style.astro";
-import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
-import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
-import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import { ViewTransitions } from "astro:transitions";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import { getCollection } from "astro:content";
+import { PageFooter } from "@modules/page-footer";
+import ChevronRightSvg from "@material-design-icons/svg/round/chevron_right.svg?raw";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -37,10 +41,6 @@ const channels = articles.map((article) => article.data.collection).filter((valu
         robots="noindex, nofollow"
         ogType="website"
     />
-    <ImportBaseStyle slot="head" />
-    <ImportMdTypescaleStyle slot="head" />
-    <ImportScrollBarStyle slot="head" />
-    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
     <ViewTransitions slot="head" />
 
@@ -49,24 +49,75 @@ const channels = articles.map((article) => article.data.collection).filter((valu
             <PageHeader />
         </header>
 
-        <nav class="channel-navigator">
-            {
-                channels.map((link) => (
-                    <button class="navigator-button">
-                        <span class="md-typescale-label-medium link">{link}</span>
-                    </button>
-                ))
-            }
-        </nav>
-        <md-divider></md-divider>
-        <div class="body-content"></div>
+        <main class="page">
+            <div class="body-content">
+                <h1 class="recommanded-channels-headline md-typescale-headline-medium">Recommanded</h1>
+                <nav class="channel-collections">
+                    <a tabindex="1" href={`/${lang}/channel/english/`} class="collection-card">
+                        <span class="md-typescale-label-medium title">English</span>
+                        <span class="md-typescale-body-small description">...</span>
+                        <md-icon class="icon-button" set:html={ChevronRightSvg} />
+                        <md-focus-ring></md-focus-ring>
+                        <md-ripple></md-ripple>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="body-content">
+                <h1 class="all-channels-headline md-typescale-headline-medium">All collections</h1>
+                <nav class="channel-collections">
+                    {
+                        channels.map((link) => (
+                            <a tabindex="1" href={`/${lang}/channel/${link}/`} class="collection-card">
+                                <span class="md-typescale-label-medium title">{link}</span>
+                                <span class="md-typescale-body-small description">{link}</span>
+                                <md-icon class="icon-button" set:html={ChevronRightSvg} />
+                                <md-focus-ring />
+                                <md-ripple />
+                            </a>
+                        ))
+                    }
+                </nav>
+            </div>
+        </main>
+
+        <footer class="width-forced">
+            <PageFooter />
+        </footer>
     </PageBody>
 </PageRootHtmlLayout>
 
 <script>
     import "@material/web/divider/divider";
+    import "@material/web/focus/md-focus-ring";
     import "@material/web/icon/icon";
+    import "@material/web/iconbutton/icon-button";
+    import "@material/web/ripple/ripple";
 </script>
+
+<!-- List handlekeydown event -->
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const list = document.querySelector(`.channel-collections`) as HTMLElement | null;
+
+        list?.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                (e.target as HTMLElement).click();
+            }
+        });
+    });
+</script>
+
+<style>
+    .width-forced {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .page {
+        min-height: 100vh;
+    }
+</style>
 
 <style>
     .sticky-header {
@@ -93,26 +144,97 @@ const channels = articles.map((article) => article.data.collection).filter((valu
 </style>
 
 <style>
-    .channel-navigator {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 4px;
-        margin: 12px 24px;
+    /* body[dark="true"] .body-content {
+        .channel-collections {
+            & > .collection-card {
+                background-color: var(--md-sys-color-surface-bright);
+            }
+        }
+    } */
 
-        & > .navigator-button {
-            display: block;
-            height: 32px;
-            vertical-align: middle;
-            border-radius: 8px;
-            background-color: var(--md-sys-color-inverse-surface);
-            padding: 0 12px;
+    .recommanded-channels-headline,
+    .all-channels-headline {
+        color: var(--md-sys-color-on-surface);
+        margin-bottom: 8px;
+    }
+
+    .channel-collections {
+        display: grid;
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+        @media (min-width: 600px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @media (min-width: 840px) and (max-width: 1200px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        & > .collection-card {
+            position: relative;
+            height: 128px;
+            border-radius: 16px;
+            background-color: var(--md-sys-color-surface-container-low);
+            padding: 12px;
             cursor: pointer;
+
+            display: grid;
+            grid-template-columns: 1fr 48px;
+            grid-template-rows: repeat(3, 1fr);
+
             & > .link {
-                color: var(--md-sys-color-inverse-on-surface);
-                overflow: hidden;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 1;
+                color: var(--md-sys-color-on-surface);
+            }
+
+            transition-property: border-radius;
+            transition-duration: 200ms;
+
+            --md-ripple-hover-color: var(--md-sys-color-primary-container);
+            --md-ripple-pressed-color: var(--md-sys-color-primary-container);
+            --md-focus-ring-shape: 26px;
+
+            &:hover {
+            }
+
+            &:hover,
+            &:active,
+            &:hover:active,
+            &:focus,
+            &:focus-within {
+                border-radius: 26px;
+                & > .icon-button {
+                    transform: translateX(8px);
+                    color: var(--md-sys-color-on-surface);
+                }
+            }
+
+            & > .title {
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+                color: var(--md-sys-color-on-surface);
+            }
+            & > .description {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+                color: var(--md-sys-color-on-surface-variant);
+            }
+            & > .icon-button {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+                display: grid;
+                place-content: center;
+                height: 48px;
+                width: 48px;
+                aspect-ratio: 1 / 1;
+                transition-property: transform, color;
+                transition-duration: 200ms;
+                color: transparent;
             }
         }
     }

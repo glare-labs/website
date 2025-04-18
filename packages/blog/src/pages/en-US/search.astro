@@ -2,6 +2,12 @@
 /**
  * @url https://world.glare-labs.uk/search/
  */
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
 import { PageBody } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
 import { PageHeader } from "@modules/page-header";
@@ -11,10 +17,6 @@ import { ViewTransitions } from "astro:transitions";
 import { SearchInput } from "@modules/search-blog";
 import { MaterialThemeScript } from "@shared/material-design";
 import { PageMeta } from "@shared/page-meta";
-import ImportBaseStyle from "@shared/styles/import-base-style.astro";
-import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
-import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
-import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 
 const blogs = await getCollection("article");
 ---
@@ -34,10 +36,6 @@ const blogs = await getCollection("article");
         robots="index, nofollow"
         ogType="website"
     />
-    <ImportBaseStyle slot="head" />
-    <ImportMdTypescaleStyle slot="head" />
-    <ImportScrollBarStyle slot="head" />
-    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
     <ViewTransitions slot="head" />
 

@@ -20,7 +20,7 @@ const links = routes(Astro.url);
                             <md-ripple class="ripple" />
                         </span>
                         <md-icon class="icon" set:html={link.iconSvg} />
-                        <md-focus-ring inward />
+                        <md-focus-ring />
                         <span class="label md-typescale-label-medium">{link.label}</span>
                     </span>
                 ))
@@ -49,22 +49,26 @@ const links = routes(Astro.url);
 
         let abort = new AbortController();
 
-        /**
-         * @event click 為navigation-rail中的navigation-rail-tab設置頁面導行, 同時激活對應的navigation-rail-tab
-         */
         tabs.forEach((item) => {
+            /**
+             * @event click 為navigation-rail中的navigation-rail-tab設置頁面導行, 同時激活對應的navigation-rail-tab
+             */
             item.addEventListener("click", async (e) => {
+                e.preventDefault();
                 if (abort.signal.aborted) {
                     return;
                 }
                 abort.abort();
 
-                tabs.forEach((tab) => {
-                    if (tab.classList.contains("active")) {
-                        tab.classList.remove("active");
-                    }
-                });
-                (e.target as HTMLElement).classList.add("active");
+                const lastTab = tabs.find((tab) => tab.classList.contains("active"));
+                const clickedTab = e.target as HTMLElement;
+
+                lastTab.classList.remove("active");
+                lastTab.classList.add("inactive");
+                setTimeout(() => {
+                    lastTab.classList.remove("inactive");
+                }, 100);
+                clickedTab.classList.add("active");
 
                 const href = (e.target as HTMLElement).getAttribute("data-href")!;
                 const langHref = (e.target as HTMLElement).getAttribute("data-lang-href")!;
@@ -86,15 +90,22 @@ const links = routes(Astro.url);
                         abort = new AbortController();
                     });
             });
+
+            if (item.classList.contains("active")) {
+                item.classList.remove("active");
+                item.classList.remove("inactive");
+            }
         });
 
         /**
          * @event load 初始化navigation-rail默認激活的navigation-rail-tab
          */
         if (tabs.findIndex((tab: HTMLElement) => tab.classList.contains("active")) === -1) {
-            const url = new URL(window.location.href);
-            tabs.forEach((tab) => {
-                if (tab.getAttribute("data-href")! === url.pathname) {
+            tabs.forEach((tab: HTMLElement) => {
+                const pathname = window.location.pathname;
+                const current = `/${tab.getAttribute("data-lang-href")!}${tab.getAttribute("data-href")}`;
+
+                if (current === pathname) {
                     tab.classList.add("active");
                 }
             });
@@ -106,18 +117,30 @@ const links = routes(Astro.url);
         });
     });
 
-    currentRouteUrl.subscribe((value) => {
-        const tabs = Array.from(document.querySelectorAll(".navigation-rail>.tabs>.navigation-rail-tab") as NodeListOf<HTMLElement>);
+    // currentRouteUrl.subscribe((value) => {
+    //     const tabs = Array.from(document.querySelectorAll(".navigation-rail>.tabs>.navigation-rail-tab") as NodeListOf<HTMLElement>);
+    //     tabs.forEach((tab) => {
+    //         if (tab.getAttribute("data-href") === value) {
+    //             // tab.classList.add("active");
+    //         }
+    //     });
+    // });
+</script>
 
-        tabs.forEach((tab) => {
-            if (tab.classList.contains("active")) {
-                tab.classList.remove("active");
+<!-- List handlekeydown event -->
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const navigationBar = document.querySelector(`.tabs`) as HTMLElement | null;
+
+        navigationBar?.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                (e.target as HTMLElement).click();
             }
         });
-        tabs.forEach((tab) => {
-            if (tab.getAttribute("data-href") === value) {
-                tab.classList.add("active");
-            }
+
+        navigationBar?.addEventListener("focusin", (e) => {
+            (e.target as HTMLElement).focus();
         });
     });
 </script>
@@ -135,10 +158,13 @@ const links = routes(Astro.url);
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 24px 0px;
+        padding: 0px;
         overflow: hidden;
         row-gap: 24px;
         overflow: auto;
+
+        transition-property: background-color, color;
+        transition-duration: 200ms;
 
         @media (min-width: 600px) and (max-width: 840px) {
             & > .tabs {
@@ -150,14 +176,22 @@ const links = routes(Astro.url);
             display: grid;
             place-content: center;
         }
+        & > .end {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 48px;
+            margin-bottom: 12px;
+        }
 
         & > .tabs {
+            --md-ripple-hover-color: var(--md-sys-color-on-secondary-container);
+            --md-ripple-pressed-color: 0;
             --container-height: 56px;
             --container-width: 80px;
             --indicator-height: 32px;
             --active-indicator-width: 56px;
             --inactive-indicator-width: 32px;
-            --_width: var(--inactive-indicator-width);
 
             display: flex;
             flex-direction: column;
@@ -166,11 +200,10 @@ const links = routes(Astro.url);
             user-select: none;
 
             & > .navigation-rail-tab {
-                --md-focus-ring-shape: 8px;
+                --md-focus-ring-shape: 12px;
                 display: grid;
                 grid-template-columns: 1fr;
                 grid-template-rows: 1fr auto;
-                /* flex-direction: column; */
                 align-items: center;
                 gap: 8px;
                 height: var(--container-height);
@@ -194,7 +227,9 @@ const links = routes(Astro.url);
                 & > .indicator {
                     place-self: center;
                     height: var(--indicator-height);
-                    width: var(--_width);
+                    width: var(--inactive-indicator-width);
+                    background-color: var(--md-sys-color-secondary-container);
+                    opacity: 0;
                     border-radius: 16px;
                     display: flex;
                     align-items: center;
@@ -222,6 +257,7 @@ const links = routes(Astro.url);
                     place-self: center;
                     z-index: 1;
                     color: var(--md-sys-color-on-surface-variant);
+                    fill: var(--md-sys-color-on-surface-variant);
                     transition-property: background-color, color, font-variation-settings, width;
                     transition-duration: 100ms;
                 }
@@ -231,32 +267,23 @@ const links = routes(Astro.url);
                     color: var(--md-sys-color-on-surface);
                 }
 
-                &:hover {
-                    & > .ripple-indicator-helper {
-                        /* background-color: var(); */
-                    }
-                }
-
                 &.active {
-                    --_width: var(--active-indicator-width);
                     .indicator {
                         opacity: 1;
-                        background-color: var(--md-sys-color-secondary-container);
+                        width: var(--active-indicator-width);
                     }
                     .icon {
-                        font-variation-settings:
-                            "FILL" 1,
-                            "wght" 400,
-                            "GRAD" 0,
-                            "opsz" 24;
                         color: var(--md-sys-color-on-secondary-container);
                         fill: var(--md-sys-color-on-secondary-container);
                     }
                 }
-                &:not(.active) {
-                    --_width: var(--inactive-indicator-width);
+                &.inactive {
                     .indicator {
                         opacity: 0;
+                        width: var(--inactive-indicator-width);
+                        transition:
+                            width 100ms cubic-bezier(0.4, 0, 0.2, 1),
+                            opacity 100ms cubic-bezier(0.4, 0, 0.2, 1);
                     }
                 }
             }

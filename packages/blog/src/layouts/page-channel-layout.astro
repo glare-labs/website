@@ -1,0 +1,290 @@
+---
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { PageBodyLayout } from "@modules/page-body";
+import { PageFooter } from "@modules/page-footer";
+import { PageHeaderLayout, PageRootHtmlLayout } from "@shared/layouts";
+import { MaterialThemeScript } from "@shared/material-design";
+import { PageMeta } from "@shared/page-meta";
+import type { CollectionEntry } from "astro:content";
+import { ViewTransitions } from "astro:transitions";
+import ArrowBackSvg from "@material-design-icons/svg/round/arrow_back.svg?raw";
+import HeaderSwitchThemeButton from "@modules/page-header/header-switch-theme-button.astro";
+import HeaderMaterialHctPicker from "@modules/page-header/header-material-hct-picker.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+interface Props {
+    articles: Array<CollectionEntry<"article">>;
+    channelName: string;
+}
+
+const { articles, channelName } = Astro.props;
+---
+
+<PageRootHtmlLayout lang={lang}>
+    <PageMeta
+        slot="head"
+        author="bre97"
+        description={`${channelName}`}
+        title={`${channelName} - Bre97 World`}
+        iconHref="/glare-labs-page-icon.svg"
+        keywords={""}
+        language={lang}
+        url={`https://world.glare-labs.uk/${lang}/article/${channelName}/`}
+        imageUrl="https://media-r2.glare-labs.uk/blog-logo.png"
+        imageAlt={`Bre97 World - ${channelName} channel`}
+        robots="index, follow"
+        ogType="website"
+    />
+
+    <MaterialThemeScript slot="head" />
+    <ViewTransitions slot="head" />
+
+    <PageBodyLayout>
+        <header id="page-header" data-show-title="false">
+            <PageHeaderLayout>
+                <a slot="start" class="back-to-channel-page-button" target="_self" href={`/${lang}/channels/`} data-astro-reload>
+                    <md-icon-button>
+                        <md-icon set:html={ArrowBackSvg} />
+                    </md-icon-button>
+                </a>
+                <span id="page-header-title" class="md-typescale-title-medium">
+                    {channelName}
+                    Collection
+                </span>
+                <HeaderSwitchThemeButton slot="actions" />
+                <HeaderMaterialHctPicker slot="actions" />
+            </PageHeaderLayout>
+        </header>
+
+        <div class="page width-forced">
+            <div class="body-content">
+                <h1 id="page-title" class="md-typescale-dispay-medium page-title">
+                    {channelName}
+                    Collection
+                </h1>
+            </div>
+
+            <div class="body-content">
+                <ul class="posts">
+                    {
+                        articles.map((e) => (
+                            <a class="post" class="link" tabindex="0" href={`/${lang}/article/${e.slug}/`}>
+                                <section>
+                                    <span class="md-typescale-title-medium headline">{e.data.headline}</span>
+                                    <span class="md-typescale-label-medium description">{e.data.description}</span>
+                                </section>
+                                <md-focus-ring />
+                                <md-ripple />
+                            </a>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="width-forced">
+            <PageFooter />
+        </div>
+    </PageBodyLayout>
+</PageRootHtmlLayout>
+
+<script>
+    import "@material/web/button/outlined-button";
+    import "@material/web/focus/md-focus-ring";
+    import "@material/web/icon/icon";
+    import "@material/web/ripple/ripple";
+</script>
+
+<!-- List handlekeydown event -->
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const list = document.querySelector(`.posts`) as HTMLElement | null;
+
+        list?.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                (e.target as HTMLElement).click();
+            }
+        });
+    });
+</script>
+
+<script is:inline>
+    const getElements = () => {
+        const header = document.querySelector("#page-header");
+        const articleTitle = document.querySelector("#page-title");
+
+        return {
+            header,
+            articleTitle,
+        };
+    };
+
+    const onWindowScroll = () => {
+        const { top, height } = getElements().articleTitle.getBoundingClientRect();
+        if (top + height - getElements().header.getBoundingClientRect().height <= 0) {
+            getElements().header.setAttribute("data-show-title", "true");
+        } else {
+            getElements().header.setAttribute("data-show-title", "false");
+        }
+    };
+
+    document.addEventListener("astro:page-load", () => {
+        onWindowScroll();
+        window.addEventListener("scroll", onWindowScroll, { passive: true, capture: true });
+    });
+</script>
+
+<style>
+    .body-content {
+        --navigation-rail-width-computed: 0px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+        /* width 1200px + rail-width 0px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
+        }
+    }
+    .width-forced {
+        margin: 0 auto;
+        max-width: 1200px;
+
+        @media (min-width: 840px) {
+            max-width: 1200px;
+        }
+        @media (min-width: 1200px) {
+            max-width: 1200px;
+        }
+    }
+    .page {
+        min-height: 100vh;
+    }
+</style>
+
+<style>
+    .page-title {
+        color: var(--md-sys-color-primary);
+    }
+
+    .posts {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+        @media (min-width: 600px) and (max-width: 840px) {
+            grid-template-columns: 1fr 1fr;
+        }
+        @media (min-width: 840px) and (max-width: 1200px) {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        @media (min-width: 1200px) and (max-width: 1600px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        @media (min-width: 1600px) {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+
+        .post {
+            --md-ripple-hover-color: var(--md-sys-color-primary-container);
+            --md-ripple-pressed-color: var(--md-sys-color-primary-container);
+            --md-focus-ring-shape: 26px;
+
+            position: relative;
+            border-width: 1px;
+            border-radius: 16px;
+            height: 100%;
+            background-color: var(--md-sys-color-surface);
+
+            transition-property: border-radius;
+            transition-duration: 200ms;
+
+            &:hover,
+            &:hover:active,
+            &:focus,
+            &:focus-within {
+                background-color: var(--md-sys-color-surface-low);
+                border-radius: 28px;
+            }
+
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            gap: 4px;
+
+            & > section {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+
+                & > .headline {
+                    color: var(--md-sys-color-on-surface);
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                }
+                & > .description {
+                    color: var(--md-sys-color-on-surface-variant);
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 3;
+                }
+            }
+        }
+    }
+</style>
+
+<!-- Page Header -->
+<style>
+    #page-header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        transition-property: background-color;
+        transition-duration: 200ms;
+
+        & #page-header-title {
+            color: var(--md-sys-color-on-surface);
+            transition-property: opacity, top;
+            transition-duration: 200ms;
+            position: relative;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            transition-property: opacity, top;
+            transition-duration: 200ms;
+        }
+
+        &[data-show-title="true"] {
+            --header-drop-background-color: var(--md-sys-color-surface-container);
+            --header-container-color: var(--md-sys-color-surface-container);
+
+            & #page-header-title {
+                opacity: 1;
+                top: 0;
+            }
+        }
+        &[data-show-title="false"] #page-header-title {
+            opacity: 0;
+            top: 16px;
+            --header-drop-background-color: var(--md-sys-color-surface);
+            --header-container-color: var(--md-sys-color-surface);
+        }
+    }
+</style>

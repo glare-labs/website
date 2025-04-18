@@ -3,6 +3,12 @@
  * @url https://world.glare-labs.uk/{lang}/article/:slug
  */
 import "@fontsource/jetbrains-mono";
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
 import { PageBodyLayout } from "@modules/page-body";
 import { PageFooter } from "@modules/page-footer";
 import { parseHeadings } from "@shared/utils";
@@ -17,10 +23,6 @@ import { MaterialThemeScript } from "@shared/material-design";
 import { PageMeta } from "@shared/page-meta";
 import MenuOpenSvg from "@material-design-icons/svg/round/menu_open.svg?raw";
 import ArrowBackSvg from "@material-design-icons/svg/round/arrow_back.svg?raw";
-import ImportBaseStyle from "@shared/styles/import-base-style.astro";
-import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
-import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
-import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import CopyBlogUrlButton from "@modules/page-blog/copy-blog-url/copy-blog-url-button.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
@@ -53,11 +55,7 @@ const t = useTranslations(lang);
         ogType="website"
     />
 
-    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
-    <ImportBaseStyle slot="head" />
-    <ImportMdTypescaleStyle slot="head" />
-    <ImportScrollBarStyle slot="head" />
     <ViewTransitions slot="head" />
 
     <PageBodyLayout>
@@ -83,7 +81,7 @@ const t = useTranslations(lang);
             {
                 article.data.imageUrl.length !== 0 && (
                     <div aria-hidden="true" id="image-before-article" role="img">
-                        <div class="image" style={`background-image: url("https://media-r2.glare-labs.uk/${article.data.imageUrl}")`} />
+                        <img id="article-cover" decoding="async" loading="eager" class="image" src={`https://media-r2.glare-labs.uk/${article.data.imageUrl}`} />
                     </div>
                 )
             }
@@ -106,11 +104,10 @@ const t = useTranslations(lang);
                 <ul class="heading-list">
                     {
                         headings.flatMap((heading) => (
-                            <li data-heading-headline={heading.headline} class={`heading level-${heading.level} md-typescale-label-medium`}>
-                                <a target="_self" href={heading.href}>
-                                    {heading.headline}
-                                </a>
-                            </li>
+                            <a tabindex="0" target="_self" href={heading.href} role="list" data-heading-headline={heading.headline} class={`heading level-${heading.level} md-typescale-label-medium`}>
+                                {heading.headline}
+                                <md-focus-ring inward />
+                            </a>
                         ))
                     }
                 </ul>
@@ -132,7 +129,7 @@ const t = useTranslations(lang);
                     ><g clip-path="url(#clip0_2426_11367)"
                         ><path
                             d="M114 4c-5.067 4.667-10.133 4.667-15.2 0S88.667-.667 83.6 4 73.467 8.667 68.4 4 58.267-.667 53.2 4 43.067 8.667 38 4 27.867-.667 22.8 4 12.667 8.667 7.6 4-2.533-.667-7.6 4s-10.133 4.667-15.2 0S-32.933-.667-38 4s-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0-10.133-4.667-15.2 0-10.133 4.667-15.2 0"
-                            stroke="#E1E3E1"
+                            stroke="var(--md-sys-color-on-surface-variant)"
                             stroke-linecap="square"></path></g
                     ></pattern
                 ><rect width="100%" height="100%" fill="url(#a)"></rect>
@@ -147,9 +144,11 @@ const t = useTranslations(lang);
     </PageBodyLayout>
 </PageRootHtmlLayout>
 
+<!-- Import MD Components -->
 <script>
     import "@material/web/button/filled-button";
     import "@material/web/button/text-button";
+    import "@material/web/focus/md-focus-ring";
     import "@material/web/icon/icon";
     import "@material/web/iconbutton/icon-button";
     import "@material/web/progress/circular-progress";
@@ -182,6 +181,7 @@ const t = useTranslations(lang);
     });
 </script>
 
+<!-- Transform the ASTRO-BUILT-IN tables into Material-Design tables -->
 <script is:inline>
     document.addEventListener("DOMContentLoaded", () => {
         /**
@@ -257,12 +257,29 @@ const t = useTranslations(lang);
         const controller = document.querySelector("#catalog-controller");
         const catalog = document.querySelector("#article-catalog");
 
-        controller.addEventListener("click", () => {
-            if (catalog.getAttribute("data-open").toString() === "true") {
-                catalog.setAttribute("data-open", "false");
+        controller?.addEventListener("click", () => {
+            if (catalog?.getAttribute("data-open").toString() === "true") {
+                catalog?.setAttribute("data-open", "false");
             } else {
-                catalog.setAttribute("data-open", "true");
+                catalog?.setAttribute("data-open", "true");
             }
+        });
+
+        // Default focus on Ctalog controller
+        controller?.focus();
+    });
+</script>
+
+<!-- When the article-cover faild, remove it -->
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+        /**
+         * @type {HTMLImageElement}
+         */
+        const articleCover = document.querySelector(`#article-cover`);
+
+        articleCover.addEventListener("error", (e) => {
+            articleCover.remove();
         });
     });
 </script>
@@ -495,21 +512,20 @@ const t = useTranslations(lang);
                 overflow: auto;
 
                 & .heading {
-                    display: flex;
-                    align-items: center;
+                    --md-focus-ring-shape: 12px;
+
+                    position: relative;
                     padding: 12px;
                     border-radius: 12px;
                     transition-property: color, background-color;
                     transition-duration: 150ms;
 
-                    & > a {
-                        overflow: hidden;
-                        display: -webkit-box;
-                        -webkit-box-orient: vertical;
-                        -webkit-line-clamp: 1;
-                    }
+                    /* overflow: hidden; */
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
 
-                    & > a:hover {
+                    &:hover {
                         text-decoration-line: underline;
                         text-underline-offset: 2px;
                     }
@@ -758,6 +774,8 @@ const t = useTranslations(lang);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
+            object-fit: cover;
+            object-position: center;
             overflow: hidden;
             aspect-ratio: 1280 / 640;
         }

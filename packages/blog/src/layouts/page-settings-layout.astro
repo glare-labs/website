@@ -2,6 +2,12 @@
 /**
  * @url https://world.glare-labs.uk/{lang}/settings/
  */
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
 import { PageBody } from "@modules/page-body";
 import PageSettingsContrastLevelSlider from "@modules/page-settings/page-settings-contrast-level-slider.astro";
 import PageSettingsDarkSwitch from "@modules/page-settings/page-settings-dark-switch.astro";
@@ -9,10 +15,6 @@ import PageSettingsHctSlider from "@modules/page-settings/page-settings-hct-slid
 import { PageRootHtmlLayout } from "@shared/layouts";
 import { MaterialThemeScript } from "@shared/material-design";
 import { PageMeta } from "@shared/page-meta";
-import ImportBaseStyle from "@shared/styles/import-base-style.astro";
-import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
-import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
-import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import { ViewTransitions } from "astro:transitions";
 import { languages } from "@/i18n/ui";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
@@ -37,10 +39,6 @@ const t = useTranslations(lang);
         robots="noindex, nofollow"
         ogType="website"
     />
-    <ImportBaseStyle slot="head" />
-    <ImportMdTypescaleStyle slot="head" />
-    <ImportScrollBarStyle slot="head" />
-    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
     <ViewTransitions slot="head" />
 

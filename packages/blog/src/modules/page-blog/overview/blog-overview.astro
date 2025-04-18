@@ -41,15 +41,17 @@ const t = useTranslations(lang);
 
 <script>
     document.addEventListener("astro:page-load", () => {
-        const overview = document.querySelector(".blog-overview") as HTMLElement;
-        const expandButton = overview.querySelector(".expand-button");
-        const foldButton = overview.querySelector(".fold-button");
+        const overview = document.querySelector(".blog-overview") as HTMLElement | null;
+        const expandButton = overview.querySelector(".expand-button") as HTMLElement | null;
+        const foldButton = overview.querySelector(".fold-button") as HTMLElement | null;
 
-        expandButton.addEventListener("click", () => {
-            overview.setAttribute("data-show-full-content", "true");
+        expandButton?.addEventListener("click", () => {
+            overview?.setAttribute("data-show-full-content", "true");
+            foldButton?.focus();
         });
-        foldButton.addEventListener("click", () => {
-            overview.setAttribute("data-show-full-content", "false");
+        foldButton?.addEventListener("click", () => {
+            overview?.setAttribute("data-show-full-content", "false");
+            expandButton?.focus();
         });
     });
 </script>

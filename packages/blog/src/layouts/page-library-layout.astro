@@ -2,7 +2,12 @@
 /**
  * @url https://world.glare-labs.uk/{lang}/library/
  */
-
+import "@fontsource/noto-sans";
+import "@fontsource/noto-sans-tc";
+import "@shared/styles/global-font-family.css";
+import "@shared/styles/base.css";
+import "@shared/styles/md-scrollbar.css";
+import "@shared/styles/md-typescale.css";
 import { getCollection } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
 import { PageHeader } from "@modules/page-header";
@@ -13,10 +18,6 @@ import { PageBody } from "@modules/page-body";
 import TuneSvg from "@material-design-icons/svg/round/tune.svg?raw";
 import { MaterialThemeScript } from "@shared/material-design";
 import { PageMeta } from "@shared/page-meta";
-import ImportBaseStyle from "@shared/styles/import-base-style.astro";
-import ImportJetbrainsMonoStyle from "@shared/styles/import-jetbrains-mono-style.astro";
-import ImportMdTypescaleStyle from "@shared/styles/import-md-typescale-style.astro";
-import ImportScrollBarStyle from "@shared/styles/import-scroll-bar-style.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
 const blogs = await getCollection("article");
@@ -41,10 +42,6 @@ const t = useTranslations(lang);
         robots="index, follow"
         ogType="website"
     />
-    <ImportBaseStyle slot="head" />
-    <ImportMdTypescaleStyle slot="head" />
-    <ImportScrollBarStyle slot="head" />
-    <ImportJetbrainsMonoStyle slot="head" />
     <MaterialThemeScript slot="head" />
     <ViewTransitions slot="head" />
 
@@ -56,7 +53,7 @@ const t = useTranslations(lang);
         <div class="page body-content">
             <div class="filter-container">
                 <NavigationDrawerOpenButton>
-                    <md-text-button id="open-filter-button">
+                    <md-text-button tabindex="0" id="open-filter-button">
                         {t("library-page.filter")}
                         <md-icon slot="icon" set:html={TuneSvg} />
                     </md-text-button>
@@ -77,7 +74,7 @@ const t = useTranslations(lang);
                 <ul class="blog-list">
                     {
                         blogs.map((blog) => (
-                            <a href={`/${lang}/article/${blog.slug}/`} class="blog-list-item" data-tags={blog.data.tags} role="listitem" data-astro-reload>
+                            <a tabindex="1" href={`/${lang}/article/${blog.slug}/`} class="blog-list-item" data-tags={blog.data.tags} role="listitem" data-astro-reload>
                                 <section>
                                     <h1 class="headline md-typescale-title-medium">{blog.data.headline}</h1>
                                     <p class="description md-typescale-body-medium">{blog.data.description}</p>
@@ -85,6 +82,7 @@ const t = useTranslations(lang);
                                 <p aria-hidden="true" class="file-name md-typescale-label-small">
                                     {blog.slug}
                                 </p>
+                                <md-focus-ring />
                                 <md-ripple />
                             </a>
                         ))
@@ -103,9 +101,11 @@ const t = useTranslations(lang);
     import "@material/web/button/text-button";
     import "@material/web/chips/chip-set";
     import "@material/web/chips/filter-chip";
+    import "@material/web/focus/md-focus-ring";
     import "@material/web/icon/icon";
 </script>
 
+<!-- Page load -->
 <script>
     import type { MdChipSet, MdFilterChip } from "@material/web/all";
 
@@ -158,6 +158,20 @@ const t = useTranslations(lang);
                 }
 
                 setBlogVisible(blog, isTarget);
+            }
+        });
+    });
+</script>
+
+<!-- List handlekeydown event -->
+<script>
+    document.addEventListener("astro:page-load", () => {
+        const list = document.querySelector(`.collection-list>.blog-list`) as HTMLElement | null;
+
+        list?.addEventListener("keydown", (e: KeyboardEvent) => {
+            if (e.key === " " || e.code === "Space") {
+                e.preventDefault();
+                (e.target as HTMLElement).click();
             }
         });
     });
@@ -235,9 +249,12 @@ const t = useTranslations(lang);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        overflow: clip;
+        /* overflow: clip; */
         width: 100%;
         --md-ripple-hover-color: var(--md-sys-color-primary-container);
+        --md-ripple-pressed-color: var(--md-sys-color-primary-container);
+        --md-focus-ring-shape: 28px;
+
         transition-duration: 200ms;
 
         & > section {
@@ -301,13 +318,12 @@ const t = useTranslations(lang);
             display: none;
         }
     }
-    .blog-list-item:hover {
-        border-radius: 28px;
-    }
+    .blog-list-item:hover,
     .blog-list-item:active,
     .blog-list-item:hover:active,
     .blog-list-item:focus,
     .blog-list-item:focus-within {
+        border-radius: 28px;
     }
 </style>
 

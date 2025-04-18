@@ -1,0 +1,43 @@
+---
+/**
+ * @url https://world.glare-labs.uk/en/channel/:channel
+ */
+import "@fontsource/jetbrains-mono";
+import PageChannelLayout from "@layouts/page-channel-layout.astro";
+// import PageArticleLayout from "@layouts/page-article-layout.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+    /**
+     * Please complete the code here.
+     * Please confirm that there is an mdx file in the src/content/blogs/* folder.
+     *
+     * This project provides `blog` folder by default.
+     */
+    const posts = await getCollection("article");
+
+    /**
+     * Copied.
+     * @link https://docs.astro.build/en/guides/markdown-content/#example-dynamic-page-routing
+     */
+    return posts
+        .filter((value, index, array) => array.indexOf(value) == index)
+        .map((post) => ({
+            params: {
+                channel: post.data.collection,
+            },
+            props: {
+                articles: posts,
+                channelName: post.data.collection,
+            },
+        }));
+}
+interface Props {
+    articles: Array<CollectionEntry<"article">>;
+    channelName: string;
+}
+
+const { articles, channelName } = Astro.props;
+---
+
+<PageChannelLayout articles={articles} channelName={channelName} />
