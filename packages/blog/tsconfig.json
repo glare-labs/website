@@ -31,6 +31,12 @@
       "@modules/*": [
         "src/modules/*"
       ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@shared/styles/*": [
+        "src/shared/styles/*"
+      ],
       "@shared/*": [
         "../shared/*"
       ],

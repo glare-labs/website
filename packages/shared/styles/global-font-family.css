@@ -1,0 +1,13 @@
+@layer global-font-family {
+  :root,
+  html,
+  body {
+    font-family: "Noto", "Noto Sans", "Noto Sans TC", "Noto Sans SC", "Roboto",
+      "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji";
+
+    --md-ref-typeface-brand: "Noto", "Noto Sans", "Noto Sans TC", "Noto Sans SC",
+      "Roboto", "Noto Color Emoji";
+    --md-ref-typeface-plain: "Noto", "Noto Sans", "Noto Sans TC", "Noto Sans SC",
+      "Roboto", "Noto Color Emoji";
+  }
+}

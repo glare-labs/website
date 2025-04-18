@@ -1,0 +1,27 @@
+@layer scroll-bar {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: var(--md-sys-color-surface);
+  }
+
+  ::-webkit-scrollbar-track:hover {
+    background: var(--md-sys-color-surface-dim);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--md-sys-color-tertiary-fixed-dim);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover,
+  ::-webkit-scrollbar-thumb:active {
+    background: var(--md-sys-color-tertiary-fixed-dim);
+  }
+}
