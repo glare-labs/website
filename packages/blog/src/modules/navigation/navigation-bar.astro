@@ -32,9 +32,10 @@ const links = routes(Astro.url);
     import { navigate } from "astro:transitions/client";
 
     document.addEventListener("astro:page-load", () => {
-        const bar = document.querySelector<MdNavigationBar & HTMLElement>("#bottom-app-bar-standalone-root");
+        const bar = document.querySelector<MdNavigationBar & HTMLElement>("#bottom-app-bar-standalone-root") as MdNavigationBar | null;
 
         const unboundRipple = (navigationBar: MdNavigationBar) => {
+            if (!navigationBar) return;
             const ripplHosts = navigationBar.querySelectorAll(".bottom-app-tab");
             ripplHosts.forEach((host) => {
                 const ripple = host.shadowRoot!.querySelector<MdRipple & HTMLElement>(".md3-navigation-tab__ripple");
@@ -43,15 +44,13 @@ const links = routes(Astro.url);
                 ripple.style.setProperty("height", "128px");
                 ripple.style.setProperty("width", "128px");
                 ripple.attach(host as HTMLElement);
-            });
-            ripplHosts.forEach((host) => {
                 (host.shadowRoot!.querySelector(".md3-navigation-tab__active-indicator") as HTMLElement).style.setProperty("transition", `width 200ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms cubic-bezier(0.4, 0, 0.2, 1)`);
             });
         };
 
         unboundRipple(bar);
 
-        bar.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
+        bar?.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
             tab.addEventListener("click", async (_) => {
                 await new Promise<void>((resolve) => setTimeout(() => resolve(), 200));
                 navigate(`/${tab.getAttribute("data-lang-href")!}${tab.getAttribute("data-href")!}`, {
@@ -64,13 +63,13 @@ const links = routes(Astro.url);
     });
 
     currentRouteUrl.subscribe((value) => {
-        const bar = document.querySelector<MdNavigationBar & HTMLElement>("#bottom-app-bar-standalone-root");
+        const bar = document.querySelector<MdNavigationBar & HTMLElement>("#bottom-app-bar-standalone-root") as MdNavigationBar | null;
 
-        if (!bar.tabs) {
+        if (!bar || !bar.tabs) {
             return;
         }
 
-        bar.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
+        bar?.tabs.forEach((tab: MdNavigationTab & HTMLElement) => {
             if (tab.getAttribute("data-href") === value) {
                 bar.activeIndex = bar.tabs.findIndex((e) => e === tab);
             }

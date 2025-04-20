@@ -1,13 +1,13 @@
 ---
-import { getLangFromUrl } from "@/i18n/utils";
-import { routes } from "../../router/routes";
-import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-button.astro";
+import { getLangFromUrl } from "@/i18n/utils"
+import { routes } from "../../router/routes"
+import NavigationRailSwitchThemeButton from "./navigation-rail-switch-theme-button.astro"
 
-const lang = getLangFromUrl(Astro.url);
-const links = routes(Astro.url);
+const lang = getLangFromUrl(Astro.url)
+const links = routes(Astro.url)
 ---
 
-<nav transition:persist="navigation-rail-component" class="navigation-rail">
+<nav transition:persist="navigation-rail-component" class="navigation-rail" id="navigation-rail">
     <div class="start" aria-hidden="true"></div>
     <div class="tabs" role="list">
         {
@@ -32,96 +32,94 @@ const links = routes(Astro.url);
 </nav>
 
 <script>
-    import "@material/web/focus/md-focus-ring";
-    import "@material/web/icon/icon";
-    import "@material/web/ripple/ripple";
+    import "@material/web/focus/md-focus-ring"
+    import "@material/web/icon/icon"
+    import "@material/web/ripple/ripple"
 </script>
 
 <script>
-    import { MdRipple } from "@material/web/ripple/ripple";
-    import { currentRouteUrl } from "@router/routes";
-    import { navigate } from "astro:transitions/client";
+    import { MdRipple } from "@material/web/ripple/ripple"
+    import { currentRouteUrl } from "@router/routes"
+    import { navigate } from "astro:transitions/client"
 
     document.addEventListener("astro:page-load", (_) => {
-        const rail = document.querySelector(".navigation-rail")! as HTMLElement;
-        const tabContainer = rail.querySelector("&>.tabs")! as HTMLElement;
-        const tabs = Array.from(tabContainer.querySelectorAll("&>.navigation-rail-tab") as NodeListOf<HTMLElement>);
-
-        let abort = new AbortController();
+        const tabs = Array.from(document.querySelectorAll("#navigation-rail>.tabs>.navigation-rail-tab") as NodeListOf<HTMLElement>)
+        let abort = new AbortController()
 
         tabs.forEach((item) => {
             /**
              * @event click 為navigation-rail中的navigation-rail-tab設置頁面導行, 同時激活對應的navigation-rail-tab
              */
             item.addEventListener("click", async (e) => {
-                e.preventDefault();
+                e.preventDefault()
+
                 if (abort.signal.aborted) {
-                    return;
+                    return
                 }
-                abort.abort();
+                abort.abort()
 
-                const lastTab = tabs.find((tab) => tab.classList.contains("active"));
-                const clickedTab = e.target as HTMLElement;
+                const href = (e.target as HTMLElement).getAttribute("data-href")!
+                const langHref = (e.target as HTMLElement).getAttribute("data-lang-href")!
 
-                lastTab.classList.remove("active");
-                lastTab.classList.add("inactive");
-                setTimeout(() => {
-                    lastTab.classList.remove("inactive");
-                }, 100);
-                clickedTab.classList.add("active");
-
-                const href = (e.target as HTMLElement).getAttribute("data-href")!;
-                const langHref = (e.target as HTMLElement).getAttribute("data-lang-href")!;
+                const lastTab = tabs.find((tab) => tab.classList.contains("active"))
+                const clickedTab = e.target as HTMLElement
 
                 new Promise<void>((resolve) => {
-                    setTimeout(() => {
-                        resolve();
-                    }, 200);
+                    if (lastTab) {
+                        lastTab.classList.remove("active")
+                        lastTab.classList.add("inactive")
+                    }
+                    clickedTab.classList.add("active")
+                    resolve()
                 })
                     .then(() => {
-                        return navigate(`/${langHref}${href}`, {
-                            history: "replace",
-                        });
+                        setTimeout(() => {
+                            navigate(`/${langHref}${href}`, {
+                                history: "replace",
+                            })
+                            currentRouteUrl.set(href)
+                        }, 200)
                     })
                     .then(() => {
-                        currentRouteUrl.set(href);
+                        abort = new AbortController()
+                        setTimeout(() => {
+                            lastTab.classList.remove("inactive")
+                        }, 100)
                     })
-                    .then(() => {
-                        abort = new AbortController();
-                    });
-            });
+            })
 
             if (item.classList.contains("active")) {
-                item.classList.remove("active");
-                item.classList.remove("inactive");
+                item.classList.remove("active")
+                item.classList.remove("inactive")
             }
-        });
+        })
 
         /**
          * @event load 初始化navigation-rail默認激活的navigation-rail-tab
          */
-        if (tabs.findIndex((tab: HTMLElement) => tab.classList.contains("active")) === -1) {
+        if (!tabs.find((tab: HTMLElement) => tab.classList.contains("active"))) {
             tabs.forEach((tab: HTMLElement) => {
-                const pathname = window.location.pathname;
-                const current = `/${tab.getAttribute("data-lang-href")!}${tab.getAttribute("data-href")}`;
+                const pathname = window.location.pathname
+                const current = `/${tab.getAttribute("data-lang-href")!}${tab.getAttribute("data-href")}`
 
                 if (current === pathname) {
-                    tab.classList.add("active");
+                    tab.classList.add("active")
                 }
-            });
+                // console.log(tab);
+            })
         }
 
         tabs.map((item: Element) => {
-            const ripple = item.querySelector("&>.ripple-indicator-helper>.ripple");
-            (ripple as MdRipple).attach(item as HTMLElement);
-        });
-    });
+            const ripple = item.querySelector("&>.ripple-indicator-helper>.ripple")
+            ;(ripple as MdRipple).attach(item as HTMLElement)
+        })
+    })
 
     // currentRouteUrl.subscribe((value) => {
     //     const tabs = Array.from(document.querySelectorAll(".navigation-rail>.tabs>.navigation-rail-tab") as NodeListOf<HTMLElement>);
     //     tabs.forEach((tab) => {
     //         if (tab.getAttribute("data-href") === value) {
-    //             // tab.classList.add("active");
+    //             tab.classList.add("active");
     //         }
     //     });
     // });
@@ -130,19 +128,19 @@ const links = routes(Astro.url);
 <!-- List handlekeydown event -->
 <script>
     document.addEventListener("astro:page-load", () => {
-        const navigationBar = document.querySelector(`.tabs`) as HTMLElement | null;
+        const navigationBar = document.querySelector(`.tabs`) as HTMLElement | null
 
         navigationBar?.addEventListener("keydown", (e: KeyboardEvent) => {
             if (e.key === " " || e.code === "Space") {
-                e.preventDefault();
-                (e.target as HTMLElement).click();
+                e.preventDefault()
+                ;(e.target as HTMLElement).click()
             }
-        });
+        })
 
         navigationBar?.addEventListener("focusin", (e) => {
-            (e.target as HTMLElement).focus();
-        });
-    });
+            ;(e.target as HTMLElement).focus()
+        })
+    })
 </script>
 
 <style>

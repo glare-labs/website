@@ -148,8 +148,8 @@ const t = useTranslations(lang);
     document.addEventListener("astro:page-load", () => {
         const list = [document.querySelector(`.latest-blogs`), document.querySelector(`.hero-social-link-list`)];
 
-        list?.map((e) =>
-            e.addEventListener("keydown", (e: KeyboardEvent) => {
+        list.map((e) =>
+            e?.addEventListener("keydown", (e: KeyboardEvent) => {
                 if (e.key === " " || e.code === "Space") {
                     e.preventDefault();
                     (e.target as HTMLElement).click();
