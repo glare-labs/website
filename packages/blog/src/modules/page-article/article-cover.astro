@@ -1,0 +1,44 @@
+---
+interface Props {
+    imageFileName: string | null | undefined;
+}
+
+const { imageFileName } = Astro.props;
+
+const mediaAddressPrefix = `https://media-r2.glare-labs.uk/`;
+---
+
+{imageFileName != null && imageFileName != undefined && <img id="article-cover" class="article-cover" aria-hidden="true" decoding="async" loading="lazy" class="image" src="#" data-src={`${mediaAddressPrefix}${imageFileName}`} />}
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const articleCoverElements = document.querySelectorAll(`#article-cover`) as NodeListOf<HTMLImageElement>;
+
+        articleCoverElements.forEach((element) => {
+            element.setAttribute("src", element.getAttribute(`data-src`));
+
+            element.addEventListener("error", () => {
+                element.remove();
+            });
+        });
+    });
+</script>
+
+<!-- Image before article -->
+<style>
+    .article-cover {
+        display: block;
+        width: 100%;
+        height: 320px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        object-fit: cover;
+        object-position: center;
+        overflow: hidden;
+        aspect-ratio: 1280 / 640;
+        @media (min-width: 840px) {
+            margin: 0 16px 16px;
+        }
+    }
+</style>

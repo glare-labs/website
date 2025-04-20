@@ -1,0 +1,31 @@
+@layer page-body-layout {
+
+
+    .body-content {
+        --navigation-rail-width-computed: 0px;
+        margin: 24px;
+        max-width: calc(1200px - var(--navigation-rail-width-computed));
+
+        /* width 1200px + rail-width 0px */
+        @media (min-width: 1280px) {
+            margin: 24px auto;
+        }
+    }
+
+    .width-forced {
+        margin: 0 auto;
+        max-width: 1200px;
+
+        @media (min-width: 840px) {
+            max-width: 1200px;
+        }
+
+        @media (min-width: 1200px) {
+            max-width: 1200px;
+        }
+    }
+
+    .page {
+        min-height: 100vh;
+    }
+}

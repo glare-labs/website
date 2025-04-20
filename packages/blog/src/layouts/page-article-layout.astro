@@ -25,6 +25,7 @@ import MenuOpenSvg from "@material-design-icons/svg/round/menu_open.svg?raw";
 import ArrowBackSvg from "@material-design-icons/svg/round/arrow_back.svg?raw";
 import CopyBlogUrlButton from "@modules/page-blog/copy-blog-url/copy-blog-url-button.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import ArticleCover from "@modules/page-article/article-cover.astro";
 
 interface Props {
     article: CollectionEntry<"article">;
@@ -78,14 +79,7 @@ const t = useTranslations(lang);
         </header>
 
         <div class="width-forced" role="banner">
-            {
-                article.data.imageUrl.length !== 0 && (
-                    <div aria-hidden="true" id="image-before-article" role="img">
-                        <img id="article-cover" decoding="async" loading="eager" class="image" src={`https://media-r2.glare-labs.uk/${article.data.imageUrl}`} />
-                    </div>
-                )
-            }
-
+            <ArticleCover imageFileName={article.data.imageUrl} />
             <BlogOverview overview={article.data.overview} />
 
             <div class="toolbar" role="toolbar">
@@ -267,20 +261,6 @@ const t = useTranslations(lang);
 
         // Default focus on Ctalog controller
         controller?.focus();
-    });
-</script>
-
-<!-- When the article-cover faild, remove it -->
-<script is:inline>
-    document.addEventListener("DOMContentLoaded", () => {
-        /**
-         * @type {HTMLImageElement}
-         */
-        const articleCover = document.querySelector(`#article-cover`);
-
-        articleCover.addEventListener("error", (e) => {
-            articleCover.remove();
-        });
     });
 </script>
 
@@ -761,26 +741,5 @@ const t = useTranslations(lang);
         flex-wrap: wrap;
         justify-content: end;
         margin: 16px;
-    }
-</style>
-
-<!-- Image before article -->
-<style>
-    #image-before-article {
-        & > .image {
-            display: block;
-            width: 100%;
-            height: 320px;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            object-fit: cover;
-            object-position: center;
-            overflow: hidden;
-            aspect-ratio: 1280 / 640;
-        }
-        @media (min-width: 840px) {
-            margin: 0 16px 16px;
-        }
     }
 </style>
